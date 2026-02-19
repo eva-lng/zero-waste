@@ -20,7 +20,7 @@ const Header = () => {
       </div>
 
       <nav>
-        <ul className="flex items center gap-5">
+        <ul className="flex items-center gap-5">
           {session ? (
             <>
               <li>

@@ -4,7 +4,6 @@ const FoodItemSchema = new Schema(
   {
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
       required: true,
     },
     name: {
@@ -41,7 +40,7 @@ const FoodItemSchema = new Schema(
       default: "active",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 FoodItemSchema.index({ user: 1, expirationDate: 1 });

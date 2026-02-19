@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Test app",
-  description: "Testing auth options",
+  title: "Zero waste",
+  description: "Food waste and inventory app",
 };
 
 export default function RootLayout({
