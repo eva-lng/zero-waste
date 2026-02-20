@@ -31,30 +31,39 @@ const LoginForm = () => {
           setError(ctx.error.message);
           setLoading(false);
         },
-      }
+      },
     );
   };
 
   return (
     <form onSubmit={handleSubmit} className="text-center">
-      <div>
-        <label htmlFor="email">Email:</label>
+      <div className="mb-3">
+        <label htmlFor="email" className="block text-gray-700 font-bold mb-1.5">
+          Email
+        </label>
         <input
           type="email"
           name="email"
           id="email"
+          className="border rounded py-1 px-2"
           placeholder="example@domain.com"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <div>
-        <label htmlFor="password">Password:</label>
+      <div className="mb-3">
+        <label
+          htmlFor="password"
+          className="block text-gray-700 font-bold mb-1.5"
+        >
+          Password
+        </label>
         <input
           type="password"
           name="password"
           id="password"
+          className="border rounded py-1 px-2"
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -63,7 +72,12 @@ const LoginForm = () => {
 
       {error && <p className="text-red-600">{error}</p>}
 
-      <button disabled={loading}>Log in</button>
+      <button
+        className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline"
+        disabled={loading}
+      >
+        Log in
+      </button>
     </form>
   );
 };

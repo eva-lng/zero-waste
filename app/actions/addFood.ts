@@ -3,6 +3,7 @@ import dbConnect from "@/lib/mongodb";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import FoodItem from "@/models/FoodItem";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 async function addFood(formData: FormData) {
@@ -37,6 +38,7 @@ async function addFood(formData: FormData) {
   const newFood = await FoodItem.create(foodData);
   await newFood.save();
 
+  revalidatePath("/", "layout");
   redirect("/dashboard");
 }
 
