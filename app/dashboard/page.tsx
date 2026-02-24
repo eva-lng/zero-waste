@@ -25,8 +25,8 @@ const DashboardPage = async () => {
 
   return (
     <>
-      <h2 className="text-3xl text-center m-3">Dashboard</h2>
-      <div className="text-center mb-4 text-blue-700">
+      <h2 className="text-3xl text-center">Dashboard</h2>
+      <div className="text-center text-blue-700">
         <Link href="/dashboard/add">Add Food</Link>
       </div>
 
@@ -34,7 +34,7 @@ const DashboardPage = async () => {
         {foodItems.map((item) => (
           <li
             key={item._id.toString()}
-            className="border flex gap-3 items-center"
+            className="border-b flex gap-3 items-center"
           >
             <div>
               <p>

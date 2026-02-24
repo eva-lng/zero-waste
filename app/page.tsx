@@ -1,8 +1,8 @@
 export default function Home() {
   return (
-    <main>
-      <h1 className="text-3xl text-center m-3">Homepage</h1>
+    <>
+      <h2 className="text-3xl text-center">Homepage</h2>
       <p className="text-center">Welcome! This is homepage</p>
-    </main>
+    </>
   );
 }
