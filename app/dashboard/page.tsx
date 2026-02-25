@@ -4,8 +4,8 @@ import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
 import FoodItem from "@/models/FoodItem";
 import Link from "next/link";
-import deleteFood from "../actions/deleteFood";
-import { FaCircleCheck, FaCircleMinus, FaTrashCan } from "react-icons/fa6";
+import { FoodItemType, StorageType } from "@/types/food";
+import { isExpiringSoon } from "@/lib/utils/food";
 
 const DashboardPage = async () => {
   await dbConnect();
@@ -21,39 +21,65 @@ const DashboardPage = async () => {
   const userId = session.user.id;
   const foodItems = await FoodItem.find({ user: userId })
     .sort({ expirationDate: 1 })
-    .lean();
+    .lean<FoodItemType[]>();
+
+  const storageCount: Record<StorageType, number> = {
+    pantry: 0,
+    fridge: 0,
+    freezer: 0,
+  };
+  let soonCount = 0;
+
+  for (const item of foodItems) {
+    if (storageCount[item.storage] !== undefined) {
+      storageCount[item.storage]++;
+    }
+    if (item.status === "active" && isExpiringSoon(item.expirationDate)) {
+      soonCount++;
+    }
+  }
 
   return (
     <>
       <h2 className="text-3xl text-center">Dashboard</h2>
-      <div className="text-center text-blue-700">
-        <Link href="/dashboard/add">Add Food</Link>
-      </div>
 
-      <ul>
-        {foodItems.map((item) => (
-          <li
-            key={item._id.toString()}
-            className="border-b flex gap-3 items-center"
-          >
-            <div>
-              <p>
-                {item.name}
-                {" ("}
-                {item.storage}
-                {") "}
-              </p>
-              <p>{new Date(item.expirationDate).toLocaleDateString()}</p>
-            </div>
-            <form action={deleteFood}>
-              <input type="hidden" name="foodId" value={item._id.toString()} />
-              <button type="submit" className="cursor-pointer">
-                <FaCircleMinus className="text-red-600" />
-              </button>
-            </form>
-          </li>
-        ))}
-      </ul>
+      <div className="flex flex-col sm:flex-row justify-around items-center gap-8 sm:gap-0 border border-amber-400">
+        <section className="w-3xs border rounded p-2">
+          <h3 className="border-b">Smart List</h3>
+          <ul>
+            <li className="flex justify-between">
+              <Link href="/dashboard/items">All</Link>
+              <span>{foodItems.length}</span>
+            </li>
+            <li className="flex justify-between">
+              <Link href="/dashboard/items">Soon to expire</Link>
+              <span>{soonCount}</span>
+            </li>
+            <li className="flex justify-between">
+              <Link href="/dashboard/items">Open</Link>
+              <span>0</span>
+            </li>
+          </ul>
+        </section>
+
+        <section className="w-3xs border rounded p-2">
+          <h3 className="border-b">Storages</h3>
+          <ul>
+            <li className="flex justify-between">
+              <Link href="/dashboard/items">Pantry</Link>
+              <span>{storageCount.pantry}</span>
+            </li>
+            <li className="flex justify-between">
+              <Link href="/dashboard/items">Fridge</Link>
+              <span>{storageCount.fridge}</span>
+            </li>
+            <li className="flex justify-between">
+              <Link href="/dashboard/items">Freezer</Link>
+              <span>{storageCount.freezer}</span>
+            </li>
+          </ul>
+        </section>
+      </div>
     </>
   );
 };
