@@ -6,6 +6,7 @@ import FoodItem from "@/models/FoodItem";
 import Link from "next/link";
 import deleteFood from "@/app/actions/deleteFood";
 import { FaCircleMinus } from "react-icons/fa6";
+import { FoodItemType } from "@/types/food";
 import FoodItemCard from "@/components/FoodItemCard";
 
 const ItemsPage = async () => {
@@ -22,7 +23,7 @@ const ItemsPage = async () => {
   const userId = session.user.id;
   const foodItems = await FoodItem.find({ user: userId })
     .sort({ expirationDate: 1 })
-    .lean();
+    .lean<FoodItemType[]>();
 
   return (
     <>
@@ -33,10 +34,7 @@ const ItemsPage = async () => {
 
       <ul>
         {foodItems.map((item) => (
-          <li
-            key={item._id.toString()}
-            className="border-b flex gap-3 items-center"
-          >
+          <li key={item._id} className="border-b flex gap-3 items-center">
             <div>
               <p>
                 {item.name}
@@ -55,9 +53,13 @@ const ItemsPage = async () => {
           </li>
         ))}
       </ul>
-      <FoodItemCard />
-      <FoodItemCard />
-      <FoodItemCard />
+      <ul>
+        {foodItems.map((item) => (
+          <li key={item._id}>
+            <FoodItemCard item={item} />
+          </li>
+        ))}
+      </ul>
     </>
   );
 };
