@@ -4,9 +4,7 @@ import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
 import FoodItem from "@/models/FoodItem";
 import Link from "next/link";
-import deleteFood from "@/app/actions/deleteFood";
-import { FaCircleMinus } from "react-icons/fa6";
-import { FoodItemType } from "@/types/food";
+import { FoodItemType, StorageType } from "@/types/food";
 import FoodItemCard from "@/components/FoodItemCard";
 
 const ItemsPage = async () => {
@@ -25,6 +23,13 @@ const ItemsPage = async () => {
     .sort({ expirationDate: 1 })
     .lean<FoodItemType[]>();
 
+  const itemsByStorage: Partial<Record<StorageType, FoodItemType[]>> = {};
+  foodItems.forEach((item) => {
+    const storage = item.storage as StorageType;
+    itemsByStorage[storage] = itemsByStorage[storage] || [];
+    itemsByStorage[storage].push(item);
+  });
+
   return (
     <>
       <h2 className="text-3xl text-center">Items</h2>
@@ -32,34 +37,25 @@ const ItemsPage = async () => {
         <Link href="/dashboard/add">Add Food</Link>
       </div>
 
-      <ul>
-        {foodItems.map((item) => (
-          <li key={item._id} className="border-b flex gap-3 items-center">
-            <div>
-              <p>
-                {item.name}
-                {" ("}
-                {item.storage}
-                {") "}
-              </p>
-              <p>{new Date(item.expirationDate).toLocaleDateString()}</p>
-            </div>
-            <form action={deleteFood}>
-              <input type="hidden" name="foodId" value={item._id.toString()} />
-              <button type="submit" className="cursor-pointer">
-                <FaCircleMinus className="text-red-600" />
-              </button>
-            </form>
-          </li>
-        ))}
-      </ul>
-      <ul>
-        {foodItems.map((item) => (
-          <li key={item._id}>
-            <FoodItemCard item={item} />
-          </li>
-        ))}
-      </ul>
+      <div>
+        {Object.keys(itemsByStorage).map((storage) => {
+          const storageKey = storage as StorageType;
+          return (
+            <section key={storageKey}>
+              <h3 className="text-xl">
+                {storageKey.charAt(0).toUpperCase() + storageKey.slice(1)}
+              </h3>
+              <ul>
+                {itemsByStorage[storageKey]?.map((item) => (
+                  <li key={item._id}>
+                    <FoodItemCard item={item} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          );
+        })}
+      </div>
     </>
   );
 };

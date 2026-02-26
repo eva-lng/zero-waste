@@ -1,4 +1,7 @@
 import { FoodItemType } from "@/types/food";
+import deleteFood from "@/app/actions/deleteFood";
+import { getExpirationLabel } from "@/lib/utils/food";
+import { FaCircleMinus } from "react-icons/fa6";
 
 const FoodItemCard = ({ item }: { item: FoodItemType }) => {
   return (
@@ -9,11 +12,18 @@ const FoodItemCard = ({ item }: { item: FoodItemType }) => {
           {item.quantity} {item.unit}
           {item.quantity > 1 && "s"}
         </span>
-        <span>{item.expirationDate.toLocaleDateString()}</span>
+        <span>{getExpirationLabel(item.expirationDate)}</span>
       </div>
       <div className="flex flex-col justify-between items-end">
-        <span>{item.storage}</span>
-        <span>{item.category}</span>
+        <form action={deleteFood}>
+          <input type="hidden" name="foodId" value={item._id.toString()} />
+          <button type="submit" className="cursor-pointer">
+            <FaCircleMinus className="text-red-600" />
+          </button>
+        </form>
+        <span>
+          {item.category} ({item.storage})
+        </span>
       </div>
     </div>
   );
