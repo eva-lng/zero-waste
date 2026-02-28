@@ -48,15 +48,15 @@ const DashboardPage = async () => {
           <h3 className="border-b">Smart List</h3>
           <ul>
             <li className="flex justify-between">
-              <Link href="/dashboard/items">All</Link>
+              <Link href="/items">All</Link>
               <span>{foodItems.length}</span>
             </li>
             <li className="flex justify-between">
-              <Link href="/dashboard/items">Soon to expire</Link>
+              <Link href="/items">Soon to expire</Link>
               <span>{soonCount}</span>
             </li>
             <li className="flex justify-between">
-              <Link href="/dashboard/items">Open</Link>
+              <Link href="/items">Open</Link>
               <span>0</span>
             </li>
           </ul>
@@ -66,15 +66,15 @@ const DashboardPage = async () => {
           <h3 className="border-b">Storages</h3>
           <ul>
             <li className="flex justify-between">
-              <Link href="/dashboard/items">Pantry</Link>
+              <Link href="/items">Pantry</Link>
               <span>{storageCount.pantry}</span>
             </li>
             <li className="flex justify-between">
-              <Link href="/dashboard/items">Fridge</Link>
+              <Link href="/items">Fridge</Link>
               <span>{storageCount.fridge}</span>
             </li>
             <li className="flex justify-between">
-              <Link href="/dashboard/items">Freezer</Link>
+              <Link href="/items">Freezer</Link>
               <span>{storageCount.freezer}</span>
             </li>
           </ul>

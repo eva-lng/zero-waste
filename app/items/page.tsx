@@ -34,7 +34,7 @@ const ItemsPage = async () => {
     <>
       <h2 className="text-3xl text-center">Items</h2>
       <div className="text-center text-blue-700">
-        <Link href="/dashboard/add">Add Food</Link>
+        <Link href="/items/add">Add Food</Link>
       </div>
 
       <div>
