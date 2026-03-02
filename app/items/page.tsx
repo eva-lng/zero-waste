@@ -6,9 +6,16 @@ import FoodItem from "@/models/FoodItem";
 import Link from "next/link";
 import { FoodItemType, StorageType } from "@/types/food";
 import FoodItemCard from "@/components/FoodItemCard";
+import { isExpiringSoon } from "@/lib/utils/food";
 
-const ItemsPage = async () => {
+const ItemsPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ storage?: StorageType; filter?: string }>;
+}) => {
   await dbConnect();
+
+  const { storage, filter } = await searchParams;
 
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -19,9 +26,22 @@ const ItemsPage = async () => {
   }
 
   const userId = session.user.id;
-  const foodItems = await FoodItem.find({ user: userId })
+  const query: any = { user: userId };
+
+  if (storage) {
+    query.storage = storage;
+  }
+
+  let foodItems = await FoodItem.find(query)
     .sort({ expirationDate: 1 })
     .lean<FoodItemType[]>();
+
+  // handle 'soon' filter
+  if (filter === "soon") {
+    foodItems = foodItems.filter((item) =>
+      isExpiringSoon(new Date(item.expirationDate)),
+    );
+  }
 
   const itemsByStorage: Partial<Record<StorageType, FoodItemType[]>> = {};
   foodItems.forEach((item) => {
