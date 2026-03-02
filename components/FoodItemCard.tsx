@@ -3,6 +3,7 @@ import deleteFood from "@/app/actions/deleteFood";
 import { getExpirationLabel } from "@/lib/utils/food";
 import { FaCircleMinus } from "react-icons/fa6";
 import Link from "next/link";
+import FoodDeleteButton from "./FoodDeleteButton";
 
 const FoodItemCard = ({ item }: { item: FoodItemType }) => {
   return (
@@ -18,12 +19,7 @@ const FoodItemCard = ({ item }: { item: FoodItemType }) => {
         </div>
       </Link>
       <div className="flex flex-col justify-between items-end">
-        <form action={deleteFood}>
-          <input type="hidden" name="foodId" value={item._id.toString()} />
-          <button type="submit" className="cursor-pointer">
-            <FaCircleMinus className="text-red-600" />
-          </button>
-        </form>
+        <FoodDeleteButton foodId={item._id.toString()} />
         <span>{item.category}</span>
       </div>
     </div>

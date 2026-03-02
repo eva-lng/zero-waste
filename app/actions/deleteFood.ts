@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import FoodItem from "@/models/FoodItem";
 import { revalidatePath } from "next/cache";
 
-async function deleteFood(formData: FormData) {
+async function deleteFood(foodId: string, _formData: FormData) {
   await dbConnect();
 
   const session = await auth.api.getSession({
@@ -17,13 +17,19 @@ async function deleteFood(formData: FormData) {
   }
 
   const userId = session.user.id;
-  const foodId = formData.get("foodId") as string;
+  const foodItem = await FoodItem.findById(foodId);
 
-  await FoodItem.findOneAndDelete({
-    _id: foodId,
-    user: userId,
-  });
+  if (!foodItem) {
+    throw new Error("Food not found");
+  }
 
+  if (foodItem.user.toString() !== userId) {
+    throw new Error("Unauthorized");
+  }
+
+  await foodItem.deleteOne();
+
+  revalidatePath("/items");
   revalidatePath("/dashboard");
 }
 

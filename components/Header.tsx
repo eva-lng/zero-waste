@@ -30,7 +30,7 @@ const Header = () => {
                   <Link href="/dashboard">Dashboard</Link>
                 </li>
                 <li>
-                  <button onClick={logout} className="underline cursor-default">
+                  <button onClick={logout} className="underline cursor-pointer">
                     Logout
                   </button>
                 </li>
