@@ -7,7 +7,7 @@ import { FoodItemType } from "@/types/food";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-async function addFood(formData: FormData) {
+async function updateFood(foodId: string, formData: FormData) {
   await dbConnect();
 
   const session = await auth.api.getSession({
@@ -19,11 +19,19 @@ async function addFood(formData: FormData) {
   }
 
   const userId = session.user.id;
+  const existingFoodItem = await FoodItem.findById(foodId);
+
+  // verify ownership
+  if (!existingFoodItem) {
+    throw new Error("Food not found");
+  }
+  if (existingFoodItem.user.toString() !== userId) {
+    throw new Error("Unauthorized");
+  }
 
   const detailsValue = formData.get("details");
 
   const foodData: Partial<FoodItemType> = {
-    user: userId,
     name: formData.get("name") as string,
     category: formData.get("category") as FoodItemType["category"],
     details:
@@ -34,13 +42,15 @@ async function addFood(formData: FormData) {
     quantity: Number(formData.get("quantity")),
     expirationDate: new Date(formData.get("expirationDate") as string),
     storage: formData.get("storage") as FoodItemType["storage"],
+    status: formData.get("status") as FoodItemType["status"],
   };
 
-  const newFood = await FoodItem.create(foodData);
-  await newFood.save();
-
-  revalidatePath("/", "layout");
-  redirect("/dashboard");
+  const updatedFood = await FoodItem.findByIdAndUpdate(foodId, foodData, {
+    new: true,
+  });
+  revalidatePath("/items");
+  revalidatePath("/dashboard");
+  redirect(`/items/${updatedFood._id}`);
 }
 
-export default addFood;
+export default updateFood;

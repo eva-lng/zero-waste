@@ -24,9 +24,7 @@ const FoodItemCard = ({ item }: { item: FoodItemType }) => {
             <FaCircleMinus className="text-red-600" />
           </button>
         </form>
-        <span>
-          {item.category} ({item.storage})
-        </span>
+        <span>{item.category}</span>
       </div>
     </div>
   );
