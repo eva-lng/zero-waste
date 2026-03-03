@@ -26,7 +26,7 @@ const ItemsPage = async ({
   }
 
   const userId = session.user.id;
-  const query: any = { user: userId };
+  const query: Partial<FoodItemType> = { user: userId, status: "active" };
 
   if (storage) {
     query.storage = storage;

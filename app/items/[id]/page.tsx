@@ -4,7 +4,6 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import FoodItem from "@/models/FoodItem";
 import { FoodItemType } from "@/types/food";
-import deleteFood from "@/app/actions/deleteFood";
 import Link from "next/link";
 
 const FoodItemPage = async ({
@@ -58,19 +57,6 @@ const FoodItemPage = async ({
         <p>Storage: {foodItem.storage}</p>
 
         <div className="flex items-center gap-3">
-          <form action={deleteFood}>
-            <input
-              type="hidden"
-              name="foodId"
-              value={foodItem._id.toString()}
-            />
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline"
-            >
-              Delete
-            </button>
-          </form>
           <Link
             href={`/items/${foodItem._id}/edit`}
             className="bg-red-600 hover:bg-red-700 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline"

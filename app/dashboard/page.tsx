@@ -19,7 +19,7 @@ const DashboardPage = async () => {
   }
 
   const userId = session.user.id;
-  const foodItems = await FoodItem.find({ user: userId })
+  const foodItems = await FoodItem.find({ user: userId, status: "active" })
     .sort({ expirationDate: 1 })
     .lean<FoodItemType[]>();
 
@@ -34,7 +34,7 @@ const DashboardPage = async () => {
     if (storageCount[item.storage] !== undefined) {
       storageCount[item.storage]++;
     }
-    if (item.status === "active" && isExpiringSoon(item.expirationDate)) {
+    if (isExpiringSoon(item.expirationDate)) {
       soonCount++;
     }
   }
