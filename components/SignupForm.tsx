@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import SubmitButton from "./SubmitButton";
 
 const SignupForm = () => {
   const [email, setEmail] = useState("");
@@ -88,12 +89,12 @@ const SignupForm = () => {
 
       {error && <p className="text-red-600">{error}</p>}
 
-      <button
+      <SubmitButton
+        loading={loading}
         className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline"
-        disabled={loading}
       >
         Sign up
-      </button>
+      </SubmitButton>
     </form>
   );
 };

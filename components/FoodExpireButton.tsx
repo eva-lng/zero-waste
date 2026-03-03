@@ -1,4 +1,5 @@
 import updateFoodStatus from "@/app/actions/updateFoodStatus";
+import SubmitButton from "./SubmitButton";
 import { MdEventBusy } from "react-icons/md";
 
 const FoodExpireButton = ({ foodId }: { foodId: string }) => {
@@ -6,9 +7,9 @@ const FoodExpireButton = ({ foodId }: { foodId: string }) => {
 
   return (
     <form action={updateFoodStatusById}>
-      <button type="submit" className="cursor-pointer">
+      <SubmitButton className="cursor-pointer">
         <MdEventBusy />
-      </button>
+      </SubmitButton>
     </form>
   );
 };

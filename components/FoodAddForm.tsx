@@ -1,4 +1,5 @@
 import addFood from "@/app/actions/addFood";
+import SubmitButton from "./SubmitButton";
 
 const FoodAddForm = () => {
   return (
@@ -123,12 +124,9 @@ const FoodAddForm = () => {
       </div>
 
       <div>
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline"
-        >
+        <SubmitButton className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline">
           Add Food
-        </button>
+        </SubmitButton>
       </div>
     </form>
   );

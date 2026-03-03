@@ -1,4 +1,5 @@
 import updateFoodStatus from "@/app/actions/updateFoodStatus";
+import SubmitButton from "./SubmitButton";
 import { FiCheckCircle } from "react-icons/fi";
 
 const FoodConsumeButton = ({ foodId }: { foodId: string }) => {
@@ -6,9 +7,9 @@ const FoodConsumeButton = ({ foodId }: { foodId: string }) => {
 
   return (
     <form action={updateFoodStatusById}>
-      <button type="submit" className="cursor-pointer">
+      <SubmitButton className="cursor-pointer">
         <FiCheckCircle className="text-green-600" />
-      </button>
+      </SubmitButton>
     </form>
   );
 };

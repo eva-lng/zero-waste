@@ -1,5 +1,6 @@
 import updateFood from "@/app/actions/updateFood";
 import { FoodItemType } from "@/types/food";
+import SubmitButton from "./SubmitButton";
 
 const FoodEditForm = ({ foodItem }: { foodItem: FoodItemType }) => {
   const updateFoodById = updateFood.bind(null, foodItem._id.toString());
@@ -165,12 +166,9 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemType }) => {
         </div>
 
         <div>
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline"
-          >
+          <SubmitButton className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline">
             Update Food
-          </button>
+          </SubmitButton>
         </div>
       </form>
     </>
