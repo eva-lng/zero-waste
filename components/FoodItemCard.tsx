@@ -3,6 +3,7 @@ import { getExpirationLabel } from "@/lib/utils/food";
 import Link from "next/link";
 import FoodDeleteButton from "./FoodDeleteButton";
 import FoodConsumeButton from "./FoodConsumeButton";
+import FoodExpireButton from "./FoodExpireButton";
 
 const FoodItemCard = ({ item }: { item: FoodItemType }) => {
   return (
@@ -15,14 +16,13 @@ const FoodItemCard = ({ item }: { item: FoodItemType }) => {
             {item.quantity > 1 && "s"}
           </span>
           <span>{getExpirationLabel(item.expirationDate)}</span>
+          <span>{item.category}</span>
         </div>
       </Link>
       <div className="flex flex-col justify-between items-end">
-        <div>
-          <FoodConsumeButton foodId={item._id.toString()} />
-          <FoodDeleteButton foodId={item._id.toString()} />
-        </div>
-        <span>{item.category}</span>
+        <FoodConsumeButton foodId={item._id.toString()} />
+        <FoodExpireButton foodId={item._id.toString()} />
+        <FoodDeleteButton foodId={item._id.toString()} />
       </div>
     </div>
   );

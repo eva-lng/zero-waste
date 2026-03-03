@@ -1,5 +1,5 @@
 import updateFoodStatus from "@/app/actions/updateFoodStatus";
-import { FaCircleCheck } from "react-icons/fa6";
+import { FiCheckCircle } from "react-icons/fi";
 
 const FoodConsumeButton = ({ foodId }: { foodId: string }) => {
   const updateFoodStatusById = updateFoodStatus.bind(null, foodId, "consumed");
@@ -7,7 +7,7 @@ const FoodConsumeButton = ({ foodId }: { foodId: string }) => {
   return (
     <form action={updateFoodStatusById}>
       <button type="submit" className="cursor-pointer">
-        <FaCircleCheck className="text-green-600" />
+        <FiCheckCircle className="text-green-600" />
       </button>
     </form>
   );

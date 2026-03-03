@@ -1,5 +1,5 @@
 import deleteFood from "@/app/actions/deleteFood";
-import { FaCircleMinus } from "react-icons/fa6";
+import { FiTrash2 } from "react-icons/fi";
 
 const FoodDeleteButton = ({ foodId }: { foodId: string }) => {
   const deleteFoodById = deleteFood.bind(null, foodId);
@@ -7,7 +7,7 @@ const FoodDeleteButton = ({ foodId }: { foodId: string }) => {
   return (
     <form action={deleteFoodById}>
       <button type="submit" className="cursor-pointer">
-        <FaCircleMinus className="text-red-600" />
+        <FiTrash2 className="text-red-600" />
       </button>
     </form>
   );
