@@ -6,15 +6,21 @@ type SubmitButtonProps = {
   children: React.ReactNode;
   className?: string;
   loading?: boolean;
+  pendingText?: React.ReactNode;
 };
 
-const SubmitButton = ({ children, className, loading }: SubmitButtonProps) => {
+const SubmitButton = ({
+  children,
+  className,
+  loading,
+  pendingText = "Loading...",
+}: SubmitButtonProps) => {
   const { pending } = useFormStatus();
   const isLoading = loading ?? pending;
 
   return (
     <button type="submit" disabled={isLoading} className={className}>
-      {isLoading ? "Loading..." : children}
+      {isLoading ? pendingText : children}
     </button>
   );
 };
