@@ -22,7 +22,7 @@ const FoodItemCard = ({ item }: { item: FoodItemType }) => {
       <div className="flex flex-col justify-between items-end">
         <FoodConsumeButton foodId={item._id.toString()} />
         <FoodExpireButton foodId={item._id.toString()} />
-        <FoodDeleteButton foodId={item._id.toString()} />
+        <FoodDeleteButton foodId={item._id.toString()} name={item.name} />
       </div>
     </div>
   );
