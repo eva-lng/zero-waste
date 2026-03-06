@@ -25,3 +25,5 @@ export interface FoodItemType {
   status: StatusType;
   createdAt: Date;
 }
+
+export type ExpirationStateType = "fresh" | "soon" | "expired";

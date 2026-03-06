@@ -52,7 +52,7 @@ const DashboardPage = async () => {
               <span>{foodItems.length}</span>
             </li>
             <li className="flex justify-between">
-              <Link href="/items?filter=soon">Soon to expire</Link>
+              <Link href="/items?expiration=soon">Soon to expire</Link>
               <span>{soonCount}</span>
             </li>
             <li className="flex justify-between">

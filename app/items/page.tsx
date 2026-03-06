@@ -2,20 +2,30 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
-import FoodItem from "@/models/FoodItem";
 import Link from "next/link";
-import { FoodItemType, StorageType } from "@/types/food";
+import {
+  FoodItemType,
+  StorageType,
+  ExpirationStateType,
+  CategoryType,
+} from "@/types/food";
+import { getExpirationState } from "@/lib/utils/food";
+import FoodItem from "@/models/FoodItem";
 import FoodItemCard from "@/components/FoodItemCard";
-import { isExpiringSoon } from "@/lib/utils/food";
+import FiltersBar from "@/components/FiltersBar";
 
 const ItemsPage = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ storage?: StorageType; filter?: string }>;
+  searchParams: Promise<{
+    storage?: StorageType | StorageType[];
+    expiration?: ExpirationStateType | ExpirationStateType[];
+    category?: CategoryType | CategoryType[];
+  }>;
 }) => {
   await dbConnect();
 
-  const { storage, filter } = await searchParams;
+  const { storage, expiration, category } = await searchParams;
 
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -26,20 +36,46 @@ const ItemsPage = async ({
   }
 
   const userId = session.user.id;
-  const query: Partial<FoodItemType> = { user: userId, status: "active" };
 
-  if (storage) {
-    query.storage = storage;
-  }
+  const storageArray = Array.isArray(storage)
+    ? storage
+    : storage
+      ? [storage]
+      : [];
+  const expirationArray = Array.isArray(expiration)
+    ? expiration
+    : expiration
+      ? [expiration]
+      : [];
+  const categoryArray = Array.isArray(category)
+    ? category
+    : category
+      ? [category]
+      : [];
 
-  let foodItems = await FoodItem.find(query)
+  // const query: any = { user: userId, status: "active" };
+
+  // if (storageArray.length > 0) {
+  //   query.storage = { $in: storageArray };
+  // }
+
+  // if (categoryArray.length > 0) {
+  //   query.category = { $in: categoryArray };
+  // }
+
+  let foodItems = await FoodItem.find({
+    user: userId,
+    status: "active",
+    ...(storageArray.length > 0 ? { storage: { $in: storageArray } } : {}),
+    ...(categoryArray.length > 0 ? { category: { $in: categoryArray } } : {}),
+  })
     .sort({ expirationDate: 1 })
     .lean<FoodItemType[]>();
 
   // handle 'soon' filter
-  if (filter === "soon") {
+  if (expirationArray.length > 0) {
     foodItems = foodItems.filter((item) =>
-      isExpiringSoon(new Date(item.expirationDate)),
+      expirationArray.includes(getExpirationState(item.expirationDate)),
     );
   }
 
@@ -56,6 +92,7 @@ const ItemsPage = async ({
       <div className="text-center text-blue-700">
         <Link href="/items/add">Add Food</Link>
       </div>
+      <FiltersBar />
 
       <div>
         {Object.keys(itemsByStorage).map((storage) => {
