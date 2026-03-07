@@ -27,3 +27,5 @@ export interface FoodItemType {
 }
 
 export type ExpirationStateType = "fresh" | "soon" | "expired";
+
+export type FilterType = "category" | "storage" | "expiration";

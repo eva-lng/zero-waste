@@ -53,3 +53,7 @@ export function getExpirationLabel(expirationDate: Date): string {
   else if (days >= 60) return `Expires in ${Math.floor(days / 30)} months`;
   else return `Expires in ${days} days`;
 }
+
+export function capitalize(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

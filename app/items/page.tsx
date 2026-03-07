@@ -9,7 +9,7 @@ import {
   ExpirationStateType,
   CategoryType,
 } from "@/types/food";
-import { getExpirationState } from "@/lib/utils/food";
+import { getExpirationState, capitalize } from "@/lib/utils/food";
 import FoodItem from "@/models/FoodItem";
 import FoodItemCard from "@/components/FoodItemCard";
 import FiltersBar from "@/components/FiltersBar";
@@ -53,16 +53,6 @@ const ItemsPage = async ({
       ? [category]
       : [];
 
-  // const query: any = { user: userId, status: "active" };
-
-  // if (storageArray.length > 0) {
-  //   query.storage = { $in: storageArray };
-  // }
-
-  // if (categoryArray.length > 0) {
-  //   query.category = { $in: categoryArray };
-  // }
-
   let foodItems = await FoodItem.find({
     user: userId,
     status: "active",
@@ -72,7 +62,7 @@ const ItemsPage = async ({
     .sort({ expirationDate: 1 })
     .lean<FoodItemType[]>();
 
-  // handle 'soon' filter
+  // handle 'expiration' filter
   if (expirationArray.length > 0) {
     foodItems = foodItems.filter((item) =>
       expirationArray.includes(getExpirationState(item.expirationDate)),
@@ -99,9 +89,7 @@ const ItemsPage = async ({
           const storageKey = storage as StorageType;
           return (
             <section key={storageKey}>
-              <h3 className="text-xl">
-                {storageKey.charAt(0).toUpperCase() + storageKey.slice(1)}
-              </h3>
+              <h3 className="text-xl">{capitalize(storageKey)}</h3>
               <ul>
                 {itemsByStorage[storageKey]?.map((item) => (
                   <li key={item._id}>

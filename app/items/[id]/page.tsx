@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import FoodItem from "@/models/FoodItem";
 import { FoodItemType } from "@/types/food";
+import { capitalize } from "@/lib/utils/food";
 import Link from "next/link";
 
 const FoodItemPage = async ({
@@ -37,9 +38,7 @@ const FoodItemPage = async ({
   return (
     <>
       <section>
-        <h2 className="text-xl border-b">
-          {foodItem.name.charAt(0).toUpperCase() + foodItem.name.slice(1)}
-        </h2>
+        <h2 className="text-xl border-b">{capitalize(foodItem.name)}</h2>
         {foodItem.details && <p>{foodItem.details}</p>}
         <p>
           Expires on{" "}
