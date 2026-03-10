@@ -26,74 +26,44 @@ const FilterPanel = () => {
     router.replace(`${pathname}?${newParams.toString()}`);
   }
 
+  const filterGroups = [
+    { type: "category", options: CATEGORY_OPTIONS },
+    { type: "storage", options: STORAGE_OPTIONS },
+    { type: "expiration", options: EXPIRATION_OPTIONS },
+  ];
+
   return (
     <div className="border rounded-b-lg p-2">
-      <section>
-        <h3>Category</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3">
-          {CATEGORY_OPTIONS.map((category) => (
-            <div key={category}>
-              <label
-                htmlFor={category}
-                className={`cursor-pointer px-1 py-0.5 rounded border ${params.getAll("category").includes(category) ? "bg-blue-500 text-white border-blue-500" : "bg-white border-gray-300"}`}
-              >
-                <input
-                  type="checkbox"
-                  hidden
-                  id={category}
-                  checked={params.getAll("category").includes(category)}
-                  onChange={() => toggleFilter("category", category)}
-                />
-                {capitalize(category)}
-              </label>
-            </div>
-          ))}
-        </div>
-      </section>
-      <section>
-        <h3>Storage</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3">
-          {STORAGE_OPTIONS.map((storage) => (
-            <div key={storage}>
-              <label
-                htmlFor={storage}
-                className={`cursor-pointer px-1 py-0.5 rounded border ${params.getAll("storage").includes(storage) ? "bg-blue-500 text-white border-blue-500" : "bg-white border-gray-300"}`}
-              >
-                <input
-                  type="checkbox"
-                  hidden
-                  id={storage}
-                  checked={params.getAll("storage").includes(storage)}
-                  onChange={() => toggleFilter("storage", storage)}
-                />
-                {capitalize(storage)}
-              </label>
-            </div>
-          ))}
-        </div>
-      </section>
-      <section>
-        <h3>Expiration</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3">
-          {EXPIRATION_OPTIONS.map((expiration) => (
-            <div key={expiration}>
-              <label
-                htmlFor={expiration}
-                className={`cursor-pointer px-1 py-0.5 rounded border ${params.getAll("expiration").includes(expiration) ? "bg-blue-500 text-white border-blue-500" : "bg-white border-gray-300"}`}
-              >
-                <input
-                  type="checkbox"
-                  hidden
-                  id={expiration}
-                  checked={params.getAll("expiration").includes(expiration)}
-                  onChange={() => toggleFilter("expiration", expiration)}
-                />
-                {capitalize(expiration)}
-              </label>
-            </div>
-          ))}
-        </div>
-      </section>
+      {filterGroups.map((group) => (
+        <section key={group.type}>
+          <h3>{capitalize(group.type)}</h3>
+
+          <div className="grid grid-cols-2 md:grid-cols-3">
+            {group.options.map((option) => {
+              const checked = params.getAll(group.type).includes(option);
+              return (
+                <div key={option}>
+                  <label
+                    htmlFor={option}
+                    className={`cursor-pointer px-1 py-0.5 rounded border ${checked ? "bg-blue-500 text-white border-blue-500" : "bg-white border-gray-300"}`}
+                  >
+                    <input
+                      type="checkbox"
+                      hidden
+                      id={`${group.type}-${option}`}
+                      checked={checked}
+                      onChange={() =>
+                        toggleFilter(group.type as FilterType, option)
+                      }
+                    />
+                    {capitalize(option)}
+                  </label>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      ))}
     </div>
   );
 };

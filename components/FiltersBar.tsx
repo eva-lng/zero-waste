@@ -41,17 +41,19 @@ const FiltersBar = () => {
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-2">
-        {allParamsArr.map((param) => (
-          <FilterTag
-            key={`${param[0]}-${param[1]}`}
-            param={param}
-            removeFilter={removeFilter}
-          />
-        ))}
-      </div>
-
       {open && <FilterPanel />}
+
+      {!open && (
+        <div className="flex flex-wrap gap-2">
+          {allParamsArr.map((param) => (
+            <FilterTag
+              key={`${param[0]}-${param[1]}`}
+              param={param}
+              removeFilter={removeFilter}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 };
