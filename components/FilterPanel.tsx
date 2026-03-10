@@ -26,7 +26,7 @@ const FilterPanel = () => {
     router.replace(`${pathname}?${newParams.toString()}`);
   }
 
-  const filterGroups = [
+  const filterGroups: { type: FilterType; options: string[] }[] = [
     { type: "category", options: CATEGORY_OPTIONS },
     { type: "storage", options: STORAGE_OPTIONS },
     { type: "expiration", options: EXPIRATION_OPTIONS },
@@ -52,9 +52,7 @@ const FilterPanel = () => {
                       hidden
                       id={`${group.type}-${option}`}
                       checked={checked}
-                      onChange={() =>
-                        toggleFilter(group.type as FilterType, option)
-                      }
+                      onChange={() => toggleFilter(group.type, option)}
                     />
                     {capitalize(option)}
                   </label>
