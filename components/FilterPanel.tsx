@@ -1,5 +1,5 @@
 "use client";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ReadonlyURLSearchParams } from "next/navigation";
 import {
   CATEGORY_OPTIONS,
   STORAGE_OPTIONS,
@@ -8,24 +8,13 @@ import {
 import { FilterType } from "@/types/food";
 import { capitalize } from "@/lib/utils/food";
 
-const FilterPanel = () => {
-  const params = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
-
-  function toggleFilter(type: FilterType, value: string): void {
-    const newParams = new URLSearchParams(params.toString());
-    const values = newParams.getAll(type);
-    if (values.includes(value)) {
-      const filtered = values.filter((v) => v !== value);
-      newParams.delete(type);
-      filtered.forEach((v) => newParams.append(type, v));
-    } else {
-      newParams.append(type, value);
-    }
-    router.replace(`${pathname}?${newParams.toString()}`);
-  }
-
+const FilterPanel = ({
+  params,
+  toggleFilter,
+}: {
+  params: ReadonlyURLSearchParams;
+  toggleFilter: (type: FilterType, value: string) => void;
+}) => {
   const filterGroups: { type: FilterType; options: string[] }[] = [
     { type: "category", options: CATEGORY_OPTIONS },
     { type: "storage", options: STORAGE_OPTIONS },
@@ -44,7 +33,7 @@ const FilterPanel = () => {
               return (
                 <div key={option}>
                   <label
-                    htmlFor={option}
+                    htmlFor={`${group.type}-${option}`}
                     className={`cursor-pointer px-1 py-0.5 rounded border ${checked ? "bg-blue-500 text-white border-blue-500" : "bg-white border-gray-300"}`}
                   >
                     <input

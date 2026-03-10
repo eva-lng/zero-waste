@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { FilterType } from "@/types/food";
 import { MdFilterList } from "react-icons/md";
 import FilterPanel from "./FilterPanel";
 import FilterTag from "./FilterTag";
@@ -12,17 +13,17 @@ const FiltersBar = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const allParamsArr = Array.from(params.entries());
-  console.log(allParamsArr);
+  const activeFilters = Array.from(params.entries()) as [FilterType, string][];
 
-  function removeFilter(type: string, value: string): void {
+  function toggleFilter(type: FilterType, value: string): void {
     const newParams = new URLSearchParams(params.toString());
     const values = newParams.getAll(type);
 
     if (values.includes(value)) {
-      const filtered = values.filter((v) => value !== v);
       newParams.delete(type);
-      filtered.forEach((v) => newParams.append(type, v));
+      values
+        .filter((v) => v !== value)
+        .forEach((v) => newParams.append(type, v));
     } else {
       newParams.append(type, value);
     }
@@ -34,22 +35,23 @@ const FiltersBar = () => {
       <div className="flex items-center justify-center gap-3">
         <input type="search" className="border rounded px-2 py-1" />
         <button
-          onClick={() => setOpen(!open)}
+          onClick={() => setOpen((prev) => !prev)}
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline"
         >
           <MdFilterList />
         </button>
       </div>
 
-      {open && <FilterPanel />}
+      {open && <FilterPanel toggleFilter={toggleFilter} params={params} />}
 
       {!open && (
         <div className="flex flex-wrap gap-2">
-          {allParamsArr.map((param) => (
+          {activeFilters.map(([type, value]) => (
             <FilterTag
-              key={`${param[0]}-${param[1]}`}
-              param={param}
-              removeFilter={removeFilter}
+              key={`${type}-${value}`}
+              type={type}
+              value={value}
+              removeFilter={toggleFilter}
             />
           ))}
         </div>
