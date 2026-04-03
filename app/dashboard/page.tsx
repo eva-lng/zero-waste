@@ -31,9 +31,7 @@ const DashboardPage = async () => {
   let soonCount = 0;
 
   for (const item of foodItems) {
-    if (storageCount[item.storage] !== undefined) {
-      storageCount[item.storage]++;
-    }
+    storageCount[item.storage]++;
     if (isExpiringSoon(item.expirationDate)) {
       soonCount++;
     }

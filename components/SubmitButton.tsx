@@ -17,6 +17,7 @@ const SubmitButton = ({
 }: SubmitButtonProps) => {
   const { pending } = useFormStatus();
   const isLoading = loading ?? pending;
+  // const isLoading = loading !== null && loading !== undefined ? loading : pending;
 
   return (
     <button type="submit" disabled={isLoading} className={className}>
