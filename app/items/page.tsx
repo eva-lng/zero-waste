@@ -21,11 +21,12 @@ const ItemsPage = async ({
     storage?: StorageType | StorageType[];
     expiration?: ExpirationStateType | ExpirationStateType[];
     category?: CategoryType | CategoryType[];
+    search?: string;
   }>;
 }) => {
   await dbConnect();
 
-  const { storage, expiration, category } = await searchParams;
+  const { storage, expiration, category, search } = await searchParams;
 
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -85,6 +86,9 @@ const ItemsPage = async ({
       <FiltersBar />
 
       <div>
+        {foodItems.length === 0 && (
+          <p className="text-center">No items found</p>
+        )}
         {Object.keys(itemsByStorage).map((storage) => {
           const storageKey = storage as StorageType;
           return (

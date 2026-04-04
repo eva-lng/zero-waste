@@ -5,8 +5,6 @@ import SubmitButton from "./SubmitButton";
 const FoodEditForm = ({ foodItem }: { foodItem: FoodItemType }) => {
   const updateFoodById = updateFood.bind(null, foodItem._id.toString());
 
-  console.log(foodItem.expirationDate.toISOString());
-
   return (
     <>
       <h2>Edit Food</h2>
