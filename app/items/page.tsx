@@ -59,6 +59,7 @@ const ItemsPage = async ({
     status: "active",
     ...(storageArray.length > 0 ? { storage: { $in: storageArray } } : {}),
     ...(categoryArray.length > 0 ? { category: { $in: categoryArray } } : {}),
+    ...(search ? { name: { $regex: search, $options: "i" } } : {}),
   })
     .sort({ expirationDate: 1 })
     .lean<FoodItemType[]>();
