@@ -2,7 +2,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
-const SearchInput = () => {
+const SearchBar = () => {
   const params = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -29,4 +29,4 @@ const SearchInput = () => {
   );
 };
 
-export default SearchInput;
+export default SearchBar;
