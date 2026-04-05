@@ -9,7 +9,7 @@ import {
   ExpirationStateType,
   CategoryType,
 } from "@/types/food";
-import { getExpirationState, capitalize } from "@/lib/utils/food";
+import { getExpirationState, capitalize, escapeRegex } from "@/lib/utils/food";
 import FoodItem from "@/models/FoodItem";
 import FoodItemCard from "@/components/FoodItemCard";
 import FiltersBar from "@/components/FiltersBar";
@@ -59,7 +59,7 @@ const ItemsPage = async ({
     status: "active",
     ...(storageArray.length > 0 ? { storage: { $in: storageArray } } : {}),
     ...(categoryArray.length > 0 ? { category: { $in: categoryArray } } : {}),
-    ...(search ? { name: { $regex: search, $options: "i" } } : {}),
+    ...(search ? { name: { $regex: escapeRegex(search), $options: "i" } } : {}),
   })
     .sort({ expirationDate: 1 })
     .lean<FoodItemType[]>();

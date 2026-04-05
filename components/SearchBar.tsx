@@ -8,10 +8,11 @@ const SearchBar = () => {
   const router = useRouter();
 
   const handleSearch = useDebouncedCallback((term: string) => {
-    console.log("Searching...", term);
     const newParams = new URLSearchParams(params.toString());
-    if (term) {
-      newParams.set("search", term);
+    const trimmed = term.trim();
+
+    if (trimmed) {
+      newParams.set("search", trimmed);
     } else {
       newParams.delete("search");
     }
