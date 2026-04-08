@@ -3,8 +3,8 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import FoodItem from "@/models/FoodItem";
-import { FoodItemDB } from "@/types/food";
-import { capitalize } from "@/lib/utils/food";
+import { FoodItemDB } from "@/lib/utils/types";
+import { capitalize } from "@/lib/utils/utilities";
 import Link from "next/link";
 
 const FoodItemPage = async ({

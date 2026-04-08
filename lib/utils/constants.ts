@@ -1,4 +1,8 @@
-import { CategoryType, StorageType, ExpirationStateType } from "@/types/food";
+import {
+  CategoryType,
+  StorageType,
+  ExpirationStateType,
+} from "@/lib/utils/types";
 
 export const CATEGORY_OPTIONS: CategoryType[] = [
   "fruits",

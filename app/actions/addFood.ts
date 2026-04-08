@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import FoodItem from "@/models/FoodItem";
 import { Types } from "mongoose";
-import { FoodItemDB } from "@/types/food";
+import { FoodItemDB } from "@/lib/utils/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 

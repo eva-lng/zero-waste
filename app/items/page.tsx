@@ -9,8 +9,12 @@ import {
   ExpirationStateType,
   CategoryType,
   FoodItemClient,
-} from "@/types/food";
-import { getExpirationState, escapeRegex, toClient } from "@/lib/utils/food";
+} from "@/lib/utils/types";
+import {
+  getExpirationState,
+  escapeRegex,
+  toClient,
+} from "@/lib/utils/utilities";
 import FoodItem from "@/models/FoodItem";
 import FoodItemsList from "@/components/FoodItemsList";
 import FiltersBar from "@/components/FiltersBar";

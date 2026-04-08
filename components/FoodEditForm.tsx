@@ -1,5 +1,5 @@
 import updateFood from "@/app/actions/updateFood";
-import { FoodItemDB } from "@/types/food";
+import { FoodItemDB } from "@/lib/utils/types";
 import SubmitButton from "./SubmitButton";
 
 const FoodEditForm = ({ foodItem }: { foodItem: FoodItemDB }) => {

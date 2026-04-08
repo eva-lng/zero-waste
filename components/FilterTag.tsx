@@ -1,5 +1,5 @@
-import { FilterType } from "@/types/food";
-import { capitalize } from "@/lib/utils/food";
+import { FilterType } from "@/lib/utils/types";
+import { capitalize } from "@/lib/utils/utilities";
 import { FiX } from "react-icons/fi";
 
 const FilterTag = ({

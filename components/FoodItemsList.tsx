@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import { FoodItemClient, StorageType } from "@/types/food";
-import { capitalize } from "@/lib/utils/food";
+import { FoodItemClient, StorageType } from "@/lib/utils/types";
+import { capitalize } from "@/lib/utils/utilities";
 import FoodItemCard from "./FoodItemCard";
 
 const FoodItemsList = ({ items }: { items: FoodItemClient[] }) => {

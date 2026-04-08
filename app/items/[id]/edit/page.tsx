@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import FoodItem from "@/models/FoodItem";
-import { FoodItemDB } from "@/types/food";
+import { FoodItemDB } from "@/lib/utils/types";
 import FoodEditForm from "@/components/FoodEditForm";
 
 const EditFoodPage = async ({

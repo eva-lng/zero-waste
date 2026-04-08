@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { FilterType } from "@/types/food";
+import { FilterType } from "@/lib/utils/types";
 import { MdFilterList } from "react-icons/md";
 import FilterPanel from "./FilterPanel";
 import FilterTag from "./FilterTag";

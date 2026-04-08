@@ -3,7 +3,7 @@ import dbConnect from "@/lib/mongodb";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import FoodItem from "@/models/FoodItem";
-import { StatusType } from "@/types/food";
+import { StatusType } from "@/lib/utils/types";
 import { revalidatePath } from "next/cache";
 
 async function updateFoodStatus(

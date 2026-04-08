@@ -1,4 +1,8 @@
-import { ExpirationStateType, FoodItemDB, FoodItemClient } from "@/types/food";
+import {
+  ExpirationStateType,
+  FoodItemDB,
+  FoodItemClient,
+} from "@/lib/utils/types";
 
 export function isExpired(expirationDate: Date): boolean {
   const today = new Date();

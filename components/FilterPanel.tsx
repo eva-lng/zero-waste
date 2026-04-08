@@ -4,9 +4,9 @@ import {
   CATEGORY_OPTIONS,
   STORAGE_OPTIONS,
   EXPIRATION_OPTIONS,
-} from "@/constants/food";
-import { FilterType } from "@/types/food";
-import { capitalize } from "@/lib/utils/food";
+} from "@/lib/utils/constants";
+import { FilterType } from "@/lib/utils/types";
+import { capitalize } from "@/lib/utils/utilities";
 
 const FilterPanel = ({
   params,

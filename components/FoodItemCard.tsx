@@ -1,7 +1,6 @@
 "use client";
-import { useState } from "react";
-import { FoodItemClient } from "@/types/food";
-import { getExpirationLabel } from "@/lib/utils/food";
+import { FoodItemClient } from "@/lib/utils/types";
+import { getExpirationLabel } from "@/lib/utils/utilities";
 import Link from "next/link";
 import { FiMoreVertical } from "react-icons/fi";
 import FoodDeleteButton from "./FoodDeleteButton";

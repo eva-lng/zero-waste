@@ -4,8 +4,8 @@ import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
 import FoodItem from "@/models/FoodItem";
 import Link from "next/link";
-import { FoodItemDB, StorageType } from "@/types/food";
-import { isExpiringSoon } from "@/lib/utils/food";
+import { FoodItemDB, StorageType } from "@/lib/utils/types";
+import { isExpiringSoon } from "@/lib/utils/utilities";
 
 const DashboardPage = async () => {
   await dbConnect();
