@@ -8,10 +8,11 @@ import {
   StorageType,
   ExpirationStateType,
   CategoryType,
+  FoodItemClient,
 } from "@/types/food";
-import { getExpirationState, capitalize, escapeRegex } from "@/lib/utils/food";
+import { getExpirationState, escapeRegex, toClient } from "@/lib/utils/food";
 import FoodItem from "@/models/FoodItem";
-import FoodItemCard from "@/components/FoodItemCard";
+import FoodItemsList from "@/components/FoodItemsList";
 import FiltersBar from "@/components/FiltersBar";
 
 const ItemsPage = async ({
@@ -64,10 +65,6 @@ const ItemsPage = async ({
     .sort({ expirationDate: 1 })
     .lean<FoodItemDB[]>();
 
-  for (let doc of foodItems) {
-    console.log(doc);
-  }
-
   // handle 'expiration' filter
   if (expirationArray.length > 0) {
     foodItems = foodItems.filter((item) =>
@@ -75,8 +72,10 @@ const ItemsPage = async ({
     );
   }
 
-  const itemsByStorage: Partial<Record<StorageType, FoodItemDB[]>> = {};
-  foodItems.forEach((item) => {
+  const serializedItems = foodItems.map((item) => toClient(item));
+
+  const itemsByStorage: Partial<Record<StorageType, FoodItemClient[]>> = {};
+  serializedItems.forEach((item) => {
     const storage = item.storage as StorageType;
     itemsByStorage[storage] = itemsByStorage[storage] || [];
     itemsByStorage[storage].push(item);
@@ -89,27 +88,7 @@ const ItemsPage = async ({
         <Link href="/items/add">Add Food</Link>
       </div>
       <FiltersBar />
-
-      <div>
-        {foodItems.length === 0 && (
-          <p className="text-center">No items found</p>
-        )}
-        {Object.keys(itemsByStorage).map((storage) => {
-          const storageKey = storage as StorageType;
-          return (
-            <section key={storageKey}>
-              <h3 className="text-xl">{capitalize(storageKey)}</h3>
-              <ul>
-                {itemsByStorage[storageKey]?.map((item) => (
-                  <li key={item._id.toString()}>
-                    <FoodItemCard item={JSON.parse(JSON.stringify(item))} />
-                  </li>
-                ))}
-              </ul>
-            </section>
-          );
-        })}
-      </div>
+      <FoodItemsList items={serializedItems} />
     </>
   );
 };

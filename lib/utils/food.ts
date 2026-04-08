@@ -1,4 +1,4 @@
-import { ExpirationStateType } from "@/types/food";
+import { ExpirationStateType, FoodItemDB, FoodItemClient } from "@/types/food";
 
 export function isExpired(expirationDate: Date): boolean {
   const today = new Date();
@@ -60,4 +60,14 @@ export function capitalize(str: string): string {
 
 export function escapeRegex(str: string) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+export function toClient(item: FoodItemDB): FoodItemClient {
+  return {
+    ...item,
+    _id: item._id.toString(),
+    user: item.user.toString(),
+    expirationDate: item.expirationDate.toISOString(),
+    createdAt: item.createdAt.toISOString(),
+  };
 }
