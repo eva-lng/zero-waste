@@ -64,6 +64,10 @@ const ItemsPage = async ({
     .sort({ expirationDate: 1 })
     .lean<FoodItemType[]>();
 
+  for (let doc of foodItems) {
+    console.log(doc);
+  }
+
   // handle 'expiration' filter
   if (expirationArray.length > 0) {
     foodItems = foodItems.filter((item) =>
@@ -98,7 +102,7 @@ const ItemsPage = async ({
               <ul>
                 {itemsByStorage[storageKey]?.map((item) => (
                   <li key={item._id}>
-                    <FoodItemCard item={item} />
+                    <FoodItemCard item={JSON.parse(JSON.stringify(item))} />
                   </li>
                 ))}
               </ul>
