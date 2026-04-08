@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { FoodItemType } from "@/types/food";
+import { FoodItemDB } from "@/types/food";
 import { getExpirationLabel } from "@/lib/utils/food";
 import Link from "next/link";
 import { FiMoreVertical } from "react-icons/fi";
@@ -8,7 +8,7 @@ import FoodDeleteButton from "./FoodDeleteButton";
 import FoodConsumeButton from "./FoodConsumeButton";
 import FoodExpireButton from "./FoodExpireButton";
 
-const FoodItemCard = ({ item }: { item: FoodItemType }) => {
+const FoodItemCard = ({ item }: { item: FoodItemDB }) => {
   const [open, setOpen] = useState(false);
 
   return (

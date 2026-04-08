@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
 import FoodItem from "@/models/FoodItem";
 import Link from "next/link";
-import { FoodItemType, StorageType } from "@/types/food";
+import { FoodItemDB, StorageType } from "@/types/food";
 import { isExpiringSoon } from "@/lib/utils/food";
 
 const DashboardPage = async () => {
@@ -21,7 +21,7 @@ const DashboardPage = async () => {
   const userId = session.user.id;
   const foodItems = await FoodItem.find({ user: userId, status: "active" })
     .sort({ expirationDate: 1 })
-    .lean<FoodItemType[]>();
+    .lean<FoodItemDB[]>();
 
   const storageCount: Record<StorageType, number> = {
     pantry: 0,

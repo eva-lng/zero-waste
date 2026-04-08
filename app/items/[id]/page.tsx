@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import FoodItem from "@/models/FoodItem";
-import { FoodItemType } from "@/types/food";
+import { FoodItemDB } from "@/types/food";
 import { capitalize } from "@/lib/utils/food";
 import Link from "next/link";
 
@@ -27,7 +27,7 @@ const FoodItemPage = async ({
   const foodItem = await FoodItem.findOne({
     _id: id,
     user: userId,
-  }).lean<FoodItemType>();
+  }).lean<FoodItemDB>();
 
   if (!foodItem) {
     return (

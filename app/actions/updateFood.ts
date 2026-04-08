@@ -3,7 +3,7 @@ import dbConnect from "@/lib/mongodb";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import FoodItem from "@/models/FoodItem";
-import { FoodItemType } from "@/types/food";
+import { FoodItemDB } from "@/types/food";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -31,18 +31,18 @@ async function updateFood(foodId: string, formData: FormData) {
 
   const detailsValue = formData.get("details");
 
-  const foodData: Partial<FoodItemType> = {
+  const foodData: Partial<FoodItemDB> = {
     name: formData.get("name") as string,
-    category: formData.get("category") as FoodItemType["category"],
+    category: formData.get("category") as FoodItemDB["category"],
     details:
       typeof detailsValue === "string" && detailsValue.trim() !== ""
         ? detailsValue
         : undefined,
-    unit: formData.get("unit") as FoodItemType["unit"],
+    unit: formData.get("unit") as FoodItemDB["unit"],
     quantity: Number(formData.get("quantity")),
     expirationDate: new Date(formData.get("expirationDate") as string),
-    storage: formData.get("storage") as FoodItemType["storage"],
-    status: formData.get("status") as FoodItemType["status"],
+    storage: formData.get("storage") as FoodItemDB["storage"],
+    status: formData.get("status") as FoodItemDB["status"],
   };
 
   const updatedFood = await FoodItem.findByIdAndUpdate(foodId, foodData, {

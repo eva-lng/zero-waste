@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export type StorageType = "pantry" | "fridge" | "freezer";
 
 export type CategoryType =
@@ -12,9 +14,9 @@ export type UnitType = "piece" | "package";
 
 export type StatusType = "active" | "consumed" | "expired";
 
-export interface FoodItemType {
-  _id: string;
-  user: string;
+export interface FoodItemDB {
+  _id: Types.ObjectId;
+  user: Types.ObjectId;
   name: string;
   details?: string;
   category: CategoryType;
@@ -24,6 +26,20 @@ export interface FoodItemType {
   storage: StorageType;
   status: StatusType;
   createdAt: Date;
+}
+
+export interface FoodItemClient {
+  _id: string;
+  user: string;
+  name: string;
+  details?: string;
+  category: CategoryType;
+  unit: UnitType;
+  quantity: number;
+  expirationDate: string;
+  storage: StorageType;
+  status: StatusType;
+  createdAt: string;
 }
 
 export type ExpirationStateType = "fresh" | "soon" | "expired";

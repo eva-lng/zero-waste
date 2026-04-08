@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
 import Link from "next/link";
 import {
-  FoodItemType,
+  FoodItemDB,
   StorageType,
   ExpirationStateType,
   CategoryType,
@@ -62,7 +62,7 @@ const ItemsPage = async ({
     ...(search ? { name: { $regex: escapeRegex(search), $options: "i" } } : {}),
   })
     .sort({ expirationDate: 1 })
-    .lean<FoodItemType[]>();
+    .lean<FoodItemDB[]>();
 
   for (let doc of foodItems) {
     console.log(doc);
@@ -75,7 +75,7 @@ const ItemsPage = async ({
     );
   }
 
-  const itemsByStorage: Partial<Record<StorageType, FoodItemType[]>> = {};
+  const itemsByStorage: Partial<Record<StorageType, FoodItemDB[]>> = {};
   foodItems.forEach((item) => {
     const storage = item.storage as StorageType;
     itemsByStorage[storage] = itemsByStorage[storage] || [];
@@ -101,7 +101,7 @@ const ItemsPage = async ({
               <h3 className="text-xl">{capitalize(storageKey)}</h3>
               <ul>
                 {itemsByStorage[storageKey]?.map((item) => (
-                  <li key={item._id}>
+                  <li key={item._id.toString()}>
                     <FoodItemCard item={JSON.parse(JSON.stringify(item))} />
                   </li>
                 ))}

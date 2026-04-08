@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import FoodItem from "@/models/FoodItem";
-import { FoodItemType } from "@/types/food";
+import { FoodItemDB } from "@/types/food";
 import FoodEditForm from "@/components/FoodEditForm";
 
 const EditFoodPage = async ({
@@ -26,7 +26,7 @@ const EditFoodPage = async ({
   const foodItem = await FoodItem.findOne({
     _id: id,
     user: userId,
-  }).lean<FoodItemType>();
+  }).lean<FoodItemDB>();
 
   if (!foodItem) {
     return (

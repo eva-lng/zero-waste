@@ -3,7 +3,8 @@ import dbConnect from "@/lib/mongodb";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import FoodItem from "@/models/FoodItem";
-import { FoodItemType } from "@/types/food";
+import { Types } from "mongoose";
+import { FoodItemDB } from "@/types/food";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -22,18 +23,18 @@ async function addFood(formData: FormData) {
 
   const detailsValue = formData.get("details");
 
-  const foodData: Partial<FoodItemType> = {
-    user: userId,
+  const foodData: Partial<FoodItemDB> = {
+    user: new Types.ObjectId(userId),
     name: formData.get("name") as string,
-    category: formData.get("category") as FoodItemType["category"],
+    category: formData.get("category") as FoodItemDB["category"],
     details:
       typeof detailsValue === "string" && detailsValue.trim() !== ""
         ? detailsValue
         : undefined,
-    unit: formData.get("unit") as FoodItemType["unit"],
+    unit: formData.get("unit") as FoodItemDB["unit"],
     quantity: Number(formData.get("quantity")),
     expirationDate: new Date(formData.get("expirationDate") as string),
-    storage: formData.get("storage") as FoodItemType["storage"],
+    storage: formData.get("storage") as FoodItemDB["storage"],
   };
 
   const newFood = await FoodItem.create(foodData);

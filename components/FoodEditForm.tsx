@@ -1,8 +1,8 @@
 import updateFood from "@/app/actions/updateFood";
-import { FoodItemType } from "@/types/food";
+import { FoodItemDB } from "@/types/food";
 import SubmitButton from "./SubmitButton";
 
-const FoodEditForm = ({ foodItem }: { foodItem: FoodItemType }) => {
+const FoodEditForm = ({ foodItem }: { foodItem: FoodItemDB }) => {
   const updateFoodById = updateFood.bind(null, foodItem._id.toString());
 
   return (
