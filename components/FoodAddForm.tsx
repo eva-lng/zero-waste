@@ -123,6 +123,27 @@ const FoodAddForm = () => {
         </select>
       </div>
 
+      <div className="mb-3 flex justify-center gap-3">
+        <div>
+          <input
+            type="radio"
+            id="closed"
+            name="isOpen"
+            value="false"
+            defaultChecked
+          />
+          <label htmlFor="closed" className="ml-1">
+            Closed
+          </label>
+        </div>
+        <div>
+          <input type="radio" id="open" name="isOpen" value="true" />
+          <label htmlFor="open" className="ml-1">
+            Open
+          </label>
+        </div>
+      </div>
+
       <div>
         <SubmitButton className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline">
           Add Food

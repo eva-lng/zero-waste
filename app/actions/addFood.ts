@@ -22,6 +22,7 @@ async function addFood(formData: FormData) {
   const userId = session.user.id;
 
   const detailsValue = formData.get("details");
+  const isOpenValue = formData.get("isOpen") === "true";
 
   const foodData: Partial<FoodItemDB> = {
     user: new Types.ObjectId(userId),
@@ -35,6 +36,7 @@ async function addFood(formData: FormData) {
     quantity: Number(formData.get("quantity")),
     expirationDate: new Date(formData.get("expirationDate") as string),
     storage: formData.get("storage") as FoodItemDB["storage"],
+    isOpen: isOpenValue as boolean,
   };
 
   const newFood = await FoodItem.create(foodData);

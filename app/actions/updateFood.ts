@@ -30,6 +30,7 @@ async function updateFood(foodId: string, formData: FormData) {
   }
 
   const detailsValue = formData.get("details");
+  const isOpenValue = formData.get("isOpen") === "true";
 
   const foodData: Partial<FoodItemDB> = {
     name: formData.get("name") as string,
@@ -43,6 +44,7 @@ async function updateFood(foodId: string, formData: FormData) {
     expirationDate: new Date(formData.get("expirationDate") as string),
     storage: formData.get("storage") as FoodItemDB["storage"],
     status: formData.get("status") as FoodItemDB["status"],
+    isOpen: isOpenValue as boolean,
   };
 
   const updatedFood = await FoodItem.findByIdAndUpdate(foodId, foodData, {
