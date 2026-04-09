@@ -6,6 +6,7 @@ import { FiMoreVertical } from "react-icons/fi";
 import FoodDeleteButton from "./FoodDeleteButton";
 import FoodConsumeButton from "./FoodConsumeButton";
 import FoodExpireButton from "./FoodExpireButton";
+import FoodOpenButton from "./FoodOpenButton";
 
 const FoodItemCard = ({
   item,
@@ -41,6 +42,7 @@ const FoodItemCard = ({
           <FoodConsumeButton foodId={item._id} />
           <FoodExpireButton foodId={item._id} />
           <FoodDeleteButton foodId={item._id} name={item.name} />
+          {!item.isOpen && <FoodOpenButton foodId={item._id} />}
         </div>
       )}
     </div>
