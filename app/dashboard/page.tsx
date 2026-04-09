@@ -5,7 +5,7 @@ import dbConnect from "@/lib/mongodb";
 import FoodItem from "@/models/FoodItem";
 import Link from "next/link";
 import { FoodItemDB, StorageType } from "@/lib/utils/types";
-import { isExpiringSoon } from "@/lib/utils/utilities";
+import { isExpiringSoon, isExpired } from "@/lib/utils/utilities";
 
 const DashboardPage = async () => {
   await dbConnect();
@@ -29,19 +29,36 @@ const DashboardPage = async () => {
     freezer: 0,
   };
   let soonCount = 0;
+  let expiredCount = 0;
 
   for (const item of foodItems) {
     storageCount[item.storage]++;
     if (isExpiringSoon(item.expirationDate)) {
       soonCount++;
+    } else if (isExpired(item.expirationDate)) {
+      expiredCount++;
     }
   }
 
   return (
     <>
-      <h2 className="text-3xl text-center">Dashboard</h2>
+      <h2 className="text-3xl text-center">Overview</h2>
 
-      <div className="flex flex-col sm:flex-row justify-around items-center gap-8 sm:gap-0 border border-amber-400">
+      <Link
+        href="/stats"
+        className="block not-last:flex flex-row gap-5 border rounded p-2 mb-3"
+      >
+        <div className="flex flex-col border-r pr-4">
+          <span>Consumed</span>
+          <span>85%</span>
+        </div>
+        <div className="flex flex-col">
+          <span>Thrown</span>
+          <span>15%</span>
+        </div>
+      </Link>
+
+      <div className="flex flex-col sm:flex-row justify-around items-center gap-8 sm:gap-0 ">
         <section className="w-3xs border rounded p-2">
           <h3 className="border-b">Smart List</h3>
           <ul>
@@ -52,6 +69,10 @@ const DashboardPage = async () => {
             <li className="flex justify-between">
               <Link href="/items?expiration=soon">Soon to expire</Link>
               <span>{soonCount}</span>
+            </li>
+            <li className="flex justify-between">
+              <Link href="/items?expiration=expired">Expired</Link>
+              <span>{expiredCount}</span>
             </li>
             <li className="flex justify-between">
               <Link href="/items">Open</Link>

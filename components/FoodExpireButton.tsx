@@ -1,6 +1,6 @@
 import updateFoodStatus from "@/app/actions/updateFoodStatus";
 import SubmitButton from "./SubmitButton";
-import { MdEventBusy } from "react-icons/md";
+import { TbClockExclamation } from "react-icons/tb";
 
 const FoodExpireButton = ({ foodId }: { foodId: string }) => {
   const updateFoodStatusById = updateFoodStatus.bind(null, foodId, "expired");
@@ -8,7 +8,10 @@ const FoodExpireButton = ({ foodId }: { foodId: string }) => {
   return (
     <form action={updateFoodStatusById}>
       <SubmitButton className="cursor-pointer">
-        <MdEventBusy />
+        <div className="flex flex-col items-center">
+          <TbClockExclamation />
+          <span>Expired</span>
+        </div>
       </SubmitButton>
     </form>
   );

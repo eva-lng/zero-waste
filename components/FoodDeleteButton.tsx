@@ -27,7 +27,10 @@ const FoodDeleteButton = ({
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <FiTrash2 className="text-red-600 cursor-pointer" />
+          <div className="flex flex-col items-center cursor-pointer">
+            <FiTrash2 />
+            <span>Delete</span>
+          </div>
         </AlertDialogTrigger>
         <AlertDialogContent size="sm">
           <AlertDialogHeader>
