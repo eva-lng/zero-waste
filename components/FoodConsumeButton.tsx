@@ -9,8 +9,8 @@ const FoodConsumeButton = ({ foodId }: { foodId: string }) => {
     <form action={updateFoodStatusById}>
       <SubmitButton className="cursor-pointer">
         <div className="flex flex-col items-center">
-          <GiKnifeFork />
-          <span>Consumed</span>
+          <GiKnifeFork size={25} />
+          <span className="text-sm">Consumed</span>
         </div>
       </SubmitButton>
     </form>

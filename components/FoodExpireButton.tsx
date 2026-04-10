@@ -9,8 +9,8 @@ const FoodExpireButton = ({ foodId }: { foodId: string }) => {
     <form action={updateFoodStatusById}>
       <SubmitButton className="cursor-pointer">
         <div className="flex flex-col items-center">
-          <TbClockExclamation />
-          <span>Expired</span>
+          <TbClockExclamation size={25} />
+          <span className="text-sm">Expired</span>
         </div>
       </SubmitButton>
     </form>
