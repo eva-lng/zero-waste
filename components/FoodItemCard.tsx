@@ -7,6 +7,7 @@ import FoodDeleteButton from "./FoodDeleteButton";
 import FoodConsumeButton from "./FoodConsumeButton";
 import FoodExpireButton from "./FoodExpireButton";
 import FoodOpenButton from "./FoodOpenButton";
+import FoodMoveButton from "./FoodMoveButton";
 
 const FoodItemCard = ({
   item,
@@ -43,6 +44,11 @@ const FoodItemCard = ({
           <FoodExpireButton foodId={item._id} />
           <FoodDeleteButton foodId={item._id} name={item.name} />
           {!item.isOpen && <FoodOpenButton foodId={item._id} />}
+          <FoodMoveButton
+            foodId={item._id}
+            storage={item.storage}
+            name={item.name}
+          />
         </div>
       )}
     </div>
