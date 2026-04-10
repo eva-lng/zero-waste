@@ -159,7 +159,7 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemDB }) => {
           >
             <option value="active">Active</option>
             <option value="consumed">Consumed</option>
-            <option value="expired">Expired</option>
+            <option value="discarded">Expired</option>
           </select>
         </div>
 
