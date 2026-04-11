@@ -43,7 +43,13 @@ const FoodItemCard = ({
           <FoodConsumeButton foodId={item._id} />
           <FoodExpireButton foodId={item._id} />
           <FoodDeleteButton foodId={item._id} name={item.name} />
-          {!item.isOpen && <FoodOpenButton foodId={item._id} />}
+          {!item.isOpen && (
+            <FoodOpenButton
+              foodId={item._id}
+              expirationDate={item.expirationDate}
+              name={item.name}
+            />
+          )}
           <FoodMoveButton
             foodId={item._id}
             storage={item.storage}

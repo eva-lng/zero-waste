@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import FoodItem from "@/models/FoodItem";
 import { revalidatePath } from "next/cache";
 
-async function openFood(foodId: string, _formData: FormData) {
+async function openFood(foodId: string, formData: FormData) {
   await dbConnect();
 
   const session = await auth.api.getSession({
@@ -26,7 +26,12 @@ async function openFood(foodId: string, _formData: FormData) {
     throw new Error("Unauthorized");
   }
 
-  await foodItem.updateOne({ isOpen: true });
+  const expirationDateValue = formData.get("expirationDate");
+
+  await foodItem.updateOne({
+    isOpen: true,
+    expirationDate: expirationDateValue,
+  });
 
   revalidatePath("/items");
   revalidatePath("/dashboard");
