@@ -12,7 +12,7 @@ export type CategoryType =
 
 export type UnitType = "piece" | "package";
 
-export type StatusType = "active" | "consumed" | "discarded";
+export type StatusType = "active" | "consumed" | "discarded" | "finished";
 
 export interface FoodItemDB {
   _id: Types.ObjectId;
@@ -26,6 +26,9 @@ export interface FoodItemDB {
   storage: StorageType;
   status: StatusType;
   isOpen: boolean;
+  openedAt?: Date;
+  consumedQty: number;
+  wastedQty: number;
   createdAt: Date;
 }
 
@@ -41,6 +44,9 @@ export interface FoodItemClient {
   storage: StorageType;
   status: StatusType;
   isOpen: boolean;
+  openedAt?: Date;
+  consumedQty: number;
+  wastedQty: number;
   createdAt: string;
 }
 

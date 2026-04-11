@@ -98,7 +98,8 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemDB }) => {
             id="quantity"
             name="quantity"
             className="border rounded py-1 px-2"
-            min={1}
+            min={0.25}
+            step={0.25}
             defaultValue={foodItem.quantity}
             required
           />
