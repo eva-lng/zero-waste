@@ -30,7 +30,7 @@ async function openFood(foodId: string, formData: FormData) {
 
   await foodItem.updateOne({
     isOpen: true,
-    expirationDate: expirationDateValue,
+    expirationDate: new Date(expirationDateValue as string),
   });
 
   revalidatePath("/items");
