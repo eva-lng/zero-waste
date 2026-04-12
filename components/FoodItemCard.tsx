@@ -40,8 +40,8 @@ const FoodItemCard = ({
       </div>
       {isOpen && (
         <div className="flex justify-between items-center">
-          <FoodConsumeButton foodId={item._id} />
-          <FoodExpireButton foodId={item._id} />
+          <FoodConsumeButton item={item} />
+          <FoodExpireButton item={item} />
           <FoodMoveButton
             foodId={item._id}
             storage={item.storage}
