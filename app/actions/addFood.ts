@@ -24,7 +24,7 @@ async function addFood(formData: FormData) {
   const detailsValue = formData.get("details");
   const isOpenValue = formData.get("isOpen") === "true";
 
-  const foodData: Partial<FoodItemDB> = {
+  const foodData = {
     user: new Types.ObjectId(userId),
     name: formData.get("name") as string,
     category: formData.get("category") as FoodItemDB["category"],
@@ -37,7 +37,11 @@ async function addFood(formData: FormData) {
     expirationDate: new Date(formData.get("expirationDate") as string),
     storage: formData.get("storage") as FoodItemDB["storage"],
     isOpen: isOpenValue as boolean,
-  };
+    openedAt: isOpenValue ? new Date() : undefined,
+  } satisfies Omit<
+    FoodItemDB,
+    "_id" | "createdAt" | "status" | "consumedQty" | "wastedQty"
+  >;
 
   const newFood = await FoodItem.create(foodData);
   await newFood.save();

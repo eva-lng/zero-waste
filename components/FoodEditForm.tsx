@@ -144,26 +144,6 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemDB }) => {
           </select>
         </div>
 
-        <div className="mb-3">
-          <label
-            htmlFor="status"
-            className="block text-gray-700 font-bold mb-1.5"
-          >
-            Status
-          </label>
-          <select
-            name="status"
-            id="status"
-            className="border rounded py-1 px-2"
-            defaultValue={foodItem.status}
-            required
-          >
-            <option value="active">Active</option>
-            <option value="consumed">Consumed</option>
-            <option value="discarded">Expired</option>
-          </select>
-        </div>
-
         <div className="mb-3 flex justify-center gap-3">
           <div>
             <input

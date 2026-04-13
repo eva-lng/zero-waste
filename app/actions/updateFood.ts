@@ -32,7 +32,7 @@ async function updateFood(foodId: string, formData: FormData) {
   const detailsValue = formData.get("details");
   const isOpenValue = formData.get("isOpen") === "true";
 
-  const foodData: Partial<FoodItemDB> = {
+  const foodData = {
     name: formData.get("name") as string,
     category: formData.get("category") as FoodItemDB["category"],
     details:
@@ -43,13 +43,24 @@ async function updateFood(foodId: string, formData: FormData) {
     quantity: Number(formData.get("quantity")),
     expirationDate: new Date(formData.get("expirationDate") as string),
     storage: formData.get("storage") as FoodItemDB["storage"],
-    status: formData.get("status") as FoodItemDB["status"],
     isOpen: isOpenValue as boolean,
-  };
+    openedAt:
+      !existingFoodItem.openedAt && isOpenValue
+        ? new Date()
+        : existingFoodItem.openedAt && isOpenValue
+          ? existingFoodItem.openedAt
+          : undefined,
+  } satisfies Partial<
+    Omit<
+      FoodItemDB,
+      "_id" | "createdAt" | "status" | "consumedQty" | "wastedQty"
+    >
+  >;
 
   const updatedFood = await FoodItem.findByIdAndUpdate(foodId, foodData, {
     new: true,
   });
+
   revalidatePath("/items");
   revalidatePath("/dashboard");
   redirect(`/items/${updatedFood._id}`);

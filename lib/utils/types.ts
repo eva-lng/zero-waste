@@ -44,7 +44,7 @@ export interface FoodItemClient {
   storage: StorageType;
   status: StatusType;
   isOpen: boolean;
-  openedAt?: Date;
+  openedAt?: string;
   consumedQty: number;
   wastedQty: number;
   createdAt: string;
