@@ -47,13 +47,7 @@ const FoodItemCard = ({
             storage={item.storage}
             name={item.name}
           />
-          {!item.isOpen && (
-            <FoodOpenButton
-              foodId={item._id}
-              expirationDate={item.expirationDate}
-              name={item.name}
-            />
-          )}
+          {!item.isOpen && <FoodOpenButton item={item} />}
           <FoodDeleteButton foodId={item._id} name={item.name} />
         </div>
       )}

@@ -1,3 +1,4 @@
+import { FoodItemClient } from "@/lib/utils/types";
 import openFood from "@/app/actions/openFood";
 import SubmitButton from "./SubmitButton";
 import { LuPackageOpen } from "react-icons/lu";
@@ -13,16 +14,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const FoodOpenButton = ({
-  foodId,
-  expirationDate,
-  name,
-}: {
-  foodId: string;
-  expirationDate: string;
-  name: string;
-}) => {
-  const openFoodById = openFood.bind(null, foodId);
+const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
+  const openFoodById = openFood.bind(null, item._id);
 
   return (
     <Dialog>
@@ -35,11 +28,30 @@ const FoodOpenButton = ({
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
         <form action={openFoodById}>
           <DialogHeader>
-            <DialogTitle>Open {name}</DialogTitle>
+            <DialogTitle>Open {item.name}</DialogTitle>
             <DialogDescription>
-              Adjust expiration date for {name} (optional).
+              Open {item.name} and adjust expiration date (optional).
             </DialogDescription>
           </DialogHeader>
+          <div className="py-2">
+            <label
+              htmlFor="quantity"
+              className="text-gray-700 font-bold mb-1.5 mr-1"
+            >
+              Quantity:
+            </label>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              className="border rounded py-1 px-2"
+              defaultValue={1}
+              min={0.25}
+              max={item.quantity}
+              step={0.25}
+              required
+            />
+          </div>
           <div className="py-2">
             <label
               htmlFor="expirationDate"
@@ -52,7 +64,7 @@ const FoodOpenButton = ({
               id="expirationDate"
               name="expirationDate"
               className="border rounded py-1 px-2"
-              defaultValue={expirationDate.split("T")[0]}
+              defaultValue={item.expirationDate.split("T")[0]}
               required
             />
           </div>
