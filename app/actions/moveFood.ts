@@ -3,10 +3,10 @@ import dbConnect from "@/lib/mongodb";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import FoodItem from "@/models/FoodItem";
-import { FoodItemDB } from "@/lib/utils/types";
+import { FoodItemDB, StorageType } from "@/lib/utils/types";
 import { revalidatePath } from "next/cache";
 
-async function openFood(foodId: string, formData: FormData) {
+async function moveFood(foodId: string, formData: FormData) {
   await dbConnect();
 
   const session = await auth.api.getSession({
@@ -27,26 +27,27 @@ async function openFood(foodId: string, formData: FormData) {
     throw new Error("Unauthorized");
   }
 
-  const expirationDateValue = formData.get("expirationDate");
-  const opened = Number(formData.get("quantity"));
+  const storageValue = formData.get("storage") as StorageType;
+  const moved = Number(formData.get("quantity"));
 
-  if (!opened || isNaN(opened) || opened <= 0) {
+  if (storageValue === foodItem.storage) {
+    return;
+    // return { error: "Already in this storage" }
+  }
+
+  if (!moved || isNaN(moved) || moved <= 0) {
     throw new Error("Invalid quantity");
   }
-  if (opened > foodItem.quantity) {
+  if (moved > foodItem.quantity) {
     throw new Error("Exceeds available quantity");
     // todo: handle UI errors later:
     // useActionState, return { error: "Exceeds available quantity" };
   }
 
-  const total = Math.max(0, foodItem.quantity - opened);
+  const total = Math.max(0, foodItem.quantity - moved);
 
   if (total === 0) {
-    await foodItem.updateOne({
-      isOpen: true,
-      openedAt: foodItem.openedAt ?? new Date(),
-      expirationDate: new Date(expirationDateValue as string),
-    });
+    await foodItem.updateOne({ storage: storageValue });
   } else {
     const newItem = {
       user: foodItem.user,
@@ -57,11 +58,11 @@ async function openFood(foodId: string, formData: FormData) {
           ? foodItem.details
           : undefined,
       unit: foodItem.unit,
-      quantity: opened,
-      expirationDate: new Date(expirationDateValue as string),
-      storage: foodItem.storage,
-      isOpen: true,
-      openedAt: new Date(),
+      quantity: moved,
+      expirationDate: foodItem.expirationDate,
+      storage: storageValue,
+      isOpen: foodItem.isOpen,
+      openedAt: foodItem.openedAt,
     } satisfies Omit<
       FoodItemDB,
       "_id" | "createdAt" | "status" | "consumedQty" | "wastedQty"
@@ -75,4 +76,4 @@ async function openFood(foodId: string, formData: FormData) {
   revalidatePath("/dashboard");
 }
 
-export default openFood;
+export default moveFood;

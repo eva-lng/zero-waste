@@ -12,7 +12,7 @@ export type CategoryType =
 
 export type UnitType = "piece" | "package";
 
-export type StatusType = "active" | "consumed" | "discarded" | "finished";
+export type StatusType = "active" | "finished";
 
 export interface FoodItemDB {
   _id: Types.ObjectId;

@@ -1,7 +1,7 @@
 import SubmitButton from "./SubmitButton";
 import { LiaExchangeAltSolid } from "react-icons/lia";
-import updateFoodStorage from "@/app/actions/updateFoodStorage";
-import { StorageType } from "@/lib/utils/types";
+import moveFood from "@/app/actions/moveFood";
+import { FoodItemClient } from "@/lib/utils/types";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,16 +14,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const FoodMoveButton = ({
-  foodId,
-  storage,
-  name,
-}: {
-  foodId: string;
-  storage: StorageType;
-  name: string;
-}) => {
-  const updateFoodStorageById = updateFoodStorage.bind(null, foodId);
+const FoodMoveButton = ({ item }: { item: FoodItemClient }) => {
+  const moveFoodById = moveFood.bind(null, item._id);
 
   return (
     <Dialog>
@@ -34,14 +26,33 @@ const FoodMoveButton = ({
         </div>
       </DialogTrigger>
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
-        <form action={updateFoodStorageById}>
+        <form action={moveFoodById}>
           <DialogHeader>
-            <DialogTitle>Move {name}</DialogTitle>
+            <DialogTitle>Move {item.name}</DialogTitle>
             <DialogDescription>
-              Select new storage for {name}.
+              Select new storage for {item.name}.
             </DialogDescription>
           </DialogHeader>
-          <div>
+          <div className="py-2">
+            <label
+              htmlFor="quantity"
+              className="text-gray-700 font-bold mb-1.5 mr-1"
+            >
+              Quantity:
+            </label>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              className="border rounded py-1 px-2"
+              defaultValue={1}
+              min={0.25}
+              max={item.quantity}
+              step={0.25}
+              required
+            />
+          </div>
+          <div className="py-2">
             <label
               htmlFor="storage"
               className="text-gray-700 font-bold mb-1.5 mr-1"
@@ -52,12 +63,17 @@ const FoodMoveButton = ({
               name="storage"
               id="storage"
               className="border rounded py-1 px-2"
-              defaultValue={storage}
               required
             >
-              <option value="pantry">Pantry</option>
-              <option value="fridge">Fridge</option>
-              <option value="freezer">Freezer</option>
+              <option value="pantry" disabled={item.storage === "pantry"}>
+                Pantry
+              </option>
+              <option value="fridge" disabled={item.storage === "fridge"}>
+                Fridge
+              </option>
+              <option value="freezer" disabled={item.storage === "freezer"}>
+                Freezer
+              </option>
             </select>
           </div>
           <DialogFooter>

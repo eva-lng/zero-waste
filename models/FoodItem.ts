@@ -36,7 +36,7 @@ const FoodItemSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ["active", "consumed", "discarded", "finished"],
+      enum: ["active", "finished"],
       default: "active",
     },
     isOpen: {
