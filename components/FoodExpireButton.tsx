@@ -1,6 +1,9 @@
+"use client";
+import { useState } from "react";
 import { FoodItemClient } from "@/lib/utils/types";
 import expireFood from "@/app/actions/expireFood";
 import SubmitButton from "./SubmitButton";
+import { capitalize } from "@/lib/utils/utilities";
 import { TbClockExclamation } from "react-icons/tb";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +18,10 @@ import {
 } from "@/components/ui/dialog";
 
 const FoodExpireButton = ({ item }: { item: FoodItemClient }) => {
+  const [quantity, setQuantity] = useState(1);
+
+  const remaining = Math.max(0, item.quantity - quantity);
+
   const expireFoodById = expireFood.bind(null, item._id);
 
   return (
@@ -29,28 +36,59 @@ const FoodExpireButton = ({ item }: { item: FoodItemClient }) => {
         <form action={expireFoodById}>
           <DialogHeader>
             <DialogTitle>Discard {item.name}</DialogTitle>
-            <DialogDescription>
-              Select quantity to mark as expired
-            </DialogDescription>
+            {/* <DialogDescription>Mark item as expired</DialogDescription> */}
           </DialogHeader>
-          <div className="py-2">
-            <label
-              htmlFor="quantity"
-              className="text-gray-700 font-bold mb-1.5 mr-1"
-            >
-              Quantity:
-            </label>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              className="border rounded py-1 px-2"
-              defaultValue={1}
-              min={0.25}
-              max={item.quantity}
-              step={0.25}
-              required
-            />
+          <div className="my-3">
+            <div className="flex justify-between border-b p-0.5">
+              <span>Storage</span>
+              <span>{capitalize(item.storage)}</span>
+            </div>
+            <div className="flex justify-between border-b p-0.5">
+              <span>Expiration date</span>
+              <span>
+                {new Date(item.expirationDate).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
+            <div className="flex justify-between p-0.5">
+              <span>Storage date</span>
+              <span>
+                {new Date(item.createdAt).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
+          </div>
+
+          <div className="my-3">
+            <div className="flex justify-between border-b p-0.5">
+              <span>Remaining</span>
+              <span>{remaining}</span>
+            </div>
+            <div className="flex justify-between p-0.5">
+              <label htmlFor="quantity" className="text-gray-700 font-bold">
+                Quantity
+              </label>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                value={quantity}
+                onChange={(e) => {
+                  const val = Number(e.target.value);
+                  if (val <= item.quantity) setQuantity(val);
+                }}
+                min={0.25}
+                max={item.quantity}
+                step={0.25}
+                required
+              />
+            </div>
           </div>
           <DialogFooter>
             <DialogClose asChild>

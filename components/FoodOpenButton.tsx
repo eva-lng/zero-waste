@@ -1,6 +1,9 @@
+"use client";
+import { useState } from "react";
 import { FoodItemClient } from "@/lib/utils/types";
 import openFood from "@/app/actions/openFood";
 import SubmitButton from "./SubmitButton";
+import { capitalize } from "@/lib/utils/utilities";
 import { LuPackageOpen } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +18,10 @@ import {
 } from "@/components/ui/dialog";
 
 const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
+  const [quantity, setQuantity] = useState(1);
+
+  const remaining = Math.max(0, item.quantity - quantity);
+
   const openFoodById = openFood.bind(null, item._id);
 
   return (
@@ -29,45 +36,91 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
         <form action={openFoodById}>
           <DialogHeader>
             <DialogTitle>Open {item.name}</DialogTitle>
-            <DialogDescription>
+            {/* <DialogDescription>
               Open {item.name} and adjust expiration date (optional).
-            </DialogDescription>
+            </DialogDescription> */}
           </DialogHeader>
-          <div className="py-2">
-            <label
-              htmlFor="quantity"
-              className="text-gray-700 font-bold mb-1.5 mr-1"
-            >
-              Quantity:
-            </label>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              className="border rounded py-1 px-2"
-              defaultValue={1}
-              min={0.25}
-              max={item.quantity}
-              step={0.25}
-              required
-            />
+          <div className="my-3">
+            <div className="flex justify-between border-b p-0.5">
+              <span>Storage</span>
+              <span>{capitalize(item.storage)}</span>
+            </div>
+            <div className="flex justify-between border-b p-0.5">
+              <span>Expiration date</span>
+              <span>
+                {new Date(item.expirationDate).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
+            <div className="flex justify-between p-0.5">
+              <span>Storage date</span>
+              <span>
+                {new Date(item.createdAt).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
           </div>
-          <div className="py-2">
-            <label
-              htmlFor="expirationDate"
-              className="text-gray-700 font-bold mb-1.5 mr-1"
-            >
-              Expiration Date:
-            </label>
-            <input
-              type="date"
-              id="expirationDate"
-              name="expirationDate"
-              className="border rounded py-1 px-2"
-              defaultValue={item.expirationDate.split("T")[0]}
-              required
-            />
+
+          <div className="my-3">
+            <div className="flex justify-between border-b p-0.5">
+              <span>Remaining</span>
+              <span>{remaining}</span>
+            </div>
+            <div className="flex justify-between p-0.5">
+              <label htmlFor="quantity" className="text-gray-700 font-bold">
+                Quantity
+              </label>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                value={quantity}
+                onChange={(e) => {
+                  const val = Number(e.target.value);
+                  if (val <= item.quantity) setQuantity(val);
+                }}
+                min={0.25}
+                max={item.quantity}
+                step={0.25}
+                required
+              />
+            </div>
           </div>
+
+          <div className="my-3">
+            <div className="flex justify-between border-b p-0.5">
+              <span>Open date</span>
+              <span>
+                {new Date().toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
+            <div className="flex justify-between p-0.5">
+              <label
+                htmlFor="expirationDate"
+                className="text-gray-700 font-bold"
+              >
+                Expiration Date
+              </label>
+              <input
+                type="date"
+                id="expirationDate"
+                name="expirationDate"
+                defaultValue={item.expirationDate.split("T")[0]}
+                required
+              />
+            </div>
+          </div>
+
           <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="outline">

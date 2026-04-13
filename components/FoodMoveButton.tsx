@@ -1,7 +1,10 @@
+"use client";
+import { useState } from "react";
 import SubmitButton from "./SubmitButton";
-import { LiaExchangeAltSolid } from "react-icons/lia";
 import moveFood from "@/app/actions/moveFood";
 import { FoodItemClient } from "@/lib/utils/types";
+import { capitalize } from "@/lib/utils/utilities";
+import { LiaExchangeAltSolid } from "react-icons/lia";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,6 +18,10 @@ import {
 } from "@/components/ui/dialog";
 
 const FoodMoveButton = ({ item }: { item: FoodItemClient }) => {
+  const [quantity, setQuantity] = useState(1);
+
+  const remaining = Math.max(0, item.quantity - quantity);
+
   const moveFoodById = moveFood.bind(null, item._id);
 
   return (
@@ -29,53 +36,87 @@ const FoodMoveButton = ({ item }: { item: FoodItemClient }) => {
         <form action={moveFoodById}>
           <DialogHeader>
             <DialogTitle>Move {item.name}</DialogTitle>
-            <DialogDescription>
+            {/* <DialogDescription>
               Select new storage for {item.name}.
-            </DialogDescription>
+            </DialogDescription> */}
           </DialogHeader>
-          <div className="py-2">
-            <label
-              htmlFor="quantity"
-              className="text-gray-700 font-bold mb-1.5 mr-1"
-            >
-              Quantity:
-            </label>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              className="border rounded py-1 px-2"
-              defaultValue={1}
-              min={0.25}
-              max={item.quantity}
-              step={0.25}
-              required
-            />
+
+          <div className="my-3">
+            <div className="flex justify-between border-b p-0.5">
+              <span>Storage</span>
+              <span>{capitalize(item.storage)}</span>
+            </div>
+            <div className="flex justify-between border-b p-0.5">
+              <span>Expiration date</span>
+              <span>
+                {new Date(item.expirationDate).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
+            <div className="flex justify-between p-0.5">
+              <span>Storage date</span>
+              <span>
+                {new Date(item.createdAt).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
           </div>
-          <div className="py-2">
-            <label
-              htmlFor="storage"
-              className="text-gray-700 font-bold mb-1.5 mr-1"
-            >
-              Storage:
-            </label>
-            <select
-              name="storage"
-              id="storage"
-              className="border rounded py-1 px-2"
-              required
-            >
-              <option value="pantry" disabled={item.storage === "pantry"}>
-                Pantry
-              </option>
-              <option value="fridge" disabled={item.storage === "fridge"}>
-                Fridge
-              </option>
-              <option value="freezer" disabled={item.storage === "freezer"}>
-                Freezer
-              </option>
-            </select>
+
+          <div className="my-3">
+            <div className="flex justify-between border-b p-0.5">
+              <span>Remaining</span>
+              <span>{remaining}</span>
+            </div>
+            <div className="flex justify-between p-0.5">
+              <label htmlFor="quantity" className="text-gray-700 font-bold">
+                Quantity
+              </label>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                value={quantity}
+                onChange={(e) => {
+                  const val = Number(e.target.value);
+                  if (val <= item.quantity) setQuantity(val);
+                }}
+                min={0.25}
+                max={item.quantity}
+                step={0.25}
+                required
+              />
+            </div>
           </div>
+
+          <div className="my-3">
+            <div className="flex justify-between border-b p-0.5">
+              <span>From</span>
+              <span>{capitalize(item.storage)}</span>
+            </div>
+            <div className="flex justify-between p-0.5">
+              <label htmlFor="storage" className="text-gray-700 font-bold">
+                To
+              </label>
+              <select name="storage" id="storage" required>
+                <option value="pantry" disabled={item.storage === "pantry"}>
+                  Pantry
+                </option>
+                <option value="fridge" disabled={item.storage === "fridge"}>
+                  Fridge
+                </option>
+                <option value="freezer" disabled={item.storage === "freezer"}>
+                  Freezer
+                </option>
+              </select>
+            </div>
+          </div>
+
           <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="outline">
