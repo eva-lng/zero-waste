@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
-import SubmitButton from "./SubmitButton";
 import moveFood from "@/app/actions/moveFood";
 import { FoodItemClient } from "@/lib/utils/types";
+import SubmitButton from "./SubmitButton";
+import DialogFoodInfo from "./DialogFoodInfo";
 import { capitalize } from "@/lib/utils/utilities";
 import { LiaExchangeAltSolid } from "react-icons/lia";
 import { Button } from "@/components/ui/button";
@@ -40,33 +41,7 @@ const FoodMoveButton = ({ item }: { item: FoodItemClient }) => {
               Select new storage for {item.name}.
             </DialogDescription> */}
           </DialogHeader>
-
-          <div className="my-3">
-            <div className="flex justify-between border-b p-0.5">
-              <span>Storage</span>
-              <span>{capitalize(item.storage)}</span>
-            </div>
-            <div className="flex justify-between border-b p-0.5">
-              <span>Expiration date</span>
-              <span>
-                {new Date(item.expirationDate).toLocaleDateString("en-GB", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </span>
-            </div>
-            <div className="flex justify-between p-0.5">
-              <span>Storage date</span>
-              <span>
-                {new Date(item.createdAt).toLocaleDateString("en-GB", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </span>
-            </div>
-          </div>
+          <DialogFoodInfo item={item} />
 
           <div className="my-3">
             <div className="flex justify-between border-b p-0.5">

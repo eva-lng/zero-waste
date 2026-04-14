@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FoodItemClient } from "@/lib/utils/types";
 import expireFood from "@/app/actions/expireFood";
 import SubmitButton from "./SubmitButton";
-import { capitalize } from "@/lib/utils/utilities";
+import DialogFoodInfo from "./DialogFoodInfo";
 import { TbClockExclamation } from "react-icons/tb";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,32 +38,7 @@ const FoodExpireButton = ({ item }: { item: FoodItemClient }) => {
             <DialogTitle>Discard {item.name}</DialogTitle>
             {/* <DialogDescription>Mark item as expired</DialogDescription> */}
           </DialogHeader>
-          <div className="my-3">
-            <div className="flex justify-between border-b p-0.5">
-              <span>Storage</span>
-              <span>{capitalize(item.storage)}</span>
-            </div>
-            <div className="flex justify-between border-b p-0.5">
-              <span>Expiration date</span>
-              <span>
-                {new Date(item.expirationDate).toLocaleDateString("en-GB", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </span>
-            </div>
-            <div className="flex justify-between p-0.5">
-              <span>Storage date</span>
-              <span>
-                {new Date(item.createdAt).toLocaleDateString("en-GB", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </span>
-            </div>
-          </div>
+          <DialogFoodInfo item={item} />
 
           <div className="my-3">
             <div className="flex justify-between border-b p-0.5">
