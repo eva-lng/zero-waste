@@ -1,9 +1,8 @@
-"use client";
-import { useState } from "react";
 import moveFood from "@/app/actions/moveFood";
 import { FoodItemClient } from "@/lib/utils/types";
 import SubmitButton from "./SubmitButton";
 import DialogFoodInfo from "./DialogFoodInfo";
+import DialogFoodQty from "./DialogFoodQty";
 import { capitalize } from "@/lib/utils/utilities";
 import { LiaExchangeAltSolid } from "react-icons/lia";
 import { Button } from "@/components/ui/button";
@@ -19,10 +18,6 @@ import {
 } from "@/components/ui/dialog";
 
 const FoodMoveButton = ({ item }: { item: FoodItemClient }) => {
-  const [quantity, setQuantity] = useState(1);
-
-  const remaining = Math.max(0, item.quantity - quantity);
-
   const moveFoodById = moveFood.bind(null, item._id);
 
   return (
@@ -41,33 +36,9 @@ const FoodMoveButton = ({ item }: { item: FoodItemClient }) => {
               Select new storage for {item.name}.
             </DialogDescription> */}
           </DialogHeader>
-          <DialogFoodInfo item={item} />
 
-          <div className="my-3">
-            <div className="flex justify-between border-b p-0.5">
-              <span>Remaining</span>
-              <span>{remaining}</span>
-            </div>
-            <div className="flex justify-between p-0.5">
-              <label htmlFor="quantity" className="text-gray-700 font-bold">
-                Quantity
-              </label>
-              <input
-                type="number"
-                id="quantity"
-                name="quantity"
-                value={quantity}
-                onChange={(e) => {
-                  const val = Number(e.target.value);
-                  if (val <= item.quantity) setQuantity(val);
-                }}
-                min={0.25}
-                max={item.quantity}
-                step={0.25}
-                required
-              />
-            </div>
-          </div>
+          <DialogFoodInfo item={item} />
+          <DialogFoodQty item={item} />
 
           <div className="my-3">
             <div className="flex justify-between border-b p-0.5">

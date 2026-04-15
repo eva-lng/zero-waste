@@ -1,9 +1,8 @@
-"use client";
-import { useState } from "react";
 import { FoodItemClient } from "@/lib/utils/types";
 import openFood from "@/app/actions/openFood";
 import SubmitButton from "./SubmitButton";
 import DialogFoodInfo from "./DialogFoodInfo";
+import DialogFoodQty from "./DialogFoodQty";
 import { LuPackageOpen } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,10 +17,6 @@ import {
 } from "@/components/ui/dialog";
 
 const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
-  const [quantity, setQuantity] = useState(1);
-
-  const remaining = Math.max(0, item.quantity - quantity);
-
   const openFoodById = openFood.bind(null, item._id);
 
   return (
@@ -40,33 +35,9 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
               Open {item.name} and adjust expiration date (optional).
             </DialogDescription> */}
           </DialogHeader>
-          <DialogFoodInfo item={item} />
 
-          <div className="my-3">
-            <div className="flex justify-between border-b p-0.5">
-              <span>Remaining</span>
-              <span>{remaining}</span>
-            </div>
-            <div className="flex justify-between p-0.5">
-              <label htmlFor="quantity" className="text-gray-700 font-bold">
-                Quantity
-              </label>
-              <input
-                type="number"
-                id="quantity"
-                name="quantity"
-                value={quantity}
-                onChange={(e) => {
-                  const val = Number(e.target.value);
-                  if (val <= item.quantity) setQuantity(val);
-                }}
-                min={0.25}
-                max={item.quantity}
-                step={0.25}
-                required
-              />
-            </div>
-          </div>
+          <DialogFoodInfo item={item} />
+          <DialogFoodQty item={item} />
 
           <div className="my-3">
             <div className="flex justify-between border-b p-0.5">
