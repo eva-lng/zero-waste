@@ -3,6 +3,7 @@ import openFood from "@/app/actions/openFood";
 import SubmitButton from "./SubmitButton";
 import DialogFoodInfo from "./DialogFoodInfo";
 import DialogFoodQty from "./DialogFoodQty";
+import DateAdjustField from "./DateAdjustField";
 import { LuPackageOpen } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import {
@@ -50,7 +51,8 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
                 })}
               </span>
             </div>
-            <div className="flex justify-between p-0.5">
+
+            <div className="flex justify-between border-b p-0.5">
               <label
                 htmlFor="expirationDate"
                 className="text-gray-700 font-bold"
@@ -66,6 +68,8 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
               />
             </div>
           </div>
+
+          <DateAdjustField />
 
           <DialogFooter>
             <DialogClose asChild>
