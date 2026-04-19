@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import { FoodItemClient } from "@/lib/utils/types";
 import openFood from "@/app/actions/openFood";
 import SubmitButton from "./SubmitButton";
@@ -18,7 +20,33 @@ import {
 } from "@/components/ui/dialog";
 
 const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
+  const [expDateState, setExpDateState] = useState(
+    new Date(item.expirationDate).getTime(),
+  );
+  const [hasAdjusted, setHasAdjusted] = useState(false);
+
   const openFoodById = openFood.bind(null, item._id);
+
+  // console.log(item.expirationDate);
+  // console.log(new Date(expDateState).toISOString().split("T")[0]);
+
+  function adjustDate(numOfDays: number) {
+    const date = hasAdjusted ? new Date(expDateState) : new Date();
+
+    if (numOfDays < 30) {
+      date.setDate(date.getDate() + numOfDays);
+    } else if (numOfDays === 30) {
+      date.setMonth(date.getMonth() + 1);
+    } else if (numOfDays === 90) {
+      date.setMonth(date.getMonth() + 3);
+    } else if (numOfDays === 365) {
+      date.setFullYear(date.getFullYear() + 1);
+    }
+
+    setExpDateState(date.getTime());
+
+    if (!hasAdjusted) setHasAdjusted(true);
+  }
 
   return (
     <Dialog>
@@ -63,13 +91,16 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
                 type="date"
                 id="expirationDate"
                 name="expirationDate"
-                defaultValue={item.expirationDate.split("T")[0]}
+                value={new Date(expDateState).toISOString().split("T")[0]}
+                onChange={(e) =>
+                  setExpDateState(new Date(e.target.value).getTime())
+                }
                 required
               />
             </div>
           </div>
 
-          <DateAdjustField />
+          <DateAdjustField adjustDate={adjustDate} />
 
           <DialogFooter>
             <DialogClose asChild>
