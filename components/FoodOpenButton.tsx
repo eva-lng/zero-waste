@@ -25,13 +25,15 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
   );
   const [hasAdjusted, setHasAdjusted] = useState(false);
 
+  const openDate = new Date();
+
   const openFoodById = openFood.bind(null, item._id);
 
   // console.log(item.expirationDate);
   // console.log(new Date(expDateState).toISOString().split("T")[0]);
 
   function adjustDate(numOfDays: number) {
-    const date = hasAdjusted ? new Date(expDateState) : new Date();
+    const date = hasAdjusted ? new Date(expDateState) : openDate;
 
     if (numOfDays < 30) {
       date.setDate(date.getDate() + numOfDays);
@@ -72,7 +74,7 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
             <div className="flex justify-between border-b p-0.5">
               <span>Open date</span>
               <span>
-                {new Date().toLocaleDateString("en-GB", {
+                {openDate.toLocaleDateString("en-GB", {
                   day: "numeric",
                   month: "long",
                   year: "numeric",
@@ -92,9 +94,10 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
                 id="expirationDate"
                 name="expirationDate"
                 value={new Date(expDateState).toISOString().split("T")[0]}
-                onChange={(e) =>
-                  setExpDateState(new Date(e.target.value).getTime())
-                }
+                onChange={(e) => {
+                  setExpDateState(new Date(e.target.value).getTime());
+                  setHasAdjusted(true);
+                }}
                 required
               />
             </div>
