@@ -25,9 +25,9 @@ const DialogFoodQty = ({ item }: { item: FoodItemClient }) => {
             const val = Number(e.target.value);
             if (val <= item.quantity) setQuantity(val);
           }}
-          min={0.25}
+          min={0.1}
           max={item.quantity}
-          step={0.25}
+          step={0.1}
           required
         />
       </div>

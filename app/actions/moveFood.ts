@@ -28,7 +28,7 @@ async function moveFood(foodId: string, formData: FormData) {
   }
 
   const storageValue = formData.get("storage") as StorageType;
-  const moved = Number(formData.get("quantity"));
+  const moved = Math.round(Number(formData.get("quantity")) * 10) / 10;
 
   if (storageValue === foodItem.storage) {
     return;
