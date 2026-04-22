@@ -52,4 +52,4 @@ export interface FoodItemClient {
 
 export type ExpirationStateType = "fresh" | "soon" | "expired";
 
-export type FilterType = "category" | "storage" | "expiration";
+export type FilterType = "category" | "storage" | "expiration" | "open";

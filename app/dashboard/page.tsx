@@ -30,9 +30,13 @@ const DashboardPage = async () => {
   };
   let soonCount = 0;
   let expiredCount = 0;
+  let openCount = 0;
 
   for (const item of foodItems) {
     storageCount[item.storage]++;
+    if (item.isOpen) {
+      openCount++;
+    }
     if (isExpired(item.expirationDate)) {
       expiredCount++;
     } else if (isExpiringSoon(item.expirationDate)) {
@@ -75,8 +79,8 @@ const DashboardPage = async () => {
               <span>{expiredCount}</span>
             </li>
             <li className="flex justify-between">
-              <Link href="/items">Open</Link>
-              <span>0</span>
+              <Link href="/items?open=true">Open</Link>
+              <span>{openCount}</span>
             </li>
           </ul>
         </section>

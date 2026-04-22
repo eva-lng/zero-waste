@@ -26,12 +26,13 @@ const ItemsPage = async ({
     storage?: StorageType | StorageType[];
     expiration?: ExpirationStateType | ExpirationStateType[];
     category?: CategoryType | CategoryType[];
+    open?: "true";
     search?: string;
   }>;
 }) => {
   await dbConnect();
 
-  const { storage, expiration, category, search } = await searchParams;
+  const { storage, expiration, category, open, search } = await searchParams;
 
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -64,6 +65,7 @@ const ItemsPage = async ({
     status: "active",
     ...(storageArray.length > 0 ? { storage: { $in: storageArray } } : {}),
     ...(categoryArray.length > 0 ? { category: { $in: categoryArray } } : {}),
+    ...(open === "true" ? { isOpen: true } : {}),
     ...(search ? { name: { $regex: escapeRegex(search), $options: "i" } } : {}),
   })
     .sort({ expirationDate: 1 })
