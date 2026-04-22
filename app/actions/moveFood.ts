@@ -31,7 +31,7 @@ async function moveFood(foodId: string, formData: FormData) {
   const moved = Math.round(Number(formData.get("quantity")) * 10) / 10;
 
   if (storageValue === foodItem.storage) {
-    return;
+    throw new Error("Already in this storage");
     // return { error: "Already in this storage" }
   }
 
