@@ -51,6 +51,27 @@ const FilterPanel = ({
           </div>
         </section>
       ))}
+
+      <section>
+        <h3>Status</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3">
+          <div>
+            <label
+              htmlFor="open"
+              className={`cursor-pointer px-1 py-0.5 rounded border ${params.get("open") === "true" ? "bg-blue-500 text-white border-blue-500" : "bg-white border-gray-300"}`}
+            >
+              <input
+                type="checkbox"
+                hidden
+                id="open"
+                checked={params.get("open") === "true"}
+                onChange={() => toggleFilter("open", "true")}
+              />
+              Open
+            </label>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

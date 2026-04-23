@@ -20,15 +20,30 @@ const FiltersBar = () => {
 
   function toggleFilter(type: FilterType, value: string): void {
     const newParams = new URLSearchParams(params.toString());
-    const values = newParams.getAll(type);
 
-    if (values.includes(value)) {
-      newParams.delete(type);
-      values
-        .filter((v) => v !== value)
-        .forEach((v) => newParams.append(type, v));
+    if (type === "open") {
+      // for switching from open='true' to open='open' | 'closed'
+      // const current = newParams.get(type);
+      // if (current === value) {
+      //   newParams.delete(type);
+      // } else {
+      //   newParams.set(type, value);
+      // }
+
+      newParams.get(type) === "true"
+        ? newParams.delete(type)
+        : newParams.set(type, value);
     } else {
-      newParams.append(type, value);
+      const values = newParams.getAll(type);
+
+      if (values.includes(value)) {
+        newParams.delete(type);
+        values
+          .filter((v) => v !== value)
+          .forEach((v) => newParams.append(type, v));
+      } else {
+        newParams.append(type, value);
+      }
     }
     router.replace(`${pathname}?${newParams.toString()}`);
   }
