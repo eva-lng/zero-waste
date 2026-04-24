@@ -8,7 +8,6 @@ import {
   StorageType,
   ExpirationStateType,
   CategoryType,
-  FoodItemClient,
 } from "@/lib/utils/types";
 import {
   getExpirationState,
@@ -79,13 +78,6 @@ const ItemsPage = async ({
   }
 
   const serializedItems = foodItems.map((item) => toClient(item));
-
-  const itemsByStorage: Partial<Record<StorageType, FoodItemClient[]>> = {};
-  serializedItems.forEach((item) => {
-    const storage = item.storage as StorageType;
-    itemsByStorage[storage] = itemsByStorage[storage] || [];
-    itemsByStorage[storage].push(item);
-  });
 
   return (
     <>
