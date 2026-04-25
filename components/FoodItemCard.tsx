@@ -11,11 +11,11 @@ import FoodMoveButton from "./FoodMoveButton";
 
 const FoodItemCard = ({
   item,
-  isOpen,
+  isMenuOpen,
   onToggle,
 }: {
   item: FoodItemClient;
-  isOpen: boolean;
+  isMenuOpen: boolean;
   onToggle: () => void;
 }) => {
   return (
@@ -38,7 +38,7 @@ const FoodItemCard = ({
           </button>
         </div>
       </div>
-      {isOpen && (
+      {isMenuOpen && (
         <div className="flex justify-between items-center">
           <FoodConsumeButton item={item} />
           <FoodExpireButton item={item} />

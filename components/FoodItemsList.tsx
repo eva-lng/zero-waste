@@ -27,7 +27,7 @@ const FoodItemsList = ({ items }: { items: FoodItemClient[] }) => {
                 <li key={item._id}>
                   <FoodItemCard
                     item={item}
-                    isOpen={item._id === openId}
+                    isMenuOpen={item._id === openId}
                     onToggle={() =>
                       setOpenId((prev) => (prev === item._id ? null : item._id))
                     }
