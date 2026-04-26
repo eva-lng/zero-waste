@@ -31,6 +31,7 @@ async function updateFood(foodId: string, formData: FormData) {
 
   const detailsValue = formData.get("details");
   const isOpenValue = formData.get("isOpen") === "true";
+  const quantityValue = Math.round(Number(formData.get("quantity")) * 4) / 4;
 
   const foodData = {
     name: formData.get("name") as string,
@@ -40,7 +41,7 @@ async function updateFood(foodId: string, formData: FormData) {
         ? detailsValue
         : undefined,
     unit: formData.get("unit") as FoodItemDB["unit"],
-    quantity: Number(formData.get("quantity")),
+    quantity: quantityValue,
     expirationDate: new Date(formData.get("expirationDate") as string),
     storage: formData.get("storage") as FoodItemDB["storage"],
     isOpen: isOpenValue as boolean,

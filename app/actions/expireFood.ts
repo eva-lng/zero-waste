@@ -27,7 +27,7 @@ async function expireFood(foodId: string, formData: FormData) {
     throw new Error("Unauthorized");
   }
 
-  const wasted = Math.round(Number(formData.get("quantity")) * 10) / 10;
+  const wasted = Math.round(Number(formData.get("quantity")) * 4) / 4;
 
   if (!wasted || isNaN(wasted) || wasted <= 0) {
     throw new Error("Invalid quantity");

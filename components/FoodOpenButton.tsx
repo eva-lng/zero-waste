@@ -29,9 +29,6 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
 
   const openFoodById = openFood.bind(null, item._id);
 
-  // console.log(item.expirationDate);
-  // console.log(new Date(expDateState).toISOString().split("T")[0]);
-
   function adjustDate(numOfDays: number) {
     const date = hasAdjusted ? new Date(expDateState) : openDate;
 

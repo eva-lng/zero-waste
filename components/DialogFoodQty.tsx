@@ -27,7 +27,7 @@ const DialogFoodQty = ({ item }: { item: FoodItemClient }) => {
           }}
           min={0.1}
           max={item.quantity}
-          step={0.1}
+          step={0.25}
           required
         />
       </div>
