@@ -20,12 +20,22 @@ import {
 } from "@/components/ui/dialog";
 
 const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
-  const [expDateState, setExpDateState] = useState(
-    new Date(item.expirationDate).getTime(),
-  );
+  const [open, setOpen] = useState(false);
+
+  const initialDate = new Date(item.expirationDate).getTime();
+
+  const [expDateState, setExpDateState] = useState(initialDate);
   const [hasAdjusted, setHasAdjusted] = useState(false);
 
   const openDate = new Date();
+
+  function handleOpenChange(isOpen: boolean) {
+    setOpen(isOpen);
+    if (isOpen) {
+      setExpDateState(initialDate);
+      setHasAdjusted(false);
+    }
+  }
 
   const openFoodById = openFood.bind(null, item._id);
 
@@ -48,7 +58,7 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <div className="flex flex-col items-center cursor-pointer">
           <LuPackageOpen size={25} />
