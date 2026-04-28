@@ -89,7 +89,9 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
               </span>
             </div>
 
-            <div className="flex justify-between border-b p-0.5">
+            <DateAdjustField adjustDate={adjustDate} />
+
+            <div className="flex justify-between p-0.5">
               <label
                 htmlFor="expirationDate"
                 className="text-gray-700 font-bold"
@@ -109,8 +111,6 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
               />
             </div>
           </div>
-
-          <DateAdjustField adjustDate={adjustDate} />
 
           <DialogFooter>
             <DialogClose asChild>

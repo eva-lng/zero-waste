@@ -6,7 +6,7 @@ const DateAdjustField = ({
   adjustDate: (numOfDays: number) => void;
 }) => {
   return (
-    <div className="flex flex-wrap gap-2 p-0.5">
+    <div className="flex flex-wrap gap-2 border-b p-0.5">
       <DateAdjustButton label="+ 1D" adjustDate={() => adjustDate(1)} />
       <DateAdjustButton label="+ 3D" adjustDate={() => adjustDate(3)} />
       <DateAdjustButton label="+ 5D" adjustDate={() => adjustDate(5)} />

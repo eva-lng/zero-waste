@@ -4,7 +4,7 @@ import { FoodItemClient } from "@/lib/utils/types";
 
 const DialogFoodQty = ({ item }: { item: FoodItemClient }) => {
   const [quantity, setQuantity] = useState(1);
-  const remaining = Math.max(0, item.quantity - quantity);
+  const remaining = Math.round(Math.max(0, item.quantity - quantity));
 
   return (
     <div className="my-3">
@@ -25,7 +25,7 @@ const DialogFoodQty = ({ item }: { item: FoodItemClient }) => {
             const val = Number(e.target.value);
             if (val <= item.quantity) setQuantity(val);
           }}
-          min={0.1}
+          min={0.25}
           max={item.quantity}
           step={0.25}
           required
