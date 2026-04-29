@@ -39,10 +39,7 @@ async function consumeFood(foodId: string, formData: FormData) {
   }
 
   const total = Math.max(0, foodItem.quantity - consumed);
-  let status: StatusType = "active";
-  if (total === 0) {
-    status = "finished";
-  }
+  let status: StatusType = total === 0 ? "finished" : "active";
 
   await foodItem.updateOne({
     quantity: total,

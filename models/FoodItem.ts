@@ -18,12 +18,15 @@ const FoodItemSchema = new Schema(
     },
     unit: {
       type: String,
-      enum: ["piece", "package"],
+      enum: ["piece", "package", "g", "ml"],
       required: true,
     },
     quantity: {
       type: Number,
       required: true,
+    },
+    gramsPerUnit: {
+      type: Number,
     },
     expirationDate: {
       type: Date,

@@ -1,7 +1,12 @@
+"use client";
+import { useState } from "react";
 import addFood from "@/app/actions/addFood";
 import SubmitButton from "./SubmitButton";
+import { capitalize } from "@/lib/utils/utilities";
 
 const FoodAddForm = () => {
+  const [unit, setUnit] = useState("piece");
+
   return (
     <form action={addFood} className="text-center">
       <div className="mb-3">
@@ -64,10 +69,14 @@ const FoodAddForm = () => {
           name="unit"
           id="unit"
           className="border rounded py-1 px-2"
+          value={unit}
+          onChange={(e) => setUnit(e.target.value)}
           required
         >
           <option value="piece">Piece</option>
           <option value="package">Package</option>
+          <option value="g">g</option>
+          <option value="ml">ml</option>
         </select>
       </div>
 
@@ -88,6 +97,26 @@ const FoodAddForm = () => {
           required
         />
       </div>
+
+      {(unit === "piece" || unit === "package") && (
+        <div className="mb-3">
+          <label
+            htmlFor="gramsPerUnit"
+            className="block text-gray-700 font-bold mb-1.5"
+          >
+            Grams per {capitalize(unit)}
+          </label>
+          <input
+            type="number"
+            id="gramsPerUnit"
+            name="gramsPerUnit"
+            className="border rounded py-1 px-2"
+            min={1}
+            step={1}
+            required
+          />
+        </div>
+      )}
 
       <div className="mb-3">
         <label

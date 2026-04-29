@@ -10,7 +10,7 @@ export type CategoryType =
   | "meat"
   | "other";
 
-export type UnitType = "piece" | "package";
+export type UnitType = "piece" | "package" | "g" | "ml";
 
 export type StatusType = "active" | "finished";
 
@@ -22,6 +22,7 @@ export interface FoodItemDB {
   category: CategoryType;
   unit: UnitType;
   quantity: number;
+  gramsPerUnit?: number;
   expirationDate: Date;
   storage: StorageType;
   status: StatusType;
@@ -40,6 +41,7 @@ export interface FoodItemClient {
   category: CategoryType;
   unit: UnitType;
   quantity: number;
+  gramsPerUnit?: number;
   expirationDate: string;
   storage: StorageType;
   status: StatusType;

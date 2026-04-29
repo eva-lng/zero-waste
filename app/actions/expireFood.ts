@@ -39,10 +39,7 @@ async function expireFood(foodId: string, formData: FormData) {
   }
 
   const total = Math.max(0, foodItem.quantity - wasted);
-  let status: StatusType = "active";
-  if (total === 0) {
-    status = "finished";
-  }
+  let status: StatusType = total === 0 ? "finished" : "active";
 
   await foodItem.updateOne({
     quantity: total,
