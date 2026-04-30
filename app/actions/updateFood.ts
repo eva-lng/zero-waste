@@ -32,6 +32,11 @@ async function updateFood(foodId: string, formData: FormData) {
   const detailsValue = formData.get("details");
   const isOpenValue = formData.get("isOpen") === "true";
   const quantityValue = Math.round(Number(formData.get("quantity")) * 4) / 4;
+  const unitValue = formData.get("unit");
+  const gramsPerUnitValue =
+    unitValue === "g" || unitValue === "ml"
+      ? 1
+      : Number(formData.get("gramsPerUnit"));
 
   const foodData = {
     name: formData.get("name") as string,
@@ -40,11 +45,12 @@ async function updateFood(foodId: string, formData: FormData) {
       typeof detailsValue === "string" && detailsValue.trim() !== ""
         ? detailsValue
         : undefined,
-    unit: formData.get("unit") as FoodItemDB["unit"],
+    unit: unitValue as FoodItemDB["unit"],
     quantity: quantityValue,
+    gramsPerUnit: gramsPerUnitValue,
     expirationDate: new Date(formData.get("expirationDate") as string),
     storage: formData.get("storage") as FoodItemDB["storage"],
-    isOpen: isOpenValue as boolean,
+    isOpen: isOpenValue,
     openedAt:
       !existingFoodItem.openedAt && isOpenValue
         ? new Date()

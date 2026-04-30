@@ -1,8 +1,13 @@
+"use client";
+import { useState } from "react";
 import updateFood from "@/app/actions/updateFood";
-import { FoodItemDB } from "@/lib/utils/types";
+import { FoodItemClient } from "@/lib/utils/types";
 import SubmitButton from "./SubmitButton";
+import { capitalize } from "@/lib/utils/utilities";
 
-const FoodEditForm = ({ foodItem }: { foodItem: FoodItemDB }) => {
+const FoodEditForm = ({ foodItem }: { foodItem: FoodItemClient }) => {
+  const [unit, setUnit] = useState(foodItem.unit as string);
+
   const updateFoodById = updateFood.bind(null, foodItem._id.toString());
 
   return (
@@ -78,11 +83,14 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemDB }) => {
             name="unit"
             id="unit"
             className="border rounded py-1 px-2"
-            defaultValue={foodItem.unit}
+            value={unit}
+            onChange={(e) => setUnit(e.target.value)}
             required
           >
             <option value="piece">Piece</option>
             <option value="package">Package</option>
+            <option value="g">g</option>
+            <option value="ml">ml</option>
           </select>
         </div>
 
@@ -98,12 +106,33 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemDB }) => {
             id="quantity"
             name="quantity"
             className="border rounded py-1 px-2"
-            min={0.25}
-            step={0.25}
+            min={unit === "piece" || unit === "package" ? 0.25 : 1}
+            step={unit === "piece" || unit === "package" ? 0.25 : 1}
             defaultValue={foodItem.quantity}
             required
           />
         </div>
+
+        {(unit === "piece" || unit === "package") && (
+          <div className="mb-3">
+            <label
+              htmlFor="gramsPerUnit"
+              className="block text-gray-700 font-bold mb-1.5"
+            >
+              Grams per {capitalize(unit)}
+            </label>
+            <input
+              type="number"
+              id="gramsPerUnit"
+              name="gramsPerUnit"
+              className="border rounded py-1 px-2"
+              defaultValue={foodItem.gramsPerUnit ? foodItem.gramsPerUnit : ""}
+              min={1}
+              step={1}
+              required
+            />
+          </div>
+        )}
 
         <div className="mb-3">
           <label

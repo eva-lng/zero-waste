@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import FoodItem from "@/models/FoodItem";
 import { FoodItemDB } from "@/lib/utils/types";
 import FoodEditForm from "@/components/FoodEditForm";
+import { toClient } from "@/lib/utils/utilities";
 
 const EditFoodPage = async ({
   params,
@@ -34,9 +35,11 @@ const EditFoodPage = async ({
     );
   }
 
+  const serializedItem = toClient(foodItem);
+
   return (
     <section>
-      <FoodEditForm foodItem={foodItem} />
+      <FoodEditForm foodItem={serializedItem} />
     </section>
   );
 };

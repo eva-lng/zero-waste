@@ -38,7 +38,7 @@ async function addFood(formData: FormData) {
       typeof detailsValue === "string" && detailsValue.trim() !== ""
         ? detailsValue
         : undefined,
-    unit: formData.get("unit") as FoodItemDB["unit"],
+    unit: unitValue as FoodItemDB["unit"],
     quantity: quantityValue,
     gramsPerUnit: gramsPerUnitValue,
     expirationDate: new Date(formData.get("expirationDate") as string),

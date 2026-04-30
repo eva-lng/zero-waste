@@ -92,8 +92,8 @@ const FoodAddForm = () => {
           id="quantity"
           name="quantity"
           className="border rounded py-1 px-2"
-          min={0.25}
-          step={0.25}
+          min={unit === "piece" || unit === "package" ? 0.25 : 1}
+          step={unit === "piece" || unit === "package" ? 0.25 : 1}
           required
         />
       </div>
