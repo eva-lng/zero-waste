@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import updateFood from "@/app/actions/updateFood";
 import { FoodItemClient } from "@/lib/utils/types";
 import SubmitButton from "./SubmitButton";
@@ -7,6 +8,8 @@ import { capitalize } from "@/lib/utils/utilities";
 
 const FoodEditForm = ({ foodItem }: { foodItem: FoodItemClient }) => {
   const [unit, setUnit] = useState(foodItem.unit as string);
+
+  const router = useRouter();
 
   const updateFoodById = updateFood.bind(null, foodItem._id.toString());
 
@@ -201,6 +204,14 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemClient }) => {
         </div>
 
         <div>
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline"
+          >
+            Cancel
+          </button>
+
           <SubmitButton className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline">
             Update Food
           </SubmitButton>

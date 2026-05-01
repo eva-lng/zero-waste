@@ -1,11 +1,14 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import addFood from "@/app/actions/addFood";
 import SubmitButton from "./SubmitButton";
 import { capitalize } from "@/lib/utils/utilities";
 
 const FoodAddForm = () => {
   const [unit, setUnit] = useState("piece");
+
+  const router = useRouter();
 
   return (
     <form action={addFood} className="text-center">
@@ -175,6 +178,14 @@ const FoodAddForm = () => {
       </div>
 
       <div>
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline"
+        >
+          Cancel
+        </button>
+
         <SubmitButton className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline">
           Add Food
         </SubmitButton>
