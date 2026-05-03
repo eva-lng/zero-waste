@@ -17,7 +17,10 @@ export async function getAllTimeStats(userId: string) {
       },
     },
   ]);
-  return res;
+  return {
+    consumed: res[0]?.consumed ?? 0,
+    wasted: res[0]?.$wasted ?? 0,
+  };
 }
 
 export async function getMonthlyWaste(
@@ -43,7 +46,7 @@ export async function getMonthlyWaste(
       },
     },
   ]);
-  return res;
+  return res[0]?.wasted ?? 0;
 }
 
 export async function getCategoryStats(userId: string) {
@@ -60,14 +63,20 @@ export async function getCategoryStats(userId: string) {
       },
     },
   ]);
-  return res;
+  return res.length > 0
+    ? res.map((item) => ({
+        category: item._id,
+        consumed: item.consumed,
+        wasted: item.wasted,
+      }))
+    : [];
 }
 
 export async function getMonthlyCategoryStats(
   userId: string,
   year: number,
   month: number,
-) {
+): Promise<{ _id: string; wasted: number }[]> {
   await dbConnect();
   const startOfMonth = new Date(year, month - 1, 1);
   const startOfNextMonth = new Date(year, month, 1);
