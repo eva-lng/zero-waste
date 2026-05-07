@@ -23,8 +23,11 @@ async function addFood(formData: FormData) {
 
   const detailsValue = formData.get("details");
   const isOpenValue = formData.get("isOpen") === "true";
-  const quantityValue = Math.round(Number(formData.get("quantity")) * 4) / 4;
   const unitValue = formData.get("unit");
+  const quantityValue =
+    unitValue === "g" || unitValue === "ml"
+      ? Math.round(Number(formData.get("quantity")))
+      : Math.round(Number(formData.get("quantity")) * 4) / 4;
   const gramsPerUnitValue =
     unitValue === "g" || unitValue === "ml"
       ? 1
