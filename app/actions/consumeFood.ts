@@ -27,7 +27,11 @@ async function consumeFood(foodId: string, formData: FormData) {
     throw new Error("Unauthorized");
   }
 
-  const consumed = Math.round(Number(formData.get("quantity")) * 4) / 4;
+  const unit = foodItem.unit;
+  const consumed =
+    unit === "g" || unit === "ml"
+      ? Math.round(Number(formData.get("quantity")))
+      : Math.round(Number(formData.get("quantity")) * 4) / 4;
 
   if (!consumed || isNaN(consumed) || consumed <= 0) {
     throw new Error("Invalid quantity");

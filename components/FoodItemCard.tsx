@@ -26,7 +26,9 @@ const FoodItemCard = ({
             <h3>{item.name}</h3>
             <span>
               {item.quantity} {item.unit}
-              {item.quantity > 1 && "s"}
+              {(item.unit === "piece" || item.unit === "package") &&
+                item.quantity > 1 &&
+                "s"}
             </span>
             <span>{getExpirationLabel(new Date(item.expirationDate))}</span>
             <span>{item.category}</span>

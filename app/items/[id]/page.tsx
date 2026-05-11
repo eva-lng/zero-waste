@@ -51,7 +51,9 @@ const FoodItemPage = async ({
         <p>Category: {foodItem.category}</p>
         <p>
           Amount: {foodItem.quantity} {foodItem.unit}
-          {foodItem.quantity > 1 && "s"}
+          {(foodItem.unit === "piece" || foodItem.unit === "package") &&
+            foodItem.quantity > 1 &&
+            "s"}
         </p>
         <p>Storage: {foodItem.storage}</p>
 

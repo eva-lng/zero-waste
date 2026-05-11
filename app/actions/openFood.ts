@@ -28,7 +28,11 @@ async function openFood(foodId: string, formData: FormData) {
   }
 
   const expirationDateValue = formData.get("expirationDate");
-  const opened = Math.round(Number(formData.get("quantity")) * 4) / 4;
+  const unit = foodItem.unit;
+  const opened =
+    unit === "g" || unit === "ml"
+      ? Math.round(Number(formData.get("quantity")))
+      : Math.round(Number(formData.get("quantity")) * 4) / 4;
 
   if (!opened || isNaN(opened) || opened <= 0) {
     throw new Error("Invalid quantity");
