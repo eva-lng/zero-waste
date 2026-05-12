@@ -49,11 +49,11 @@ const FoodItemSchema = new Schema(
     openedAt: {
       type: Date,
     },
-    consumedQty: {
+    consumedGrams: {
       type: Number,
       default: 0,
     },
-    wastedQty: {
+    wastedGrams: {
       type: Number,
       default: 0,
     },

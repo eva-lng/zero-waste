@@ -47,7 +47,7 @@ async function expireFood(foodId: string, formData: FormData) {
 
   await foodItem.updateOne({
     quantity: total,
-    wastedQty: foodItem.wastedQty + wasted,
+    wastedGrams: foodItem.wastedGrams + wasted * foodItem.gramsPerUnit,
     status: status,
   });
 

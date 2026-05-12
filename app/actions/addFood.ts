@@ -50,7 +50,7 @@ async function addFood(formData: FormData) {
     openedAt: isOpenValue ? new Date() : undefined,
   } satisfies Omit<
     FoodItemDB,
-    "_id" | "createdAt" | "status" | "consumedQty" | "wastedQty"
+    "_id" | "createdAt" | "status" | "consumedGrams" | "wastedGrams"
   >;
 
   const newFood = await FoodItem.create(foodData);

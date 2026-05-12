@@ -28,8 +28,8 @@ export interface FoodItemDB {
   status: StatusType;
   isOpen: boolean;
   openedAt?: Date;
-  consumedQty: number;
-  wastedQty: number;
+  consumedGrams: number;
+  wastedGrams: number;
   createdAt: Date;
 }
 
@@ -47,8 +47,8 @@ export interface FoodItemClient {
   status: StatusType;
   isOpen: boolean;
   openedAt?: string;
-  consumedQty: number;
-  wastedQty: number;
+  consumedGrams: number;
+  wastedGrams: number;
   createdAt: string;
 }
 

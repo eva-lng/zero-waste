@@ -63,7 +63,7 @@ async function updateFood(foodId: string, formData: FormData) {
   } satisfies Partial<
     Omit<
       FoodItemDB,
-      "_id" | "createdAt" | "status" | "consumedQty" | "wastedQty"
+      "_id" | "createdAt" | "status" | "consumedGrams" | "wastedGrams"
     >
   >;
 

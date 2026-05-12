@@ -47,7 +47,7 @@ async function consumeFood(foodId: string, formData: FormData) {
 
   await foodItem.updateOne({
     quantity: total,
-    consumedQty: foodItem.consumedQty + consumed,
+    consumedGrams: foodItem.consumedGrams + consumed * foodItem.gramsPerUnit,
     status: status,
   });
 
