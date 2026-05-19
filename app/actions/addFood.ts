@@ -2,6 +2,8 @@
 import dbConnect from "@/lib/mongodb";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { foodSchema } from "@/lib/utils/schemas";
+import { z } from "zod";
 import FoodItem from "@/models/FoodItem";
 import { Types } from "mongoose";
 import { FoodItemDB } from "@/lib/utils/types";
@@ -21,43 +23,68 @@ async function addFood(formData: FormData) {
 
   const userId = session.user.id;
 
-  const detailsValue = formData.get("details");
-  const isOpenValue = formData.get("isOpen") === "true";
-  const unitValue = formData.get("unit");
-  const quantityValue =
-    unitValue === "g" || unitValue === "ml"
-      ? Math.round(Number(formData.get("quantity")))
-      : Math.round(Number(formData.get("quantity")) * 4) / 4;
-  const gramsPerUnitValue =
-    unitValue === "g" || unitValue === "ml"
-      ? 1
-      : Number(formData.get("gramsPerUnit"));
+  const rawData = {
+    name: formData.get("name"),
+    category: formData.get("category"),
+    details: formData.get("details"),
+    unit: formData.get("unit"),
+    quantity: formData.get("quantity"),
+    gramsPerUnit: formData.get("gramsPerUnit"),
+    expirationDate: formData.get("expirationDate"),
+    storage: formData.get("storage"),
+    isOpen: formData.get("isOpen"),
+  };
 
-  const foodData = {
-    user: new Types.ObjectId(userId),
-    name: formData.get("name") as string,
-    category: formData.get("category") as FoodItemDB["category"],
-    details:
-      typeof detailsValue === "string" && detailsValue.trim() !== ""
-        ? detailsValue
-        : undefined,
-    unit: unitValue as FoodItemDB["unit"],
-    quantity: quantityValue,
-    gramsPerUnit: gramsPerUnitValue,
-    expirationDate: new Date(formData.get("expirationDate") as string),
-    storage: formData.get("storage") as FoodItemDB["storage"],
-    isOpen: isOpenValue,
-    openedAt: isOpenValue ? new Date() : undefined,
-  } satisfies Omit<
-    FoodItemDB,
-    "_id" | "createdAt" | "status" | "consumedGrams" | "wastedGrams"
-  >;
+  // zod validation
+  const validated = foodSchema.safeParse(rawData);
 
-  const newFood = await FoodItem.create(foodData);
-  await newFood.save();
+  // return errors if val not successful
+  if (!validated.success) {
+    const flattened = z.flattenError(validated.error);
+    console.log(validated.error.issues);
+    console.log(flattened.fieldErrors);
+  } else {
+    console.log("success");
+  }
 
-  revalidatePath("/", "layout");
-  redirect("/dashboard");
+  // const detailsValue = formData.get("detailsValue");
+  // const unitValue = formData.get("unit");
+  // const isOpenValue = formData.get("isOpen") === "true";
+  // const quantityValue =
+  //   unitValue === "g" || unitValue === "ml"
+  //     ? Math.round(Number(formData.get("quantity")))
+  //     : Math.round(Number(formData.get("quantity")) * 4) / 4;
+  // const gramsPerUnitValue =
+  //   unitValue === "g" || unitValue === "ml"
+  //     ? 1
+  //     : Number(formData.get("gramsPerUnit"));
+
+  // save to db if validation successful
+  // const foodData = {
+  //   user: new Types.ObjectId(userId),
+  //   name: formData.get("name") as string,
+  //   category: formData.get("category") as FoodItemDB["category"],
+  //   details:
+  //     typeof detailsValue === "string" && detailsValue.trim() !== ""
+  //       ? detailsValue
+  //       : undefined,
+  //   unit: unitValue as FoodItemDB["unit"],
+  //   quantity: quantityValue,
+  //   gramsPerUnit: gramsPerUnitValue,
+  //   expirationDate: new Date(formData.get("expirationDate") as string),
+  //   storage: formData.get("storage") as FoodItemDB["storage"],
+  //   isOpen: isOpenValue,
+  //   openedAt: isOpenValue ? new Date() : undefined,
+  // } satisfies Omit<
+  //   FoodItemDB,
+  //   "_id" | "createdAt" | "status" | "consumedGrams" | "wastedGrams"
+  // >;
+
+  // const newFood = await FoodItem.create(foodData);
+  // await newFood.save();
+
+  // revalidatePath("/", "layout");
+  // redirect("/dashboard");
 }
 
 export default addFood;

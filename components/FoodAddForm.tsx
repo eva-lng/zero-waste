@@ -22,7 +22,7 @@ const FoodAddForm = () => {
           name="name"
           className="border rounded py-1 px-2"
           placeholder="E.g. apple"
-          required
+          // required
         />
       </div>
 
@@ -37,7 +37,7 @@ const FoodAddForm = () => {
           name="category"
           id="category"
           className="border rounded py-1 px-2"
-          required
+          // required
         >
           <option value="fruits">Fruits</option>
           <option value="vegetables">Vegetables</option>
@@ -74,7 +74,7 @@ const FoodAddForm = () => {
           className="border rounded py-1 px-2"
           value={unit}
           onChange={(e) => setUnit(e.target.value)}
-          required
+          // required
         >
           <option value="piece">Piece</option>
           <option value="package">Package</option>
@@ -95,9 +95,9 @@ const FoodAddForm = () => {
           id="quantity"
           name="quantity"
           className="border rounded py-1 px-2"
-          min={unit === "piece" || unit === "package" ? 0.25 : 1}
+          // min={unit === "piece" || unit === "package" ? 0.25 : 1}
           step={unit === "piece" || unit === "package" ? 0.25 : 1}
-          required
+          // required
         />
       </div>
 
@@ -114,9 +114,9 @@ const FoodAddForm = () => {
             id="gramsPerUnit"
             name="gramsPerUnit"
             className="border rounded py-1 px-2"
-            min={1}
-            step={1}
-            required
+            // min={1}
+            // step={1}
+            // required
           />
         </div>
       )}
@@ -133,7 +133,7 @@ const FoodAddForm = () => {
           id="expirationDate"
           name="expirationDate"
           className="border rounded py-1 px-2"
-          required
+          // required
         />
       </div>
 
@@ -148,7 +148,7 @@ const FoodAddForm = () => {
           name="storage"
           id="storage"
           className="border rounded py-1 px-2"
-          required
+          // required
         >
           <option value="pantry">Pantry</option>
           <option value="fridge">Fridge</option>
