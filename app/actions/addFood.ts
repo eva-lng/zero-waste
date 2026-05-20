@@ -37,10 +37,8 @@ async function addFood(prevState: any, formData: FormData) {
 
   console.log("rawData:", rawData);
 
-  // zod validation
   const validatedFields = foodSchema.safeParse(rawData);
 
-  // return errors if val not successful
   if (!validatedFields.success) {
     const flattened = z.flattenError(validatedFields.error);
     return {
@@ -49,9 +47,22 @@ async function addFood(prevState: any, formData: FormData) {
       errors: flattened.fieldErrors,
       message: "",
     };
-  } else {
-    console.log("success");
   }
+  console.log("validatedFields.data:", validatedFields.data);
+
+  const foodData = {
+    ...validatedFields.data,
+    user: new Types.ObjectId(userId),
+    openedAt: validatedFields.data.isOpen ? new Date() : undefined,
+    gramsPerUnit: validatedFields.data.gramsPerUnit
+      ? validatedFields.data.gramsPerUnit
+      : 1,
+  } satisfies Omit<
+    FoodItemDB,
+    "_id" | "createdAt" | "status" | "consumedGrams" | "wastedGrams"
+  >;
+
+  console.log("foodData:", foodData);
 
   // const detailsValue = formData.get("detailsValue");
   // const unitValue = formData.get("unit");
@@ -86,11 +97,11 @@ async function addFood(prevState: any, formData: FormData) {
   //   "_id" | "createdAt" | "status" | "consumedGrams" | "wastedGrams"
   // >;
 
-  // const newFood = await FoodItem.create(foodData);
-  // await newFood.save();
+  const newFood = await FoodItem.create(foodData);
+  await newFood.save();
 
-  // revalidatePath("/", "layout");
-  // redirect("/dashboard");
+  revalidatePath("/", "layout");
+  redirect("/items");
 }
 
 export default addFood;
