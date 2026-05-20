@@ -1,17 +1,46 @@
 "use client";
-import { useState } from "react";
+import { useState, useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import addFood from "@/app/actions/addFood";
 import SubmitButton from "./SubmitButton";
 import { capitalize } from "@/lib/utils/utilities";
 
+const initialState = {
+  data: {
+    name: "",
+    category: "",
+    details: "",
+    unit: "",
+    quantity: "",
+    gramsPerUnit: "",
+    expirationDate: "",
+    storage: "",
+    isOpen: "false",
+  },
+  errors: {},
+  message: "",
+};
+
 const FoodAddForm = () => {
-  const [unit, setUnit] = useState("piece");
+  const [formState, formAction, pending] = useActionState(
+    addFood,
+    initialState,
+  );
+  const [unit, setUnit] = useState(formState.data.unit || "piece");
 
   const router = useRouter();
 
+  useEffect(() => {
+    console.log("formState: ", formState);
+    // setUnit(formState.data.unit || "piece");
+  }, [formState]);
+
   return (
-    <form action={addFood} className="text-center">
+    <form
+      key={JSON.stringify(formState.data)}
+      action={formAction}
+      className="text-center"
+    >
       <div className="mb-3">
         <label htmlFor="name" className="block text-gray-700 font-bold mb-1.5">
           Food Item Name
@@ -22,8 +51,14 @@ const FoodAddForm = () => {
           name="name"
           className="border rounded py-1 px-2"
           placeholder="E.g. apple"
+          defaultValue={formState.data.name}
           // required
         />
+        <div>
+          {formState.errors?.name && (
+            <small className="text-red-500">{formState.errors.name[0]}</small>
+          )}
+        </div>
       </div>
 
       <div className="mb-3">
@@ -37,6 +72,7 @@ const FoodAddForm = () => {
           name="category"
           id="category"
           className="border rounded py-1 px-2"
+          defaultValue={formState.data.category}
           // required
         >
           <option value="fruits">Fruits</option>
@@ -46,6 +82,13 @@ const FoodAddForm = () => {
           <option value="meat">Meat</option>
           <option value="other">Other</option>
         </select>
+        <div>
+          {formState.errors?.category && (
+            <small className="text-red-500">
+              {formState.errors.category[0]}
+            </small>
+          )}
+        </div>
       </div>
 
       <div className="mb-3">
@@ -61,7 +104,15 @@ const FoodAddForm = () => {
           name="details"
           className="border rounded py-1 px-2"
           placeholder="E.g. brand, flavor..."
+          defaultValue={formState.data.details}
         />
+        <div>
+          {formState.errors?.details && (
+            <small className="text-red-500">
+              {formState.errors.details[0]}
+            </small>
+          )}
+        </div>
       </div>
 
       <div className="mb-3">
@@ -81,6 +132,11 @@ const FoodAddForm = () => {
           <option value="g">g</option>
           <option value="ml">ml</option>
         </select>
+        <div>
+          {formState.errors?.unit && (
+            <small className="text-red-500">{formState.errors.unit[0]}</small>
+          )}
+        </div>
       </div>
 
       <div className="mb-3">
@@ -96,9 +152,18 @@ const FoodAddForm = () => {
           name="quantity"
           className="border rounded py-1 px-2"
           // min={unit === "piece" || unit === "package" ? 0.25 : 1}
-          step={unit === "piece" || unit === "package" ? 0.25 : 1}
+          // step={unit === "piece" || unit === "package" ? 0.25 : 1}
+          step={0.25}
+          defaultValue={formState.data.quantity}
           // required
         />
+        <div>
+          {formState.errors?.quantity && (
+            <small className="text-red-500">
+              {formState.errors.quantity[0]}
+            </small>
+          )}
+        </div>
       </div>
 
       {(unit === "piece" || unit === "package") && (
@@ -115,9 +180,17 @@ const FoodAddForm = () => {
             name="gramsPerUnit"
             className="border rounded py-1 px-2"
             // min={1}
-            // step={1}
+            step={1}
+            defaultValue={formState.data.gramsPerUnit}
             // required
           />
+          <div>
+            {formState.errors?.gramsPerUnit && (
+              <small className="text-red-500">
+                {formState.errors.gramsPerUnit[0]}
+              </small>
+            )}
+          </div>
         </div>
       )}
 
@@ -133,8 +206,16 @@ const FoodAddForm = () => {
           id="expirationDate"
           name="expirationDate"
           className="border rounded py-1 px-2"
+          defaultValue={formState.data.expirationDate}
           // required
         />
+        <div>
+          {formState.errors?.expirationDate && (
+            <small className="text-red-500">
+              {formState.errors.expirationDate[0]}
+            </small>
+          )}
+        </div>
       </div>
 
       <div className="mb-3">
@@ -148,32 +229,53 @@ const FoodAddForm = () => {
           name="storage"
           id="storage"
           className="border rounded py-1 px-2"
+          defaultValue={formState.data.storage}
           // required
         >
           <option value="pantry">Pantry</option>
           <option value="fridge">Fridge</option>
           <option value="freezer">Freezer</option>
         </select>
+        <div>
+          {formState.errors?.storage && (
+            <small className="text-red-500">
+              {formState.errors.storage[0]}
+            </small>
+          )}
+        </div>
       </div>
 
-      <div className="mb-3 flex justify-center gap-3">
-        <div>
-          <input
-            type="radio"
-            id="closed"
-            name="isOpen"
-            value="false"
-            defaultChecked
-          />
-          <label htmlFor="closed" className="ml-1">
-            Closed
-          </label>
+      <div className="mb-3">
+        <div className="flex justify-center gap-3">
+          <div>
+            <input
+              type="radio"
+              id="closed"
+              name="isOpen"
+              value="false"
+              defaultChecked={formState.data.isOpen === "false"}
+            />
+            <label htmlFor="closed" className="ml-1">
+              Closed
+            </label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="open"
+              name="isOpen"
+              value="true"
+              defaultChecked={formState.data.isOpen === "true"}
+            />
+            <label htmlFor="open" className="ml-1">
+              Open
+            </label>
+          </div>
         </div>
         <div>
-          <input type="radio" id="open" name="isOpen" value="true" />
-          <label htmlFor="open" className="ml-1">
-            Open
-          </label>
+          {formState.errors?.isOpen && (
+            <small className="text-red-500">{formState.errors.isOpen[0]}</small>
+          )}
         </div>
       </div>
 

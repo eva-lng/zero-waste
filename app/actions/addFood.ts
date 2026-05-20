@@ -10,7 +10,7 @@ import { FoodItemDB } from "@/lib/utils/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-async function addFood(formData: FormData) {
+async function addFood(prevState: any, formData: FormData) {
   await dbConnect();
 
   const session = await auth.api.getSession({
@@ -35,14 +35,20 @@ async function addFood(formData: FormData) {
     isOpen: formData.get("isOpen"),
   };
 
+  console.log("rawData:", rawData);
+
   // zod validation
-  const validated = foodSchema.safeParse(rawData);
+  const validatedFields = foodSchema.safeParse(rawData);
 
   // return errors if val not successful
-  if (!validated.success) {
-    const flattened = z.flattenError(validated.error);
-    console.log(validated.error.issues);
-    console.log(flattened.fieldErrors);
+  if (!validatedFields.success) {
+    const flattened = z.flattenError(validatedFields.error);
+    return {
+      ...prevState,
+      data: rawData,
+      errors: flattened.fieldErrors,
+      message: "",
+    };
   } else {
     console.log("success");
   }
