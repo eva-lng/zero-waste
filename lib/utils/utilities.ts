@@ -53,8 +53,8 @@ export function getExpirationLabel(expirationDate: Date): string {
   if (days < 0) return "Expired";
   else if (days === 0) return "Expires today";
   else if (days === 1) return "Expires in 1 day";
-  else if (days >= 30) return "Expires in 1 month";
   else if (days >= 60) return `Expires in ${Math.floor(days / 30)} months`;
+  else if (days >= 30) return "Expires in 1 month";
   else return `Expires in ${days} days`;
 }
 

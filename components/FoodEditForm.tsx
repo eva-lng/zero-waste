@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useActionState } from "react";
 import { useRouter } from "next/navigation";
 import updateFood from "@/app/actions/updateFood";
 import { FoodItemClient } from "@/lib/utils/types";
@@ -7,16 +7,41 @@ import SubmitButton from "./SubmitButton";
 import { capitalize } from "@/lib/utils/utilities";
 
 const FoodEditForm = ({ foodItem }: { foodItem: FoodItemClient }) => {
-  const [unit, setUnit] = useState(foodItem.unit as string);
+  const initialState = {
+    data: {
+      name: foodItem.name,
+      category: foodItem.category,
+      details: foodItem.details ?? "",
+      unit: foodItem.unit,
+      quantity: foodItem.quantity,
+      gramsPerUnit: foodItem.gramsPerUnit ?? "",
+      expirationDate: new Date(foodItem.expirationDate)
+        .toISOString()
+        .split("T")[0],
+      storage: foodItem.storage,
+      isOpen: String(foodItem.isOpen),
+    },
+    errors: {},
+    message: "",
+  };
+
+  const [formState, formAction, pending] = useActionState(
+    updateFood.bind(null, foodItem._id.toString()),
+    initialState,
+  );
+  const [unit, setUnit] = useState(formState.data.unit || foodItem.unit);
 
   const router = useRouter();
-
-  const updateFoodById = updateFood.bind(null, foodItem._id.toString());
 
   return (
     <>
       <h2>Edit Food</h2>
-      <form action={updateFoodById} className="text-center">
+      <form
+        key={JSON.stringify(formState.data)}
+        action={formAction}
+        className="text-center"
+        noValidate
+      >
         <div className="mb-3">
           <label
             htmlFor="name"
@@ -30,9 +55,22 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemClient }) => {
             name="name"
             className="border rounded py-1 px-2"
             placeholder="E.g. apple"
-            defaultValue={foodItem.name}
+            defaultValue={formState.data.name}
             required
+            aria-invalid={!!formState.errors?.name}
+            aria-describedby={formState.errors?.name ? "name-error" : undefined}
           />
+          <div>
+            {formState.errors?.name && (
+              <small
+                id="name-error"
+                aria-live="polite"
+                className="text-red-500"
+              >
+                {formState.errors.name[0]}
+              </small>
+            )}
+          </div>
         </div>
 
         <div className="mb-3">
@@ -46,8 +84,12 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemClient }) => {
             name="category"
             id="category"
             className="border rounded py-1 px-2"
-            defaultValue={foodItem.category}
+            defaultValue={formState.data.category}
             required
+            aria-invalid={!!formState.errors?.category}
+            aria-describedby={
+              formState.errors?.category ? "category-error" : undefined
+            }
           >
             <option value="fruits">Fruits</option>
             <option value="vegetables">Vegetables</option>
@@ -56,6 +98,17 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemClient }) => {
             <option value="meat">Meat</option>
             <option value="other">Other</option>
           </select>
+          <div>
+            {formState.errors?.category && (
+              <small
+                id="category-error"
+                aria-live="polite"
+                className="text-red-500"
+              >
+                {formState.errors.category[0]}
+              </small>
+            )}
+          </div>
         </div>
 
         <div className="mb-3">
@@ -71,8 +124,23 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemClient }) => {
             name="details"
             className="border rounded py-1 px-2"
             placeholder="E.g. brand, flavor..."
-            defaultValue={foodItem.details}
+            defaultValue={formState.data.details}
+            aria-invalid={!!formState.errors?.details}
+            aria-describedby={
+              formState.errors?.details ? "details-error" : undefined
+            }
           />
+          <div>
+            {formState.errors?.details && (
+              <small
+                id="details-error"
+                aria-live="polite"
+                className="text-red-500"
+              >
+                {formState.errors.details[0]}
+              </small>
+            )}
+          </div>
         </div>
 
         <div className="mb-3">
@@ -89,12 +157,25 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemClient }) => {
             value={unit}
             onChange={(e) => setUnit(e.target.value)}
             required
+            aria-invalid={!!formState.errors?.unit}
+            aria-describedby={formState.errors?.unit ? "unit-error" : undefined}
           >
             <option value="piece">Piece</option>
             <option value="package">Package</option>
             <option value="g">g</option>
             <option value="ml">ml</option>
           </select>
+          <div>
+            {formState.errors?.unit && (
+              <small
+                id="unit-error"
+                aria-live="polite"
+                className="text-red-500"
+              >
+                {formState.errors.unit[0]}
+              </small>
+            )}
+          </div>
         </div>
 
         <div className="mb-3">
@@ -109,11 +190,25 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemClient }) => {
             id="quantity"
             name="quantity"
             className="border rounded py-1 px-2"
-            min={unit === "piece" || unit === "package" ? 0.25 : 1}
-            step={unit === "piece" || unit === "package" ? 0.25 : 1}
-            defaultValue={foodItem.quantity}
+            step={0.25}
+            defaultValue={formState.data.quantity}
             required
+            aria-invalid={!!formState.errors?.quantity}
+            aria-describedby={
+              formState.errors?.quantity ? "quantity-error" : undefined
+            }
           />
+          <div>
+            {formState.errors?.quantity && (
+              <small
+                id="quantity-error"
+                aria-live="polite"
+                className="text-red-500"
+              >
+                {formState.errors.quantity[0]}
+              </small>
+            )}
+          </div>
         </div>
 
         {(unit === "piece" || unit === "package") && (
@@ -129,11 +224,26 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemClient }) => {
               id="gramsPerUnit"
               name="gramsPerUnit"
               className="border rounded py-1 px-2"
-              defaultValue={foodItem.gramsPerUnit ? foodItem.gramsPerUnit : ""}
-              min={1}
-              step={1}
+              defaultValue={formState.data.gramsPerUnit}
               required
+              aria-invalid={!!formState.errors?.gramsPerUnit}
+              aria-describedby={
+                formState.errors?.gramsPerUnit
+                  ? "gramsPerUnit-error"
+                  : undefined
+              }
             />
+            <div>
+              {formState.errors?.gramsPerUnit && (
+                <small
+                  id="gramsPerUnit-error"
+                  aria-live="polite"
+                  className="text-red-500"
+                >
+                  {formState.errors.gramsPerUnit[0]}
+                </small>
+              )}
+            </div>
           </div>
         )}
 
@@ -149,11 +259,26 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemClient }) => {
             id="expirationDate"
             name="expirationDate"
             className="border rounded py-1 px-2"
-            defaultValue={
-              new Date(foodItem.expirationDate).toISOString().split("T")[0]
-            }
+            defaultValue={formState.data.expirationDate}
             required
+            aria-invalid={!!formState.errors?.expirationDate}
+            aria-describedby={
+              formState.errors?.expirationDate
+                ? "expirationDate-error"
+                : undefined
+            }
           />
+          <div>
+            {formState.errors?.expirationDate && (
+              <small
+                id="expirationDate-error"
+                aria-live="polite"
+                className="text-red-500"
+              >
+                {formState.errors.expirationDate[0]}
+              </small>
+            )}
+          </div>
         </div>
 
         <div className="mb-3">
@@ -167,41 +292,104 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemClient }) => {
             name="storage"
             id="storage"
             className="border rounded py-1 px-2"
-            defaultValue={foodItem.storage}
+            defaultValue={formState.data.storage}
             required
+            aria-invalid={!!formState.errors?.storage}
+            aria-describedby={
+              formState.errors?.storage ? "storage-error" : undefined
+            }
           >
             <option value="pantry">Pantry</option>
             <option value="fridge">Fridge</option>
             <option value="freezer">Freezer</option>
           </select>
+          <div>
+            {formState.errors?.storage && (
+              <small
+                id="storage-error"
+                aria-live="polite"
+                className="text-red-500"
+              >
+                {formState.errors.storage[0]}
+              </small>
+            )}
+          </div>
         </div>
 
-        <div className="mb-3 flex justify-center gap-3">
-          <div>
-            <input
-              type="radio"
-              id="closed"
-              name="isOpen"
-              value="false"
-              defaultChecked={!foodItem.isOpen}
-            />
-            <label htmlFor="closed" className="ml-1">
+        <div className="mb-3">
+          <fieldset
+            aria-invalid={!!formState.errors?.isOpen}
+            aria-describedby={
+              formState.errors?.isOpen ? "isOpen-error" : undefined
+            }
+          >
+            <label>
+              <input
+                type="radio"
+                name="isOpen"
+                value="false"
+                defaultChecked={formState.data.isOpen === "false"}
+              />{" "}
               Closed
             </label>
-          </div>
-          <div>
-            <input
-              type="radio"
-              id="open"
-              name="isOpen"
-              value="true"
-              defaultChecked={foodItem.isOpen}
-            />
-            <label htmlFor="open" className="ml-1">
+            <label className="ml-3">
+              <input
+                type="radio"
+                name="isOpen"
+                value="true"
+                defaultChecked={formState.data.isOpen === "true"}
+              />{" "}
               Open
             </label>
+          </fieldset>
+          <div>
+            {formState.errors?.isOpen && (
+              <small
+                id="isOpen-error"
+                aria-live="polite"
+                className="text-red-500"
+              >
+                {formState.errors.isOpen[0]}
+              </small>
+            )}
           </div>
         </div>
+
+        {/* <div className="mb-3">
+          <div className="flex justify-center gap-3">
+            <div>
+              <input
+                type="radio"
+                id="closed"
+                name="isOpen"
+                value="false"
+                defaultChecked={formState.data.isOpen === "false"}
+              />
+              <label htmlFor="closed" className="ml-1">
+                Closed
+              </label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="open"
+                name="isOpen"
+                value="true"
+                defaultChecked={formState.data.isOpen === "true"}
+              />
+              <label htmlFor="open" className="ml-1">
+                Open
+              </label>
+            </div>
+          </div>
+          <div>
+            {formState.errors?.isOpen && (
+              <small className="text-red-500">
+                {formState.errors.isOpen[0]}
+              </small>
+            )}
+          </div>
+        </div> */}
 
         <div>
           <button

@@ -48,6 +48,7 @@ async function addFood(prevState: any, formData: FormData) {
       message: "",
     };
   }
+
   console.log("validatedFields.data:", validatedFields.data);
 
   const foodData = {
