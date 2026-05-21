@@ -172,6 +172,7 @@ const FoodAddForm = () => {
           name="quantity"
           className="border rounded py-1 px-2"
           step={0.25}
+          min={0.25}
           defaultValue={formState.data.quantity}
           required
           aria-invalid={!!formState.errors?.quantity}
@@ -205,6 +206,7 @@ const FoodAddForm = () => {
             id="gramsPerUnit"
             name="gramsPerUnit"
             className="border rounded py-1 px-2"
+            min={1}
             defaultValue={formState.data.gramsPerUnit}
             required
             aria-describedby={
