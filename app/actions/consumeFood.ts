@@ -2,6 +2,8 @@
 import dbConnect from "@/lib/mongodb";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { qtyGramsMlSchema, qtyPiecePackageSchema } from "@/lib/utils/schemas";
+import { z } from "zod";
 import FoodItem from "@/models/FoodItem";
 import { revalidatePath } from "next/cache";
 import { StatusType } from "@/lib/utils/types";
@@ -28,6 +30,29 @@ async function consumeFood(foodId: string, formData: FormData) {
   }
 
   const unit = foodItem.unit;
+  const schema =
+    unit === "g" || unit === "ml" ? qtyGramsMlSchema : qtyPiecePackageSchema;
+  const rawData = formData.get("quantity");
+  const validated = schema.safeParse(rawData);
+
+  if (!validated.success) {
+    const flattened = z.flattenError(validated.error);
+    return {
+      // ...prevState,
+      data: rawData,
+      errors: flattened.fieldErrors,
+      message: "",
+    };
+  }
+
+  if (validated > foodItem.quantity) {
+    return {
+      // ...prevState,
+      data: rawData,
+      // errors:
+    };
+  }
+
   const consumed =
     unit === "g" || unit === "ml"
       ? Math.round(Number(formData.get("quantity")))
