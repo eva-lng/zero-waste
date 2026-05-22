@@ -65,39 +65,6 @@ async function addFood(prevState: any, formData: FormData) {
 
   console.log("foodData:", foodData);
 
-  // const detailsValue = formData.get("detailsValue");
-  // const unitValue = formData.get("unit");
-  // const isOpenValue = formData.get("isOpen") === "true";
-  // const quantityValue =
-  //   unitValue === "g" || unitValue === "ml"
-  //     ? Math.round(Number(formData.get("quantity")))
-  //     : Math.round(Number(formData.get("quantity")) * 4) / 4;
-  // const gramsPerUnitValue =
-  //   unitValue === "g" || unitValue === "ml"
-  //     ? 1
-  //     : Number(formData.get("gramsPerUnit"));
-
-  // save to db if validation successful
-  // const foodData = {
-  //   user: new Types.ObjectId(userId),
-  //   name: formData.get("name") as string,
-  //   category: formData.get("category") as FoodItemDB["category"],
-  //   details:
-  //     typeof detailsValue === "string" && detailsValue.trim() !== ""
-  //       ? detailsValue
-  //       : undefined,
-  //   unit: unitValue as FoodItemDB["unit"],
-  //   quantity: quantityValue,
-  //   gramsPerUnit: gramsPerUnitValue,
-  //   expirationDate: new Date(formData.get("expirationDate") as string),
-  //   storage: formData.get("storage") as FoodItemDB["storage"],
-  //   isOpen: isOpenValue,
-  //   openedAt: isOpenValue ? new Date() : undefined,
-  // } satisfies Omit<
-  //   FoodItemDB,
-  //   "_id" | "createdAt" | "status" | "consumedGrams" | "wastedGrams"
-  // >;
-
   const newFood = await FoodItem.create(foodData);
   await newFood.save();
 

@@ -79,44 +79,6 @@ async function updateFood(foodId: string, prevState: any, formData: FormData) {
 
   console.log("foodData:", foodData);
 
-  // const detailsValue = formData.get("details");
-  // const isOpenValue = formData.get("isOpen") === "true";
-  // const unitValue = formData.get("unit");
-  // const quantityValue =
-  //   unitValue === "g" || unitValue === "ml"
-  //     ? Math.round(Number(formData.get("quantity")))
-  //     : Math.round(Number(formData.get("quantity")) * 4) / 4;
-  // const gramsPerUnitValue =
-  //   unitValue === "g" || unitValue === "ml"
-  //     ? 1
-  //     : Number(formData.get("gramsPerUnit"));
-
-  // const foodData = {
-  //   name: formData.get("name") as string,
-  //   category: formData.get("category") as FoodItemDB["category"],
-  //   details:
-  //     typeof detailsValue === "string" && detailsValue.trim() !== ""
-  //       ? detailsValue
-  //       : undefined,
-  //   unit: unitValue as FoodItemDB["unit"],
-  //   quantity: quantityValue,
-  //   gramsPerUnit: gramsPerUnitValue,
-  //   expirationDate: new Date(formData.get("expirationDate") as string),
-  //   storage: formData.get("storage") as FoodItemDB["storage"],
-  //   isOpen: isOpenValue,
-  //   openedAt:
-  //     !existingFoodItem.openedAt && isOpenValue
-  //       ? new Date()
-  //       : existingFoodItem.openedAt && isOpenValue
-  //         ? existingFoodItem.openedAt
-  //         : undefined,
-  // } satisfies Partial<
-  //   Omit<
-  //     FoodItemDB,
-  //     "_id" | "createdAt" | "status" | "consumedGrams" | "wastedGrams"
-  //   >
-  // >;
-
   const updatedFood = await FoodItem.findByIdAndUpdate(foodId, foodData, {
     new: true,
   });
