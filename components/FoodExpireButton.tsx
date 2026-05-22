@@ -1,3 +1,5 @@
+"use client";
+import { useState, useActionState, useEffect } from "react";
 import { FoodItemClient } from "@/lib/utils/types";
 import expireFood from "@/app/actions/expireFood";
 import SubmitButton from "./SubmitButton";
@@ -17,10 +19,35 @@ import {
 } from "@/components/ui/dialog";
 
 const FoodExpireButton = ({ item }: { item: FoodItemClient }) => {
-  const expireFoodById = expireFood.bind(null, item._id);
+  const initialState = {
+    data: { quantity: "" },
+    errors: {},
+    message: "",
+  };
+  const [formState, formAction, pending] = useActionState(
+    expireFood.bind(null, item._id),
+    initialState,
+  );
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (formState.message === "success") {
+      setDialogOpen(false);
+    }
+  }, [formState.message]);
+
+  useEffect(() => {
+    setErrors(formState.errors);
+  }, [formState.errors]);
+
+  function handleOpenChange(isOpen: boolean) {
+    setDialogOpen(isOpen);
+    if (!isOpen) setErrors({});
+  }
 
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <div className="flex flex-col items-center cursor-pointer">
           <TbClockExclamation size={25} />
@@ -28,14 +55,14 @@ const FoodExpireButton = ({ item }: { item: FoodItemClient }) => {
         </div>
       </DialogTrigger>
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
-        <form action={expireFoodById}>
+        <form action={formAction}>
           <DialogHeader>
             <DialogTitle>Discard {item.name}</DialogTitle>
             {/* <DialogDescription>Mark item as expired</DialogDescription> */}
           </DialogHeader>
 
           <DialogFoodInfo item={item} />
-          <DialogFoodQty item={item} />
+          <DialogFoodQty item={item} errors={errors} />
 
           <DialogFooter>
             <DialogClose asChild>

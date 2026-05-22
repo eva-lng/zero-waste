@@ -2,11 +2,13 @@
 import dbConnect from "@/lib/mongodb";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { qtyGramsMlSchema, qtyPiecePackageSchema } from "@/lib/utils/schemas";
+import { z } from "zod";
 import FoodItem from "@/models/FoodItem";
 import { revalidatePath } from "next/cache";
 import { StatusType } from "@/lib/utils/types";
 
-async function expireFood(foodId: string, formData: FormData) {
+async function expireFood(foodId: string, prevState: any, formData: FormData) {
   await dbConnect();
 
   const session = await auth.api.getSession({
@@ -28,22 +30,48 @@ async function expireFood(foodId: string, formData: FormData) {
   }
 
   const unit = foodItem.unit;
-  const wasted =
-    unit === "g" || unit === "ml"
-      ? Math.round(Number(formData.get("quantity")))
-      : Math.round(Number(formData.get("quantity")) * 4) / 4;
+  const schema =
+    unit === "g" || unit === "ml" ? qtyGramsMlSchema : qtyPiecePackageSchema;
+  const rawData = { quantity: formData.get("quantity") };
+  const validated = schema.safeParse(rawData);
 
-  if (!wasted || isNaN(wasted) || wasted <= 0) {
-    throw new Error("Invalid quantity");
+  if (!validated.success) {
+    const flattened = z.flattenError(validated.error);
+    return {
+      ...prevState,
+      data: rawData,
+      errors: flattened.fieldErrors,
+      message: "",
+    };
   }
+
+  const wasted = validated.data.quantity;
+
   if (wasted > foodItem.quantity) {
-    throw new Error("Exceeds available quantity");
-    // todo: handle UI errors later:
-    // useActionState, return { error: "Exceeds available quantity" };
+    return {
+      ...prevState,
+      data: rawData,
+      errors: { quantity: ["Exceeds available quantity"] },
+      message: "",
+    };
   }
+
+  // const wasted =
+  //   unit === "g" || unit === "ml"
+  //     ? Math.round(Number(formData.get("quantity")))
+  //     : Math.round(Number(formData.get("quantity")) * 4) / 4;
+
+  // if (!wasted || isNaN(wasted) || wasted <= 0) {
+  //   throw new Error("Invalid quantity");
+  // }
+  // if (wasted > foodItem.quantity) {
+  //   throw new Error("Exceeds available quantity");
+  //   // todo: handle UI errors later:
+  //   // useActionState, return { error: "Exceeds available quantity" };
+  // }
 
   const total = Math.max(0, foodItem.quantity - wasted);
-  let status: StatusType = total === 0 ? "finished" : "active";
+  const status: StatusType = total === 0 ? "finished" : "active";
 
   await foodItem.updateOne({
     quantity: total,
@@ -53,6 +81,7 @@ async function expireFood(foodId: string, formData: FormData) {
 
   revalidatePath("/items");
   revalidatePath("/dashboard");
+  return { data: { quantity: "" }, errors: {}, message: "success" };
 }
 
 export default expireFood;
