@@ -1,5 +1,5 @@
 "use client";
-import { useState, useActionState } from "react";
+import { useState, useActionState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import addFood from "@/app/actions/addFood";
 import SubmitButton from "./SubmitButton";
@@ -10,7 +10,7 @@ const initialState = {
     name: "",
     category: "",
     details: "",
-    unit: "",
+    unit: "piece",
     quantity: "",
     gramsPerUnit: "",
     expirationDate: "",
@@ -26,7 +26,10 @@ const FoodAddForm = () => {
     addFood,
     initialState,
   );
-  const [unit, setUnit] = useState(formState.data.unit || "piece");
+  const [showGramsPerUnit, setShowGramsPerUnit] = useState(
+    formState.data.unit === "piece" || formState.data.unit === "package",
+  );
+  const [unitLabel, setUnitLabel] = useState(formState.data.unit);
 
   const router = useRouter();
 
@@ -139,8 +142,12 @@ const FoodAddForm = () => {
           name="unit"
           id="unit"
           className="border rounded py-1 px-2"
-          value={unit}
-          onChange={(e) => setUnit(e.target.value)}
+          defaultValue={formState.data.unit}
+          onChange={(e) => {
+            const val = e.target.value;
+            setUnitLabel(val);
+            setShowGramsPerUnit(val === "piece" || val === "package");
+          }}
           required
           aria-invalid={!!formState.errors?.unit}
           aria-describedby={formState.errors?.unit ? "unit-error" : undefined}
@@ -193,13 +200,13 @@ const FoodAddForm = () => {
         </div>
       </div>
 
-      {(unit === "piece" || unit === "package") && (
+      {showGramsPerUnit && (
         <div className="mb-3">
           <label
             htmlFor="gramsPerUnit"
             className="block text-gray-700 font-bold mb-1.5"
           >
-            Grams per {capitalize(unit)}
+            Grams per {capitalize(unitLabel)}
           </label>
           <input
             type="number"
@@ -334,40 +341,6 @@ const FoodAddForm = () => {
           )}
         </div>
       </div>
-
-      {/* <div className="mb-3">
-        <div className="flex justify-center gap-3">
-          <div>
-            <input
-              type="radio"
-              id="closed"
-              name="isOpen"
-              value="false"
-              defaultChecked={formState.data.isOpen === "false"}
-            />
-            <label htmlFor="closed" className="ml-1">
-              Closed
-            </label>
-          </div>
-          <div>
-            <input
-              type="radio"
-              id="open"
-              name="isOpen"
-              value="true"
-              defaultChecked={formState.data.isOpen === "true"}
-            />
-            <label htmlFor="open" className="ml-1">
-              Open
-            </label>
-          </div>
-        </div>
-        <div>
-          {formState.errors?.isOpen && (
-            <small className="text-red-500">{formState.errors.isOpen[0]}</small>
-          )}
-        </div>
-      </div> */}
 
       <div>
         <button

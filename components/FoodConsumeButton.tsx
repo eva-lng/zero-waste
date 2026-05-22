@@ -1,3 +1,5 @@
+"use client";
+import { useActionState } from "react";
 import { FoodItemClient } from "@/lib/utils/types";
 import consumeFood from "@/app/actions/consumeFood";
 import SubmitButton from "./SubmitButton";
@@ -17,7 +19,18 @@ import {
 } from "@/components/ui/dialog";
 
 const FoodConsumeButton = ({ item }: { item: FoodItemClient }) => {
-  const consumeFoodById = consumeFood.bind(null, item._id);
+  const initialState = {
+    data: {
+      quantity: "",
+    },
+    errors: {},
+    message: "",
+  };
+  const [formState, formAction, pending] = useActionState(
+    consumeFood.bind(null, item._id),
+    initialState,
+  );
+  // const consumeFoodById = consumeFood.bind(null, item._id);
 
   return (
     <Dialog>
@@ -28,7 +41,7 @@ const FoodConsumeButton = ({ item }: { item: FoodItemClient }) => {
         </div>
       </DialogTrigger>
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
-        <form action={consumeFoodById}>
+        <form action={formAction} noValidate>
           <DialogHeader>
             <DialogTitle>Consume {item.name}</DialogTitle>
             {/* <DialogDescription>
@@ -37,7 +50,7 @@ const FoodConsumeButton = ({ item }: { item: FoodItemClient }) => {
           </DialogHeader>
 
           <DialogFoodInfo item={item} />
-          <DialogFoodQty item={item} />
+          <DialogFoodQty item={item} formState={formState} />
 
           <DialogFooter>
             <DialogClose asChild>

@@ -55,12 +55,16 @@ export const foodSchema = z.discriminatedUnion("unit", [
   gramMlSchema,
 ]);
 
-export const qtyPiecePackageSchema = z.coerce
-  .number({ error: "Quantity must be a number" })
-  .min(0.25, "Minimum quantity is 1")
-  .refine((n) => Number.isInteger(n * 4), "Must be in 0.25 increments");
+export const qtyPiecePackageSchema = z.object({
+  quantity: z.coerce
+    .number({ error: "Quantity must be a number" })
+    .min(0.25, "Minimum quantity is 0.25")
+    .refine((n) => Number.isInteger(n * 4), "Must be in 0.25 increments"),
+});
 
-export const qtyGramsMlSchema = z.coerce
-  .number({ error: "Quantity must be a number" })
-  .min(1, "Minimum quantity is 1")
-  .int("Quantity must be a whole number");
+export const qtyGramsMlSchema = z.object({
+  quantity: z.coerce
+    .number({ error: "Quantity must be a number" })
+    .min(1, "Minimum quantity is 1")
+    .int("Quantity must be a whole number"),
+});

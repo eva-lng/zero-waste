@@ -2,8 +2,14 @@
 import { useState } from "react";
 import { FoodItemClient } from "@/lib/utils/types";
 
-const DialogFoodQty = ({ item }: { item: FoodItemClient }) => {
-  const [quantity, setQuantity] = useState(1);
+const DialogFoodQty = ({
+  item,
+  formState,
+}: {
+  item: FoodItemClient;
+  formState: any;
+}) => {
+  const [quantity, setQuantity] = useState(Math.min(1, item.quantity));
   const remaining = Math.max(0, item.quantity - quantity);
 
   return (
@@ -27,14 +33,26 @@ const DialogFoodQty = ({ item }: { item: FoodItemClient }) => {
           name="quantity"
           value={quantity}
           onChange={(e) => {
-            const val = Number(e.target.value);
-            if (val <= item.quantity) setQuantity(val);
+            // const val = Number(e.target.value);
+            // if (val <= item.quantity) setQuantity(val);
+            setQuantity(Number(e.target.value));
           }}
           min={item.unit === "piece" || item.unit === "package" ? 0.25 : 1}
           max={item.quantity}
           step={item.unit === "piece" || item.unit === "package" ? 0.25 : 1}
           required
         />
+      </div>
+      <div className="flex justify-end">
+        {formState.errors?.quantity && (
+          <small
+            id="quantity-error"
+            aria-live="polite"
+            className="text-red-500"
+          >
+            {formState.errors.quantity[0]}
+          </small>
+        )}
       </div>
     </div>
   );
