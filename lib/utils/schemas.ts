@@ -68,3 +68,9 @@ export const qtyGramsMlSchema = z.object({
     .min(1, "Minimum quantity is 1")
     .int("Quantity must be a whole number"),
 });
+
+export const storageSchema = z.object({
+  storage: z.enum(["pantry", "fridge", "freezer"], {
+    error: "Invalid storage",
+  }),
+});

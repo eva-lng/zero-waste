@@ -2,11 +2,17 @@
 import dbConnect from "@/lib/mongodb";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import {
+  qtyGramsMlSchema,
+  qtyPiecePackageSchema,
+  storageSchema,
+} from "@/lib/utils/schemas";
+import { z } from "zod";
 import FoodItem from "@/models/FoodItem";
 import { FoodItemDB, StorageType } from "@/lib/utils/types";
 import { revalidatePath } from "next/cache";
 
-async function moveFood(foodId: string, formData: FormData) {
+async function moveFood(foodId: string, prevState: any, formData: FormData) {
   await dbConnect();
 
   const session = await auth.api.getSession({
@@ -27,31 +33,54 @@ async function moveFood(foodId: string, formData: FormData) {
     throw new Error("Unauthorized");
   }
 
-  const storageValue = formData.get("storage") as StorageType;
   const unit = foodItem.unit;
-  const moved =
-    unit === "g" || unit === "ml"
-      ? Math.round(Number(formData.get("quantity")))
-      : Math.round(Number(formData.get("quantity")) * 4) / 4;
+  const unitSchema =
+    unit === "g" || unit === "ml" ? qtyGramsMlSchema : qtyPiecePackageSchema;
+  const schema = z.object({
+    ...unitSchema.shape,
+    ...storageSchema.shape,
+  });
+  const newStorage = formData.get("storage") as StorageType;
+  const rawData = {
+    quantity: formData.get("quantity"),
+    storage: newStorage,
+  };
+  const validated = schema.safeParse(rawData);
 
-  if (storageValue === foodItem.storage) {
-    throw new Error("Already in this storage");
-    // return { error: "Already in this storage" }
+  if (!validated.success) {
+    const flattened = z.flattenError(validated.error);
+    return {
+      ...prevState,
+      data: rawData,
+      errors: flattened.fieldErrors,
+      message: "",
+    };
   }
 
-  if (!moved || isNaN(moved) || moved <= 0) {
-    throw new Error("Invalid quantity");
+  if (newStorage === foodItem.storage) {
+    return {
+      ...prevState,
+      data: rawData,
+      errors: { storage: ["Already in this storage"] },
+      message: "",
+    };
   }
+
+  const moved = validated.data.quantity;
+
   if (moved > foodItem.quantity) {
-    throw new Error("Exceeds available quantity");
-    // todo: handle UI errors later:
-    // useActionState, return { error: "Exceeds available quantity" };
+    return {
+      ...prevState,
+      data: rawData,
+      errors: { quantity: ["Exceeds available quantity"] },
+      message: "",
+    };
   }
 
   const total = Math.max(0, foodItem.quantity - moved);
 
   if (total === 0) {
-    await foodItem.updateOne({ storage: storageValue });
+    await foodItem.updateOne({ storage: newStorage });
   } else {
     const newItem = {
       user: foodItem.user,
@@ -64,7 +93,7 @@ async function moveFood(foodId: string, formData: FormData) {
       unit: foodItem.unit,
       quantity: moved,
       expirationDate: foodItem.expirationDate,
-      storage: storageValue,
+      storage: newStorage,
       isOpen: foodItem.isOpen,
       openedAt: foodItem.openedAt,
     } satisfies Omit<
@@ -78,6 +107,11 @@ async function moveFood(foodId: string, formData: FormData) {
 
   revalidatePath("/items");
   revalidatePath("/dashboard");
+  return {
+    data: { quantity: "", storage: "" },
+    errors: {},
+    successTimeStamp: new Date(),
+  };
 }
 
 export default moveFood;
