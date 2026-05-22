@@ -1,5 +1,5 @@
 "use client";
-import { useActionState } from "react";
+import { useState, useActionState, useEffect } from "react";
 import { FoodItemClient } from "@/lib/utils/types";
 import consumeFood from "@/app/actions/consumeFood";
 import SubmitButton from "./SubmitButton";
@@ -30,10 +30,26 @@ const FoodConsumeButton = ({ item }: { item: FoodItemClient }) => {
     consumeFood.bind(null, item._id),
     initialState,
   );
-  // const consumeFoodById = consumeFood.bind(null, item._id);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (formState.message === "success") {
+      setDialogOpen(false);
+    }
+  }, [formState.message]);
+
+  useEffect(() => {
+    setErrors(formState.errors);
+  }, [formState.errors]);
+
+  function handleOpenChange(isOpen: boolean) {
+    setDialogOpen(isOpen);
+    if (!isOpen) setErrors({});
+  }
 
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <div className="flex flex-col items-center cursor-pointer">
           <GiKnifeFork size={25} />
@@ -50,7 +66,7 @@ const FoodConsumeButton = ({ item }: { item: FoodItemClient }) => {
           </DialogHeader>
 
           <DialogFoodInfo item={item} />
-          <DialogFoodQty item={item} formState={formState} />
+          <DialogFoodQty item={item} errors={errors} />
 
           <DialogFooter>
             <DialogClose asChild>

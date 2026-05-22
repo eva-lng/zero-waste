@@ -4,10 +4,10 @@ import { FoodItemClient } from "@/lib/utils/types";
 
 const DialogFoodQty = ({
   item,
-  formState,
+  errors,
 }: {
   item: FoodItemClient;
-  formState: any;
+  errors?: { quantity?: string[] };
 }) => {
   const [quantity, setQuantity] = useState(Math.min(1, item.quantity));
   const remaining = Math.max(0, item.quantity - quantity);
@@ -32,11 +32,7 @@ const DialogFoodQty = ({
           id="quantity"
           name="quantity"
           value={quantity}
-          onChange={(e) => {
-            // const val = Number(e.target.value);
-            // if (val <= item.quantity) setQuantity(val);
-            setQuantity(Number(e.target.value));
-          }}
+          onChange={(e) => setQuantity(Number(e.target.value))}
           min={item.unit === "piece" || item.unit === "package" ? 0.25 : 1}
           max={item.quantity}
           step={item.unit === "piece" || item.unit === "package" ? 0.25 : 1}
@@ -44,13 +40,13 @@ const DialogFoodQty = ({
         />
       </div>
       <div className="flex justify-end">
-        {formState.errors?.quantity && (
+        {errors?.quantity && (
           <small
             id="quantity-error"
             aria-live="polite"
             className="text-red-500"
           >
-            {formState.errors.quantity[0]}
+            {errors.quantity[0]}
           </small>
         )}
       </div>

@@ -6,7 +6,6 @@ import { qtyGramsMlSchema, qtyPiecePackageSchema } from "@/lib/utils/schemas";
 import { z } from "zod";
 import FoodItem from "@/models/FoodItem";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { StatusType } from "@/lib/utils/types";
 
 async function consumeFood(foodId: string, prevState: any, formData: FormData) {
@@ -60,23 +59,6 @@ async function consumeFood(foodId: string, prevState: any, formData: FormData) {
   const total = Math.max(0, foodItem.quantity - consumed);
   const status: StatusType = total === 0 ? "finished" : "active";
 
-  // const consumed =
-  //   unit === "g" || unit === "ml"
-  //     ? Math.round(Number(formData.get("quantity")))
-  //     : Math.round(Number(formData.get("quantity")) * 4) / 4;
-
-  // if (!consumed || isNaN(consumed) || consumed <= 0) {
-  //   throw new Error("Invalid quantity");
-  // }
-  // if (consumed > foodItem.quantity) {
-  //   throw new Error("Exceeds available quantity");
-  //   // todo: handle UI errors later:
-  //   // useActionState, return { error: "Exceeds available quantity" };
-  // }
-
-  // const total = Math.max(0, foodItem.quantity - consumed);
-  // let status: StatusType = total === 0 ? "finished" : "active";
-
   await foodItem.updateOne({
     quantity: total,
     consumedGrams: foodItem.consumedGrams + consumed * foodItem.gramsPerUnit,
@@ -85,7 +67,7 @@ async function consumeFood(foodId: string, prevState: any, formData: FormData) {
 
   revalidatePath("/items");
   revalidatePath("/dashboard");
-  redirect("/items");
+  return { data: { quantity: "" }, errors: {}, message: "success" };
 }
 
 export default consumeFood;
