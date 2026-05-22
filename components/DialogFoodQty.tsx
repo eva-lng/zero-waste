@@ -37,6 +37,8 @@ const DialogFoodQty = ({
           max={item.quantity}
           step={item.unit === "piece" || item.unit === "package" ? 0.25 : 1}
           required
+          aria-invalid={!!errors?.quantity}
+          aria-describedby={errors?.quantity ? "quantity-error" : undefined}
         />
       </div>
       <div className="flex justify-end">

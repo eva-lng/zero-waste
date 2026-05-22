@@ -56,20 +56,6 @@ async function expireFood(foodId: string, prevState: any, formData: FormData) {
     };
   }
 
-  // const wasted =
-  //   unit === "g" || unit === "ml"
-  //     ? Math.round(Number(formData.get("quantity")))
-  //     : Math.round(Number(formData.get("quantity")) * 4) / 4;
-
-  // if (!wasted || isNaN(wasted) || wasted <= 0) {
-  //   throw new Error("Invalid quantity");
-  // }
-  // if (wasted > foodItem.quantity) {
-  //   throw new Error("Exceeds available quantity");
-  //   // todo: handle UI errors later:
-  //   // useActionState, return { error: "Exceeds available quantity" };
-  // }
-
   const total = Math.max(0, foodItem.quantity - wasted);
   const status: StatusType = total === 0 ? "finished" : "active";
 
@@ -81,7 +67,7 @@ async function expireFood(foodId: string, prevState: any, formData: FormData) {
 
   revalidatePath("/items");
   revalidatePath("/dashboard");
-  return { data: { quantity: "" }, errors: {}, message: "success" };
+  return { data: { quantity: "" }, errors: {}, successTimeStamp: new Date() };
 }
 
 export default expireFood;

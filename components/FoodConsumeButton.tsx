@@ -24,7 +24,7 @@ const FoodConsumeButton = ({ item }: { item: FoodItemClient }) => {
       quantity: "",
     },
     errors: {},
-    message: "",
+    successTimeStamp: 0,
   };
   const [formState, formAction, pending] = useActionState(
     consumeFood.bind(null, item._id),
@@ -34,10 +34,10 @@ const FoodConsumeButton = ({ item }: { item: FoodItemClient }) => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (formState.message === "success") {
+    if (formState.successTimeStamp) {
       setDialogOpen(false);
     }
-  }, [formState.message]);
+  }, [formState.successTimeStamp]);
 
   useEffect(() => {
     setErrors(formState.errors);

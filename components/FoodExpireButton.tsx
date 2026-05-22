@@ -22,7 +22,7 @@ const FoodExpireButton = ({ item }: { item: FoodItemClient }) => {
   const initialState = {
     data: { quantity: "" },
     errors: {},
-    message: "",
+    successTimeStamp: 0,
   };
   const [formState, formAction, pending] = useActionState(
     expireFood.bind(null, item._id),
@@ -32,10 +32,10 @@ const FoodExpireButton = ({ item }: { item: FoodItemClient }) => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (formState.message === "success") {
+    if (formState.successTimeStamp) {
       setDialogOpen(false);
     }
-  }, [formState.message]);
+  }, [formState.successTimeStamp]);
 
   useEffect(() => {
     setErrors(formState.errors);
@@ -55,7 +55,7 @@ const FoodExpireButton = ({ item }: { item: FoodItemClient }) => {
         </div>
       </DialogTrigger>
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
-        <form action={formAction}>
+        <form action={formAction} noValidate>
           <DialogHeader>
             <DialogTitle>Discard {item.name}</DialogTitle>
             {/* <DialogDescription>Mark item as expired</DialogDescription> */}

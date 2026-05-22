@@ -67,7 +67,7 @@ async function consumeFood(foodId: string, prevState: any, formData: FormData) {
 
   revalidatePath("/items");
   revalidatePath("/dashboard");
-  return { data: { quantity: "" }, errors: {}, message: "success" };
+  return { data: { quantity: "" }, errors: {}, successTimeStamp: new Date() };
 }
 
 export default consumeFood;
