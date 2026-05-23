@@ -2,7 +2,7 @@
 import dbConnect from "@/lib/mongodb";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { qtyGramsMlSchema, qtyPiecePackageSchema } from "@/lib/utils/schemas";
+import { createUnitSchema } from "@/lib/utils/schemas";
 import { z } from "zod";
 import FoodItem from "@/models/FoodItem";
 import { revalidatePath } from "next/cache";
@@ -29,9 +29,7 @@ async function consumeFood(foodId: string, prevState: any, formData: FormData) {
     throw new Error("Unauthorized");
   }
 
-  const unit = foodItem.unit;
-  const schema =
-    unit === "g" || unit === "ml" ? qtyGramsMlSchema : qtyPiecePackageSchema;
+  const schema = createUnitSchema(foodItem.unit, foodItem.quantity);
   const rawData = { quantity: formData.get("quantity") };
   const validated = schema.safeParse(rawData);
 
@@ -41,20 +39,20 @@ async function consumeFood(foodId: string, prevState: any, formData: FormData) {
       ...prevState,
       data: rawData,
       errors: flattened.fieldErrors,
-      message: "",
+      successTimeStamp: 0,
     };
   }
 
   const consumed = validated.data.quantity;
 
-  if (consumed > foodItem.quantity) {
-    return {
-      ...prevState,
-      data: rawData,
-      errors: { quantity: ["Exceeds available quantity"] },
-      message: "",
-    };
-  }
+  // if (consumed > foodItem.quantity) {
+  //   return {
+  //     ...prevState,
+  //     data: rawData,
+  //     errors: { quantity: ["Exceeds available quantity"] },
+  //     successTimeStamp: 0,
+  //   };
+  // }
 
   const total = Math.max(0, foodItem.quantity - consumed);
   const status: StatusType = total === 0 ? "finished" : "active";
@@ -67,7 +65,7 @@ async function consumeFood(foodId: string, prevState: any, formData: FormData) {
 
   revalidatePath("/items");
   revalidatePath("/dashboard");
-  return { data: { quantity: "" }, errors: {}, successTimeStamp: new Date() };
+  return { data: { quantity: "" }, errors: {}, successTimeStamp: Date.now() };
 }
 
 export default consumeFood;

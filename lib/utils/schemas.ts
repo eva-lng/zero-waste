@@ -55,22 +55,36 @@ export const foodSchema = z.discriminatedUnion("unit", [
   gramMlSchema,
 ]);
 
-export const qtyPiecePackageSchema = z.object({
-  quantity: z.coerce
-    .number({ error: "Quantity must be a number" })
-    .min(0.25, "Minimum quantity is 0.25")
-    .refine((n) => Number.isInteger(n * 4), "Must be in 0.25 increments"),
+export const expirationDateSchema = z.object({
+  expirationDate: z.coerce.date("Invalid date").refine((date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date >= today;
+  }, "Expiration date must be today or later"),
 });
 
-export const qtyGramsMlSchema = z.object({
-  quantity: z.coerce
-    .number({ error: "Quantity must be a number" })
-    .min(1, "Minimum quantity is 1")
-    .int("Quantity must be a whole number"),
-});
+export const createUnitSchema = (unit: string, maxQty: number) => {
+  const baseQty =
+    unit === "g" || unit === "ml"
+      ? z.coerce
+          .number({ error: "Quantity must be a number" })
+          .min(1, "Minimum quantity is 1")
+          .int("Quantity must be a whole number")
+      : z.coerce
+          .number({ error: "Quantity must be a number" })
+          .min(0.25, "Minimum quantity is 0.25")
+          .refine((n) => Number.isInteger(n * 4), "Must be in 0.25 increments");
 
-export const storageSchema = z.object({
-  storage: z.enum(["pantry", "fridge", "freezer"], {
-    error: "Invalid storage",
-  }),
-});
+  return z.object({
+    quantity: baseQty.refine((n) => n <= maxQty, "Exceeds available quantity"),
+  });
+};
+
+export const createStorageSchema = (currentStorage: string) =>
+  z.object({
+    storage: z
+      .enum(["pantry", "fridge", "freezer"], {
+        error: "Invalid storage",
+      })
+      .refine((s) => s !== currentStorage, "Already in this storage"),
+  });

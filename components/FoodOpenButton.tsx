@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useActionState, useEffect } from "react";
 import { FoodItemClient } from "@/lib/utils/types";
 import openFood from "@/app/actions/openFood";
 import SubmitButton from "./SubmitButton";
@@ -20,7 +20,20 @@ import {
 } from "@/components/ui/dialog";
 
 const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
-  const [open, setOpen] = useState(false);
+  const initialState = {
+    data: { quantity: "", expirationDate: "" },
+    errors: {},
+    successTimeStamp: 0,
+  };
+  const [formState, formAction, pending] = useActionState(
+    openFood.bind(null, item._id),
+    initialState,
+  );
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [errors, setErrors] = useState<{
+    quantity?: string[];
+    expirationDate?: string[];
+  }>({});
 
   const initialDate = new Date(item.expirationDate).getTime();
 
@@ -29,15 +42,24 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
 
   const openDate = new Date();
 
+  useEffect(() => {
+    if (formState.successTimeStamp) {
+      setDialogOpen(false);
+    }
+  }, [formState.successTimeStamp]);
+
+  useEffect(() => {
+    setErrors(formState.errors);
+  }, [formState.errors]);
+
   function handleOpenChange(isOpen: boolean) {
-    setOpen(isOpen);
+    setDialogOpen(isOpen);
     if (isOpen) {
       setExpDateState(initialDate);
       setHasAdjusted(false);
     }
+    if (!isOpen) setErrors({});
   }
-
-  const openFoodById = openFood.bind(null, item._id);
 
   function adjustDate(numOfDays: number) {
     const date = hasAdjusted ? new Date(expDateState) : openDate;
@@ -58,7 +80,7 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
   }
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
+    <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <div className="flex flex-col items-center cursor-pointer">
           <LuPackageOpen size={25} />
@@ -66,7 +88,7 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
         </div>
       </DialogTrigger>
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
-        <form action={openFoodById}>
+        <form action={formAction} noValidate>
           <DialogHeader>
             <DialogTitle>Open {item.name}</DialogTitle>
             {/* <DialogDescription>
@@ -75,7 +97,7 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
           </DialogHeader>
 
           <DialogFoodInfo item={item} />
-          <DialogFoodQty item={item} />
+          <DialogFoodQty item={item} errors={errors} />
 
           <div className="my-3">
             <div className="flex justify-between border-b p-0.5">
@@ -108,7 +130,22 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
                   setHasAdjusted(true);
                 }}
                 required
+                aria-invalid={!!errors?.expirationDate}
+                aria-describedby={
+                  errors?.expirationDate ? "expirationDate-error" : undefined
+                }
               />
+            </div>
+            <div className="text-end">
+              {errors?.expirationDate && (
+                <small
+                  id="expirationDate-error"
+                  aria-live="polite"
+                  className="text-red-500"
+                >
+                  {errors.expirationDate[0]}
+                </small>
+              )}
             </div>
           </div>
 

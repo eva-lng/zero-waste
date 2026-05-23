@@ -2,11 +2,7 @@
 import dbConnect from "@/lib/mongodb";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import {
-  qtyGramsMlSchema,
-  qtyPiecePackageSchema,
-  storageSchema,
-} from "@/lib/utils/schemas";
+import { createUnitSchema, createStorageSchema } from "@/lib/utils/schemas";
 import { z } from "zod";
 import FoodItem from "@/models/FoodItem";
 import { FoodItemDB, StorageType } from "@/lib/utils/types";
@@ -33,17 +29,15 @@ async function moveFood(foodId: string, prevState: any, formData: FormData) {
     throw new Error("Unauthorized");
   }
 
-  const unit = foodItem.unit;
-  const unitSchema =
-    unit === "g" || unit === "ml" ? qtyGramsMlSchema : qtyPiecePackageSchema;
+  const unitSchema = createUnitSchema(foodItem.unit, foodItem.quantity);
+  const storageSchema = createStorageSchema(foodItem.storage);
   const schema = z.object({
     ...unitSchema.shape,
     ...storageSchema.shape,
   });
-  const newStorage = formData.get("storage") as StorageType;
   const rawData = {
     quantity: formData.get("quantity"),
-    storage: newStorage,
+    storage: formData.get("storage"),
   };
   const validated = schema.safeParse(rawData);
 
@@ -53,30 +47,12 @@ async function moveFood(foodId: string, prevState: any, formData: FormData) {
       ...prevState,
       data: rawData,
       errors: flattened.fieldErrors,
-      message: "",
+      successTimeStamp: 0,
     };
   }
 
-  if (newStorage === foodItem.storage) {
-    return {
-      ...prevState,
-      data: rawData,
-      errors: { storage: ["Already in this storage"] },
-      message: "",
-    };
-  }
-
+  const newStorage = validated.data.storage;
   const moved = validated.data.quantity;
-
-  if (moved > foodItem.quantity) {
-    return {
-      ...prevState,
-      data: rawData,
-      errors: { quantity: ["Exceeds available quantity"] },
-      message: "",
-    };
-  }
-
   const total = Math.max(0, foodItem.quantity - moved);
 
   if (total === 0) {
@@ -110,7 +86,7 @@ async function moveFood(foodId: string, prevState: any, formData: FormData) {
   return {
     data: { quantity: "", storage: "" },
     errors: {},
-    successTimeStamp: new Date(),
+    successTimeStamp: Date.now(),
   };
 }
 

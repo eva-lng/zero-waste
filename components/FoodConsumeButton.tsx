@@ -31,7 +31,7 @@ const FoodConsumeButton = ({ item }: { item: FoodItemClient }) => {
     initialState,
   );
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<{ quantity?: string[] }>({});
 
   useEffect(() => {
     if (formState.successTimeStamp) {

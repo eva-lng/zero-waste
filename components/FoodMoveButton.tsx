@@ -30,7 +30,10 @@ const FoodMoveButton = ({ item }: { item: FoodItemClient }) => {
     initialState,
   );
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<{
+    quantity?: string[];
+    storage?: string[];
+  }>({});
 
   useEffect(() => {
     if (formState.successTimeStamp) {
@@ -80,10 +83,8 @@ const FoodMoveButton = ({ item }: { item: FoodItemClient }) => {
                 name="storage"
                 id="storage"
                 required
-                aria-invalid={!!formState.errors?.storage}
-                aria-describedby={
-                  formState.errors?.storage ? "storage-error" : undefined
-                }
+                aria-invalid={!!errors?.storage}
+                aria-describedby={errors?.storage ? "storage-error" : undefined}
               >
                 <option value="pantry" disabled={item.storage === "pantry"}>
                   Pantry
@@ -97,13 +98,13 @@ const FoodMoveButton = ({ item }: { item: FoodItemClient }) => {
               </select>
             </div>
             <div className="text-end">
-              {formState.errors?.storage && (
+              {errors?.storage && (
                 <small
-                  id="quantity-error"
+                  id="storage-error"
                   aria-live="polite"
                   className="text-red-500"
                 >
-                  {formState.errors.storage[0]}
+                  {errors.storage[0]}
                 </small>
               )}
             </div>

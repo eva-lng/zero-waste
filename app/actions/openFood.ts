@@ -2,11 +2,13 @@
 import dbConnect from "@/lib/mongodb";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { createUnitSchema, expirationDateSchema } from "@/lib/utils/schemas";
+import { z } from "zod";
 import FoodItem from "@/models/FoodItem";
 import { FoodItemDB } from "@/lib/utils/types";
 import { revalidatePath } from "next/cache";
 
-async function openFood(foodId: string, formData: FormData) {
+async function openFood(foodId: string, prevState: any, formData: FormData) {
   await dbConnect();
 
   const session = await auth.api.getSession({
@@ -27,29 +29,35 @@ async function openFood(foodId: string, formData: FormData) {
     throw new Error("Unauthorized");
   }
 
-  const expirationDateValue = formData.get("expirationDate");
-  const unit = foodItem.unit;
-  const opened =
-    unit === "g" || unit === "ml"
-      ? Math.round(Number(formData.get("quantity")))
-      : Math.round(Number(formData.get("quantity")) * 4) / 4;
+  const unitSchema = createUnitSchema(foodItem.unit, foodItem.quantity);
+  const schema = z.object({
+    ...unitSchema.shape,
+    ...expirationDateSchema.shape,
+  });
+  const rawData = {
+    quantity: formData.get("quantity"),
+    expirationDate: formData.get("expirationDate"),
+  };
+  const validated = schema.safeParse(rawData);
 
-  if (!opened || isNaN(opened) || opened <= 0) {
-    throw new Error("Invalid quantity");
-  }
-  if (opened > foodItem.quantity) {
-    throw new Error("Exceeds available quantity");
-    // todo: handle UI errors later:
-    // useActionState, return { error: "Exceeds available quantity" };
+  if (!validated.success) {
+    const flattened = z.flattenError(validated.error);
+    return {
+      ...prevState,
+      data: rawData,
+      errors: flattened.fieldErrors,
+      successTimeStamp: 0,
+    };
   }
 
+  const opened = validated.data.quantity;
   const total = Math.max(0, foodItem.quantity - opened);
 
   if (total === 0) {
     await foodItem.updateOne({
       isOpen: true,
       openedAt: foodItem.openedAt ?? new Date(),
-      expirationDate: new Date(expirationDateValue as string),
+      expirationDate: validated.data.expirationDate,
     });
   } else {
     const newItem = {
@@ -62,7 +70,7 @@ async function openFood(foodId: string, formData: FormData) {
           : undefined,
       unit: foodItem.unit,
       quantity: opened,
-      expirationDate: new Date(expirationDateValue as string),
+      expirationDate: validated.data.expirationDate,
       storage: foodItem.storage,
       isOpen: true,
       openedAt: new Date(),
@@ -77,6 +85,11 @@ async function openFood(foodId: string, formData: FormData) {
 
   revalidatePath("/items");
   revalidatePath("/dashboard");
+  return {
+    data: { quantity: "", expirationDate: "" },
+    errors: {},
+    successTimeStamp: Date.now(),
+  };
 }
 
 export default openFood;
