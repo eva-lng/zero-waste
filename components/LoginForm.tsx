@@ -22,10 +22,10 @@ const LoginForm = () => {
         password,
       },
       {
-        onRequest: (ctx) => {
+        onRequest: () => {
           setLoading(true);
         },
-        onSuccess: (ctx) => {
+        onSuccess: () => {
           router.push("/dashboard");
         },
         onError: (ctx) => {
@@ -71,7 +71,13 @@ const LoginForm = () => {
         />
       </div>
 
-      {error && <p className="text-red-600">{error}</p>}
+      {error && (
+        <div className="mb-3">
+          <small aria-live="polite" className="text-red-500">
+            {error}
+          </small>
+        </div>
+      )}
 
       <SubmitButton
         loading={loading}

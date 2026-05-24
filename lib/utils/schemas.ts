@@ -88,3 +88,19 @@ export const createStorageSchema = (currentStorage: string) =>
       })
       .refine((s) => s !== currentStorage, "Already in this storage"),
   });
+
+export const signupSchema = z.object({
+  email: z.email("Invalid email address"),
+  password: z
+    .string()
+    .min(8, "Minimum 8 characters")
+    .regex(
+      /[A-Z0-9]/,
+      "Must contain at least one uppercase letter and one number",
+    ),
+  name: z
+    .string()
+    .trim()
+    .min(1, "Name is required")
+    .max(30, "Name can be 30 characters max"),
+});

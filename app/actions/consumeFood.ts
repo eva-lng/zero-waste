@@ -44,16 +44,6 @@ async function consumeFood(foodId: string, prevState: any, formData: FormData) {
   }
 
   const consumed = validated.data.quantity;
-
-  // if (consumed > foodItem.quantity) {
-  //   return {
-  //     ...prevState,
-  //     data: rawData,
-  //     errors: { quantity: ["Exceeds available quantity"] },
-  //     successTimeStamp: 0,
-  //   };
-  // }
-
   const total = Math.max(0, foodItem.quantity - consumed);
   const status: StatusType = total === 0 ? "finished" : "active";
 
