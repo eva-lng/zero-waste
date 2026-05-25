@@ -49,7 +49,10 @@ const FoodDeleteButton = ({
             </AlertDialogCancel>
             <form action={deleteFoodById}>
               <AlertDialogAction variant="destructive" asChild>
-                <SubmitButton className="w-full cursor-pointer">
+                <SubmitButton
+                  className="w-full cursor-pointer"
+                  pendingText="Deleting..."
+                >
                   Delete
                 </SubmitButton>
               </AlertDialogAction>

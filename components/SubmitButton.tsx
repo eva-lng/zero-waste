@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useFormStatus } from "react-dom";
+import { Spinner } from "@/components/ui/spinner";
 
 type SubmitButtonProps = {
   children: React.ReactNode;
@@ -20,8 +21,12 @@ const SubmitButton = ({
   // const isLoading = loading !== null && loading !== undefined ? loading : pending;
 
   return (
-    <button type="submit" disabled={isLoading} className={className}>
-      {isLoading ? pendingText : children}
+    <button
+      type="submit"
+      disabled={isLoading}
+      className={`${className} inline-flex items-center gap-1`}
+    >
+      {isLoading && <Spinner />} {isLoading ? pendingText : children}
     </button>
   );
 };

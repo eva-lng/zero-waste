@@ -373,7 +373,10 @@ const FoodEditForm = ({ foodItem }: { foodItem: FoodItemClient }) => {
             Cancel
           </button>
 
-          <SubmitButton className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline">
+          <SubmitButton
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline"
+            pendingText="Saving..."
+          >
             Update Food
           </SubmitButton>
         </div>
