@@ -82,11 +82,24 @@ const FoodAddForm = () => {
             formState.errors?.category ? "category-error" : undefined
           }
         >
-          <option value="fruits">Fruits</option>
           <option value="vegetables">Vegetables</option>
-          <option value="dairy">Dairy</option>
-          <option value="grains">Grains</option>
+          <option value="fruits">Fruits</option>
+          <option value="dairy & eggs">Dairy & eggs</option>
           <option value="meat">Meat</option>
+          <option value="seafood">Seafood</option>
+          <option value="plant-based">Plant-based</option>
+          <option value="bread & pastry">Bread & pastry</option>
+          <option value="grains & pasta">Grains & pasta</option>
+          <option value="legumes & dried foods">Legumes & dried foods</option>
+          <option value="nuts & seeds">Nuts & seeds</option>
+          <option value="canned goods">Canned goods</option>
+          <option value="baking ingredients">Baking ingredients</option>
+          <option value="snacks & sweets">Snacks & sweets</option>
+          <option value="prepared meals">Prepared meals</option>
+          <option value="leftovers">Leftovers</option>
+          <option value="condiments">Condiments</option>
+          <option value="spices">Spices</option>
+          <option value="beverages">Beverages</option>
           <option value="other">Other</option>
         </select>
         <div>

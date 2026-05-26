@@ -3,11 +3,24 @@ import { Types } from "mongoose";
 export type StorageType = "pantry" | "fridge" | "freezer";
 
 export type CategoryType =
-  | "fruits"
   | "vegetables"
-  | "dairy"
-  | "grains"
+  | "fruits"
+  | "dairy & eggs"
   | "meat"
+  | "seafood"
+  | "plant-based"
+  | "bread & pastry"
+  | "grains & pasta"
+  | "legumes & dried foods"
+  | "nuts & seeds"
+  | "canned goods"
+  | "baking ingredients"
+  | "snacks & sweets"
+  | "prepared meals"
+  | "leftovers"
+  | "condiments"
+  | "spices"
+  | "beverages"
   | "other";
 
 export type UnitType = "piece" | "package" | "g" | "ml";

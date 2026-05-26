@@ -7,7 +7,27 @@ const baseFields = {
     .min(1, "Required field")
     .max(30, "Name can be 30 characters max"),
   category: z.enum(
-    ["fruits", "vegetables", "dairy", "grains", "meat", "other"],
+    [
+      "vegetables",
+      "fruits",
+      "dairy & eggs",
+      "meat",
+      "seafood",
+      "plant-based",
+      "bread & pastry",
+      "grains & pasta",
+      "legumes & dried foods",
+      "nuts & seeds",
+      "canned goods",
+      "baking ingredients",
+      "snacks & sweets",
+      "prepared meals",
+      "leftovers",
+      "condiments",
+      "spices",
+      "beverages",
+      "other",
+    ],
     { error: "Invalid category" },
   ),
   details: z

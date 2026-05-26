@@ -5,11 +5,24 @@ import {
 } from "@/lib/utils/types";
 
 export const CATEGORY_OPTIONS: CategoryType[] = [
-  "fruits",
   "vegetables",
-  "dairy",
-  "grains",
+  "fruits",
+  "dairy & eggs",
   "meat",
+  "seafood",
+  "plant-based",
+  "bread & pastry",
+  "grains & pasta",
+  "legumes & dried foods",
+  "nuts & seeds",
+  "canned goods",
+  "baking ingredients",
+  "snacks & sweets",
+  "prepared meals",
+  "leftovers",
+  "condiments",
+  "spices",
+  "beverages",
   "other",
 ];
 
