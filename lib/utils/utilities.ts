@@ -74,5 +74,6 @@ export function toClient(item: FoodItemDB): FoodItemClient {
     expirationDate: item.expirationDate.toISOString(),
     openedAt: item.isOpen ? item.openedAt?.toISOString() : undefined,
     createdAt: item.createdAt.toISOString(),
+    finishedAt: item.finishedAt?.toISOString(),
   };
 }

@@ -77,6 +77,9 @@ const FoodItemSchema = new Schema(
       type: Number,
       default: 0,
     },
+    finishedAt: {
+      type: Date,
+    },
   },
   { timestamps: true },
 );

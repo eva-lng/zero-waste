@@ -51,6 +51,7 @@ async function expireFood(foodId: string, prevState: any, formData: FormData) {
     quantity: total,
     wastedGrams: foodItem.wastedGrams + wasted * foodItem.gramsPerUnit,
     status: status,
+    ...(status === "finished" && { finishedAt: new Date() }),
   });
 
   revalidatePath("/items");

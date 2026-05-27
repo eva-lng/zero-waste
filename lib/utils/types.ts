@@ -44,6 +44,7 @@ export interface FoodItemDB {
   consumedGrams: number;
   wastedGrams: number;
   createdAt: Date;
+  finishedAt?: Date;
 }
 
 export interface FoodItemClient {
@@ -63,6 +64,7 @@ export interface FoodItemClient {
   consumedGrams: number;
   wastedGrams: number;
   createdAt: string;
+  finishedAt?: string;
 }
 
 export type ExpirationStateType = "fresh" | "soon" | "expired";

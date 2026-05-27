@@ -51,6 +51,7 @@ async function consumeFood(foodId: string, prevState: any, formData: FormData) {
     quantity: total,
     consumedGrams: foodItem.consumedGrams + consumed * foodItem.gramsPerUnit,
     status: status,
+    ...(status === "finished" && { finishedAt: new Date() }),
   });
 
   revalidatePath("/items");
