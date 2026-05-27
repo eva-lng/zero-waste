@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import {
   CATEGORY_OPTIONS,
@@ -7,6 +8,7 @@ import {
 } from "@/lib/utils/constants";
 import { FilterType } from "@/lib/utils/types";
 import { capitalize } from "@/lib/utils/utilities";
+import { RxTriangleDown, RxTriangleUp } from "react-icons/rx";
 
 const FilterPanel = ({
   params,
@@ -15,63 +17,66 @@ const FilterPanel = ({
   params: ReadonlyURLSearchParams;
   toggleFilter: (type: FilterType, value: string) => void;
 }) => {
+  const [expandedSections, setExpandedSections] = useState<FilterType[]>([]);
+
+  function toggleSection(type: FilterType) {
+    setExpandedSections((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type],
+    );
+  }
+
   const filterGroups: { type: FilterType; options: string[] }[] = [
     { type: "category", options: CATEGORY_OPTIONS },
     { type: "storage", options: STORAGE_OPTIONS },
     { type: "expiration", options: EXPIRATION_OPTIONS },
+    { type: "open", options: ["true"] },
   ];
 
   return (
-    <div className="border rounded-b-lg p-2">
+    <div className="border rounded-lg p-2 text-center">
       {filterGroups.map((group) => (
         <section key={group.type}>
-          <h3>{capitalize(group.type)}</h3>
-
-          <div className="grid grid-cols-2 md:grid-cols-3">
-            {group.options.map((option) => {
-              const checked = params.getAll(group.type).includes(option);
-              return (
-                <div key={option}>
-                  <label
-                    htmlFor={`${group.type}-${option}`}
-                    className={`cursor-pointer px-1 py-0.5 rounded border ${checked ? "bg-blue-500 text-white border-blue-500" : "bg-white border-gray-300"}`}
-                  >
-                    <input
-                      type="checkbox"
-                      hidden
-                      id={`${group.type}-${option}`}
-                      checked={checked}
-                      onChange={() => toggleFilter(group.type, option)}
-                    />
-                    {capitalize(option)}
-                  </label>
-                </div>
-              );
-            })}
+          <div className="flex justify-center gap-3">
+            <h3>{group.type === "open" ? "Status" : capitalize(group.type)}</h3>
+            <span className="">({params.getAll(group.type).length})</span>
+            <button
+              className="inline-flex items-center gap-1 cursor-pointer"
+              onClick={() => toggleSection(group.type)}
+            >
+              {expandedSections.includes(group.type) ? (
+                <RxTriangleUp />
+              ) : (
+                <RxTriangleDown />
+              )}
+            </button>
           </div>
+
+          {expandedSections.includes(group.type) && (
+            <div className="flex flex-wrap gap-3 justify-center py-2">
+              {group.options.map((option) => {
+                const checked = params.getAll(group.type).includes(option);
+                return (
+                  <div key={option}>
+                    <label
+                      htmlFor={`${group.type}-${option}`}
+                      className={`cursor-pointer text-sm px-3 py-1 rounded-full ${checked ? "bg-blue-500 text-white border border-blue-600" : "bg-slate-100 text-slate-600"}`}
+                    >
+                      <input
+                        type="checkbox"
+                        hidden
+                        id={`${group.type}-${option}`}
+                        checked={checked}
+                        onChange={() => toggleFilter(group.type, option)}
+                      />
+                      {option === "true" ? "Open" : capitalize(option)}
+                    </label>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </section>
       ))}
-
-      <section>
-        <h3>Status</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3">
-          <div>
-            <label
-              htmlFor="open"
-              className={`cursor-pointer px-1 py-0.5 rounded border ${params.get("open") === "true" ? "bg-blue-500 text-white border-blue-500" : "bg-white border-gray-300"}`}
-            >
-              <input
-                type="checkbox"
-                hidden
-                id="open"
-                checked={params.get("open") === "true"}
-                onChange={() => toggleFilter("open", "true")}
-              />
-              Open
-            </label>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
