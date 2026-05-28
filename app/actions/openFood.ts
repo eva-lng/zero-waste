@@ -70,6 +70,7 @@ async function openFood(foodId: string, prevState: any, formData: FormData) {
           : undefined,
       unit: foodItem.unit,
       quantity: opened,
+      gramsPerUnit: foodItem.gramsPerUnit,
       expirationDate: validated.data.expirationDate,
       storage: foodItem.storage,
       isOpen: true,

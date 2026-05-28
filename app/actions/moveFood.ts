@@ -68,6 +68,7 @@ async function moveFood(foodId: string, prevState: any, formData: FormData) {
           : undefined,
       unit: foodItem.unit,
       quantity: moved,
+      gramsPerUnit: foodItem.gramsPerUnit,
       expirationDate: foodItem.expirationDate,
       storage: newStorage,
       isOpen: foodItem.isOpen,
