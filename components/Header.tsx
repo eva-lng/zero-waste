@@ -30,6 +30,9 @@ const Header = () => {
                   <Link href="/dashboard">Dashboard</Link>
                 </li>
                 <li>
+                  <Link href="/stats">Stats</Link>
+                </li>
+                <li>
                   <button onClick={logout} className="underline cursor-pointer">
                     Logout
                   </button>
