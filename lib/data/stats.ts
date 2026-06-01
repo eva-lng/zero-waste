@@ -86,6 +86,7 @@ export async function getMonthlyCategoryStats(
       },
     },
   ]);
+  return res;
 }
 
 export async function getStorageStats(userId: string) {
@@ -128,4 +129,5 @@ export async function getMonthlyStorageStats(
       },
     },
   ]);
+  return res;
 }

@@ -33,3 +33,18 @@ export const EXPIRATION_OPTIONS: ExpirationStateType[] = [
   "soon",
   "expired",
 ];
+
+export const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "Jule",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];

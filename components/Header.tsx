@@ -13,6 +13,8 @@ const Header = () => {
     router.push("/");
   };
 
+  const monthParam = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`;
+
   return (
     <header className="bg-blue-400 lg:mb-4">
       <div className="container mx-auto flex justify-between items-center p-2">
@@ -30,7 +32,7 @@ const Header = () => {
                   <Link href="/dashboard">Dashboard</Link>
                 </li>
                 <li>
-                  <Link href="/stats">Stats</Link>
+                  <Link href={`/stats?month=${monthParam}`}>Stats</Link>
                 </li>
                 <li>
                   <button onClick={logout} className="underline cursor-pointer">
