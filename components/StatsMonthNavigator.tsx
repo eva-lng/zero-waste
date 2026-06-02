@@ -16,6 +16,11 @@ const StatsMonthNavigator = ({
 }) => {
   const router = useRouter();
 
+  const prevYear = month === 1 ? year - 1 : year;
+  const prevMonth = month === 1 ? 12 : month - 1;
+  const nextYear = month === 12 ? year + 1 : year;
+  const nextMonth = month === 12 ? 1 : month + 1;
+
   return (
     <div className="flex justify-between">
       <button
@@ -23,21 +28,21 @@ const StatsMonthNavigator = ({
         className="cursor-pointer"
         onClick={() =>
           router.push(
-            `/stats?month=${month === 1 ? year - 1 : year}-${String(month === 1 ? 12 : month - 1).padStart(2, "0")}`,
+            `/stats?month=${prevYear}-${String(prevMonth).padStart(2, "0")}`,
           )
         }
       >
         <MdArrowBackIos />
       </button>
-      <h4>
+      <span>
         {MONTHS[month - 1]} {year}
-      </h4>
+      </span>
       <button
         disabled={isLast}
         className="cursor-pointer"
         onClick={() =>
           router.push(
-            `/stats?month=${month === 12 ? year + 1 : year}-${String(month === 12 ? 1 : month + 1).padStart(2, "0")}`,
+            `/stats?month=${nextYear}-${String(nextMonth).padStart(2, "0")}`,
           )
         }
       >

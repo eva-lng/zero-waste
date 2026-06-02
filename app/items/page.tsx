@@ -17,11 +17,6 @@ import {
 import FoodItem from "@/models/FoodItem";
 import FoodItemsList from "@/components/FoodItemsList";
 import FiltersBar from "@/components/FiltersBar";
-import {
-  getAllTimeStats,
-  getStorageStats,
-  getCategoryStats,
-} from "@/lib/data/stats";
 
 const ItemsPage = async ({
   searchParams,
@@ -83,13 +78,6 @@ const ItemsPage = async ({
   }
 
   const serializedItems = foodItems.map((item) => toClient(item));
-
-  const total = await getAllTimeStats(userId);
-  const categories = await getCategoryStats(userId);
-  const storages = await getStorageStats(userId);
-  console.log("total:", total);
-  console.log("categories:", categories);
-  console.log("storages:", storages);
 
   return (
     <>
