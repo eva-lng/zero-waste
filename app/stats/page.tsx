@@ -11,6 +11,7 @@ import {
 } from "@/lib/data/stats";
 import StatsMonthNavigator from "@/components/StatsMonthNavigator";
 import ChartCategoryMonth from "@/components/ChartCategoryMonth";
+import ChartStorageMonth from "@/components/ChartStorageMonth";
 
 const StatsPage = async ({
   searchParams,
@@ -114,6 +115,10 @@ const StatsPage = async ({
               <p>Most waste came from: {topStorage}</p>
               <ChartCategoryMonth
                 monthlyCategory={monthlyCategory}
+                monthlyWaste={monthlyWaste}
+              />
+              <ChartStorageMonth
+                monthlyStorage={monthlyStorage}
                 monthlyWaste={monthlyWaste}
               />
             </>

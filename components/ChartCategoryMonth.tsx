@@ -38,12 +38,12 @@ const ChartCategoryMonth = ({
   console.log("chartConfig:", chartConfig);
 
   return (
-    <>
+    <div role="region" aria-label="Monthly waste by category chart">
       <ChartContainer
         config={chartConfig}
         className="mx-auto aspect-square max-h-[280px]"
       >
-        <PieChart>
+        <PieChart accessibilityLayer>
           <ChartTooltip
             cursor={false}
             content={<ChartTooltipContent hideLabel />}
@@ -87,19 +87,20 @@ const ChartCategoryMonth = ({
           </Pie>
         </PieChart>
       </ChartContainer>
-      <div className="flex justify-center">
+      <div className="flex justify-center" aria-label="Chart legend">
         <ul className="mt-4 space-y-1 grid grid-cols-2 gap-x-4">
           {[...chartData]
             .sort((a, b) => b.wasted - a.wasted)
-            .map((item, i) => (
+            .map((item) => (
               <li
                 key={item.category}
                 className="flex items-center gap-3 text-sm"
               >
                 <div className="flex items-center gap-2">
                   <span
-                    className="inline-block w-3 h-3"
+                    className="inline-block w-3 h-3 rounded-xs"
                     style={{ backgroundColor: item.color }}
+                    aria-hidden="true"
                   />
                   <span>{item.label}</span>
                 </div>
@@ -110,7 +111,7 @@ const ChartCategoryMonth = ({
             ))}
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -81,7 +81,6 @@ export async function getCategoryStats(userId: string): Promise<
     : [];
 }
 
-//
 export async function getMonthlyCategoryStats(
   userId: string,
   year: number,
