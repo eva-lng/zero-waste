@@ -1,8 +1,11 @@
 import { Types } from "mongoose";
 import dbConnect from "../mongodb";
 import FoodItem from "@/models/FoodItem";
+import { CategoryType } from "../utils/types";
 
-export async function getAllTimeStats(userId: string) {
+export async function getAllTimeStats(
+  userId: string,
+): Promise<{ consumed: number; wasted: number }> {
   await dbConnect();
 
   const res = await FoodItem.aggregate([
@@ -27,7 +30,7 @@ export async function getMonthlyWaste(
   userId: string,
   year: number,
   month: number,
-) {
+): Promise<number> {
   await dbConnect();
   const startOfMonth = new Date(year, month - 1, 1);
   const startOfNextMonth = new Date(year, month, 1);
@@ -49,7 +52,13 @@ export async function getMonthlyWaste(
   return res[0]?.wasted ?? 0;
 }
 
-export async function getCategoryStats(userId: string) {
+export async function getCategoryStats(userId: string): Promise<
+  {
+    category: CategoryType;
+    consumed: number;
+    wasted: number;
+  }[]
+> {
   await dbConnect();
   const res = await FoodItem.aggregate([
     {
@@ -72,11 +81,12 @@ export async function getCategoryStats(userId: string) {
     : [];
 }
 
+//
 export async function getMonthlyCategoryStats(
   userId: string,
   year: number,
   month: number,
-): Promise<{ _id: string; wasted: number }[]> {
+): Promise<{ _id: CategoryType; wasted: number }[]> {
   await dbConnect();
   const startOfMonth = new Date(year, month - 1, 1);
   const startOfNextMonth = new Date(year, month, 1);
@@ -98,7 +108,13 @@ export async function getMonthlyCategoryStats(
   return res;
 }
 
-export async function getStorageStats(userId: string) {
+export async function getStorageStats(userId: string): Promise<
+  {
+    category: CategoryType;
+    consumed: number;
+    wasted: number;
+  }[]
+> {
   await dbConnect();
   const res = await FoodItem.aggregate([
     {
@@ -119,7 +135,7 @@ export async function getMonthlyStorageStats(
   userId: string,
   year: number,
   month: number,
-) {
+): Promise<{ _id: CategoryType; wasted: number }[]> {
   await dbConnect();
   const startOfMonth = new Date(year, month - 1, 1);
   const startOfNextMonth = new Date(year, month, 1);

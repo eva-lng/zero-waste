@@ -10,6 +10,7 @@ import {
   getMonthlyStorageStats,
 } from "@/lib/data/stats";
 import StatsMonthNavigator from "@/components/StatsMonthNavigator";
+import ChartCategoryMonth from "@/components/ChartCategoryMonth";
 
 const StatsPage = async ({
   searchParams,
@@ -46,10 +47,8 @@ const StatsPage = async ({
   const isFirst = firstYear === yearVal && firstMonth === monthVal;
   const isLast = nowYear === yearVal && nowMonth === monthVal;
 
-  const totalData = await getAllTimeStats(userId);
-  const totalConsumed = totalData[0]?.consumed ?? 0;
-  const totalWasted = totalData[0]?.wasted ?? 0;
-
+  const { consumed: totalConsumed, wasted: totalWasted } =
+    await getAllTimeStats(userId);
   const monthlyWaste = await getMonthlyWaste(userId, yearVal, monthVal);
   const monthlyCategory = await getMonthlyCategoryStats(
     userId,
@@ -70,7 +69,7 @@ const StatsPage = async ({
       ? monthlyStorage.slice().sort((a, b) => b.wasted - a.wasted)[0]._id
       : null;
 
-  console.log("totalData:", totalData);
+  console.log("totalConsumed:", totalConsumed, "totalWasted:", totalWasted);
   console.log("monthlyWaste:", monthlyWaste);
   console.log("monthlyCategory:", monthlyCategory);
   console.log("monthlyStorage:", monthlyStorage);
@@ -85,7 +84,7 @@ const StatsPage = async ({
         <p>
           Waste percentage:{" "}
           {totalConsumed + totalWasted > 0
-            ? (totalWasted * 100) / (totalConsumed + totalWasted)
+            ? Math.round((totalWasted * 100) / (totalConsumed + totalWasted))
             : 0}
           %
         </p>
@@ -108,11 +107,15 @@ const StatsPage = async ({
           isLast={isLast}
         />
         <div>
-          <p>Total wasted: {monthlyWaste[0]?.wasted ?? 0} grams</p>
+          <p>Total wasted: {monthlyWaste} grams</p>
           {topCategory && topStorage && (
             <>
               <p>Most wasted category: {topCategory}</p>
               <p>Most waste came from: {topStorage}</p>
+              <ChartCategoryMonth
+                monthlyCategory={monthlyCategory}
+                monthlyWaste={monthlyWaste}
+              />
             </>
           )}
         </div>

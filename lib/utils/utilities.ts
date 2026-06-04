@@ -77,3 +77,7 @@ export function toClient(item: FoodItemDB): FoodItemClient {
     finishedAt: item.finishedAt?.toISOString(),
   };
 }
+
+export function sanitize(str: string) {
+  return str.replace(/\s*&\s*/g, "-").replace(/\s+/g, "-");
+}
