@@ -22,7 +22,7 @@ export async function getAllTimeStats(
   ]);
   return {
     consumed: res[0]?.consumed ?? 0,
-    wasted: res[0]?.$wasted ?? 0,
+    wasted: res[0]?.wasted ?? 0,
   };
 }
 

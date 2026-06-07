@@ -12,6 +12,7 @@ import {
 import StatsMonthNavigator from "@/components/StatsMonthNavigator";
 import ChartCategoryMonth from "@/components/ChartCategoryMonth";
 import ChartStorageMonth from "@/components/ChartStorageMonth";
+import ChartTotal from "@/components/ChartTotal";
 
 const StatsPage = async ({
   searchParams,
@@ -97,6 +98,7 @@ const StatsPage = async ({
             year: "numeric",
           })}
         </p>
+        <ChartTotal totalConsumed={totalConsumed} totalWasted={totalWasted} />
       </section>
 
       <section>

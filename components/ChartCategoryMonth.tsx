@@ -16,14 +16,16 @@ const ChartCategoryMonth = ({
   monthlyCategory: { _id: CategoryType; wasted: number }[];
   monthlyWaste: number;
 }) => {
-  const chartData = monthlyCategory.map((item, i) => ({
-    category: sanitize(item._id),
-    label: item._id,
-    color: `var(--chart-${i + 1})`,
-    wasted: item.wasted,
-    percentage: Math.round((item.wasted / monthlyWaste) * 100 * 10) / 10,
-    fill: `var(--color-${sanitize(item._id)})`,
-  }));
+  const chartData = monthlyCategory
+    .sort((a, b) => a.wasted - b.wasted)
+    .map((item, i) => ({
+      category: sanitize(item._id),
+      label: item._id,
+      color: `var(--chart-${i + 1})`,
+      wasted: item.wasted,
+      percentage: Math.round((item.wasted / monthlyWaste) * 100 * 10) / 10,
+      fill: `var(--color-${sanitize(item._id)})`,
+    }));
 
   const chartConfig: ChartConfig = { wasted: { label: "Waste" } };
 
