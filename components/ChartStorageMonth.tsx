@@ -53,7 +53,7 @@ const ChartStorageMonth = ({
           aria-label="Chart legend"
         >
           {chartData.map((item) => (
-            <li key={item.storage} className="flex items-center gap-3 text-sm">
+            <li key={item.storage} className="flex items-center gap-3 text-xs">
               <div className="flex items-center gap-2">
                 <span
                   className="inline-block w-3 h-3 rounded-xs"

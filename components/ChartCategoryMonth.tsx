@@ -21,7 +21,7 @@ const ChartCategoryMonth = ({
     label: item.category,
     color: `var(--chart-${i + 1})`,
     wasted: item.wasted,
-    percentage: Math.round((item.wasted / monthlyWaste) * 100 * 10) / 10,
+    percentage: Math.round((item.wasted / monthlyWaste) * 100),
     fill: `var(--color-${sanitize(item.category)})`,
   }));
 
@@ -91,7 +91,7 @@ const ChartCategoryMonth = ({
       <div className="flex justify-center" aria-label="Chart legend">
         <ul className="mt-4 space-y-1 grid grid-cols-2 gap-x-4">
           {chartData.map((item) => (
-            <li key={item.category} className="flex items-center gap-3 text-sm">
+            <li key={item.category} className="flex items-center gap-3 text-xs">
               <div className="flex items-center gap-2">
                 <span
                   className="inline-block w-3 h-3 rounded-xs"

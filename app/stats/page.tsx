@@ -62,10 +62,6 @@ const StatsPage = async ({
     yearVal,
     monthVal,
   );
-  const topCategory =
-    monthlyCategory.length > 0 ? monthlyCategory[0].category : null;
-  const topStorage =
-    monthlyStorage.length > 0 ? monthlyStorage[0].storage : null;
 
   console.log("totalConsumed:", totalConsumed, "totalWasted:", totalWasted);
   console.log("monthlyWaste:", monthlyWaste);
@@ -107,10 +103,10 @@ const StatsPage = async ({
         />
         <div>
           <p>Total wasted: {monthlyWaste} grams</p>
-          {topCategory && topStorage && (
+          {monthlyCategory.length > 0 && monthlyStorage.length > 0 && (
             <>
-              <p>Most wasted category: {topCategory}</p>
-              <p>Most waste came from: {topStorage}</p>
+              <p>Most wasted category: {monthlyCategory[0].category}</p>
+              <p>Most waste came from: {monthlyStorage[0].storage}</p>
               <ChartCategoryMonth
                 monthlyCategory={monthlyCategory}
                 monthlyWaste={monthlyWaste}
