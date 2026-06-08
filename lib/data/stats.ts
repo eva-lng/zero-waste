@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import dbConnect from "../mongodb";
 import FoodItem from "@/models/FoodItem";
-import { CategoryType } from "../utils/types";
+import { CategoryType, StorageType } from "../utils/types";
 
 export async function getAllTimeStats(
   userId: string,
@@ -85,7 +85,7 @@ export async function getMonthlyCategoryStats(
   userId: string,
   year: number,
   month: number,
-): Promise<{ _id: CategoryType; wasted: number }[]> {
+): Promise<{ category: CategoryType; wasted: number }[]> {
   await dbConnect();
   const startOfMonth = new Date(year, month - 1, 1);
   const startOfNextMonth = new Date(year, month, 1);
@@ -103,13 +103,23 @@ export async function getMonthlyCategoryStats(
         wasted: { $sum: "$wastedGrams" },
       },
     },
+    {
+      $sort: {
+        wasted: -1,
+      },
+    },
   ]);
-  return res;
+  return res.length > 0
+    ? res.map((item) => ({
+        category: item._id,
+        wasted: item.wasted,
+      }))
+    : [];
 }
 
 export async function getStorageStats(userId: string): Promise<
   {
-    category: CategoryType;
+    storage: StorageType;
     consumed: number;
     wasted: number;
   }[]
@@ -127,14 +137,20 @@ export async function getStorageStats(userId: string): Promise<
       },
     },
   ]);
-  return res;
+  return res.length > 0
+    ? res.map((item) => ({
+        storage: item._id,
+        consumed: item.consumed,
+        wasted: item.wasted,
+      }))
+    : [];
 }
 
 export async function getMonthlyStorageStats(
   userId: string,
   year: number,
   month: number,
-): Promise<{ _id: CategoryType; wasted: number }[]> {
+): Promise<{ storage: StorageType; wasted: number }[]> {
   await dbConnect();
   const startOfMonth = new Date(year, month - 1, 1);
   const startOfNextMonth = new Date(year, month, 1);
@@ -152,6 +168,16 @@ export async function getMonthlyStorageStats(
         wasted: { $sum: "$wastedGrams" },
       },
     },
+    {
+      $sort: {
+        wasted: -1,
+      },
+    },
   ]);
-  return res;
+  return res.length > 0
+    ? res.map((item) => ({
+        storage: item._id,
+        wasted: item.wasted,
+      }))
+    : [];
 }

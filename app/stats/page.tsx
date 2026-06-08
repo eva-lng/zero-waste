@@ -63,13 +63,9 @@ const StatsPage = async ({
     monthVal,
   );
   const topCategory =
-    monthlyCategory.length > 0
-      ? monthlyCategory.slice().sort((a, b) => b.wasted - a.wasted)[0]._id
-      : null;
+    monthlyCategory.length > 0 ? monthlyCategory[0].category : null;
   const topStorage =
-    monthlyStorage.length > 0
-      ? monthlyStorage.slice().sort((a, b) => b.wasted - a.wasted)[0]._id
-      : null;
+    monthlyStorage.length > 0 ? monthlyStorage[0].storage : null;
 
   console.log("totalConsumed:", totalConsumed, "totalWasted:", totalWasted);
   console.log("monthlyWaste:", monthlyWaste);

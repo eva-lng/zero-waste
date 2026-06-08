@@ -13,19 +13,17 @@ const ChartCategoryMonth = ({
   monthlyCategory,
   monthlyWaste,
 }: {
-  monthlyCategory: { _id: CategoryType; wasted: number }[];
+  monthlyCategory: { category: CategoryType; wasted: number }[];
   monthlyWaste: number;
 }) => {
-  const chartData = monthlyCategory
-    .sort((a, b) => a.wasted - b.wasted)
-    .map((item, i) => ({
-      category: sanitize(item._id),
-      label: item._id,
-      color: `var(--chart-${i + 1})`,
-      wasted: item.wasted,
-      percentage: Math.round((item.wasted / monthlyWaste) * 100 * 10) / 10,
-      fill: `var(--color-${sanitize(item._id)})`,
-    }));
+  const chartData = monthlyCategory.map((item, i) => ({
+    category: sanitize(item.category),
+    label: item.category,
+    color: `var(--chart-${i + 1})`,
+    wasted: item.wasted,
+    percentage: Math.round((item.wasted / monthlyWaste) * 100 * 10) / 10,
+    fill: `var(--color-${sanitize(item.category)})`,
+  }));
 
   const chartConfig: ChartConfig = { wasted: { label: "Waste" } };
 
@@ -89,28 +87,22 @@ const ChartCategoryMonth = ({
           </Pie>
         </PieChart>
       </ChartContainer>
+
       <div className="flex justify-center" aria-label="Chart legend">
         <ul className="mt-4 space-y-1 grid grid-cols-2 gap-x-4">
-          {[...chartData]
-            .sort((a, b) => b.wasted - a.wasted)
-            .map((item) => (
-              <li
-                key={item.category}
-                className="flex items-center gap-3 text-sm"
-              >
-                <div className="flex items-center gap-2">
-                  <span
-                    className="inline-block w-3 h-3 rounded-xs"
-                    style={{ backgroundColor: item.color }}
-                    aria-hidden="true"
-                  />
-                  <span>{item.label}</span>
-                </div>
-                <span className="text-muted-foreground">
-                  {item.percentage}%
-                </span>
-              </li>
-            ))}
+          {chartData.map((item) => (
+            <li key={item.category} className="flex items-center gap-3 text-sm">
+              <div className="flex items-center gap-2">
+                <span
+                  className="inline-block w-3 h-3 rounded-xs"
+                  style={{ backgroundColor: item.color }}
+                  aria-hidden="true"
+                />
+                <span>{item.label}</span>
+              </div>
+              <span className="text-muted-foreground">{item.percentage}%</span>
+            </li>
+          ))}
         </ul>
       </div>
     </div>
