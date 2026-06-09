@@ -7,6 +7,7 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import { StorageType } from "@/lib/utils/types";
+import { capitalize } from "@/lib/utils/utilities";
 
 const ChartStorageMonth = ({
   monthlyStorage,
@@ -41,7 +42,35 @@ const ChartStorageMonth = ({
         <PieChart accessibilityLayer>
           <ChartTooltip
             cursor={false}
-            content={<ChartTooltipContent hideLabel />}
+            content={({ active, payload }) => {
+              if (!active || !payload?.length) return null;
+              return (
+                <div className="rounded-lg border bg-background px-2 py-1 shadow-sm">
+                  {payload.map((entry) => (
+                    <div
+                      key={entry.name}
+                      className="flex items-center gap-2 text-xs"
+                    >
+                      <span
+                        className="inline-block w-3 h-3 rounded-xs"
+                        style={{ backgroundColor: entry.color }}
+                      />
+                      <span className="text-muted-foreground mr-1">
+                        {capitalize(entry.payload.storage)}
+                      </span>
+                      <div>
+                        <span className="font-medium font-mono mr-1">
+                          {entry.value}g
+                        </span>
+                        <span className="text-muted-foreground font-mono">
+                          ({entry.payload.percentage}%)
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            }}
           />
           <Pie data={chartData} dataKey="wasted" nameKey="storage" />
         </PieChart>
@@ -56,11 +85,11 @@ const ChartStorageMonth = ({
             <li key={item.storage} className="flex items-center gap-3 text-xs">
               <div className="flex items-center gap-2">
                 <span
-                  className="inline-block w-3 h-3 rounded-xs"
+                  className="inline-block w-2.5 h-2.5 rounded-xs"
                   style={{ backgroundColor: item.color }}
                   aria-hidden="true"
                 />
-                <span>{item.storage}</span>
+                <span>{capitalize(item.storage)}</span>
               </div>
               <span className="text-muted-foreground">{item.percentage}%</span>
             </li>

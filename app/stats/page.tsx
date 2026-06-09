@@ -90,7 +90,9 @@ const StatsPage = async ({
             year: "numeric",
           })}
         </p>
-        <ChartTotal totalConsumed={totalConsumed} totalWasted={totalWasted} />
+        {totalConsumed + totalWasted > 0 && (
+          <ChartTotal totalConsumed={totalConsumed} totalWasted={totalWasted} />
+        )}
       </section>
 
       <section>

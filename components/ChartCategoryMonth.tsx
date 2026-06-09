@@ -6,7 +6,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-import { sanitize } from "@/lib/utils/utilities";
+import { sanitize, capitalize } from "@/lib/utils/utilities";
 import { CategoryType } from "@/lib/utils/types";
 
 const ChartCategoryMonth = ({
@@ -18,7 +18,7 @@ const ChartCategoryMonth = ({
 }) => {
   const chartData = monthlyCategory.map((item, i) => ({
     category: sanitize(item.category),
-    label: item.category,
+    label: capitalize(item.category),
     color: `var(--chart-${i + 1})`,
     wasted: item.wasted,
     percentage: Math.round((item.wasted / monthlyWaste) * 100),
@@ -46,7 +46,35 @@ const ChartCategoryMonth = ({
         <PieChart accessibilityLayer>
           <ChartTooltip
             cursor={false}
-            content={<ChartTooltipContent hideLabel />}
+            content={({ active, payload }) => {
+              if (!active || !payload?.length) return null;
+              return (
+                <div className="rounded-lg border bg-background px-2 py-1 shadow-sm">
+                  {payload.map((entry) => (
+                    <div
+                      key={entry.name}
+                      className="flex items-center gap-2 text-xs"
+                    >
+                      <span
+                        className="inline-block w-3 h-3 rounded-xs"
+                        style={{ backgroundColor: entry.color }}
+                      />
+                      <span className="text-muted-foreground mr-1">
+                        {entry.payload.label}
+                      </span>
+                      <div>
+                        <span className="font-medium font-mono mr-1">
+                          {entry.value}g
+                        </span>
+                        <span className="text-muted-foreground font-mono">
+                          ({entry.payload.percentage}%)
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            }}
           />
           <Pie
             data={chartData}
@@ -94,7 +122,7 @@ const ChartCategoryMonth = ({
             <li key={item.category} className="flex items-center gap-3 text-xs">
               <div className="flex items-center gap-2">
                 <span
-                  className="inline-block w-3 h-3 rounded-xs"
+                  className="inline-block w-2.5 h-2.5 rounded-xs"
                   style={{ backgroundColor: item.color }}
                   aria-hidden="true"
                 />

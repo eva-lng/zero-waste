@@ -59,6 +59,12 @@ export function getExpirationLabel(expirationDate: Date): string {
 }
 
 export function capitalize(str: string): string {
+  if (str.includes("&")) {
+    return str
+      .split(" & ")
+      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+      .join(" & ");
+  }
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
