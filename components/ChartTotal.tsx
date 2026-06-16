@@ -32,7 +32,7 @@ const ChartTotal = ({
   const chartConfig: ChartConfig = {
     consumed: {
       label: "Consumed",
-      color: "var(--chart-1)",
+      color: "var(--chart-0)",
     },
     wasted: {
       label: "Wasted",
@@ -105,7 +105,7 @@ const ChartTotal = ({
             <div className="flex items-center gap-1.5">
               <span
                 className="inline-block w-2.5 h-2.5 rounded-xs"
-                style={{ backgroundColor: "var(--chart-1)" }}
+                style={{ backgroundColor: "var(--chart-0)" }}
                 aria-hidden="true"
               />
               <span>Consumed</span>
