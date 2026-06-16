@@ -36,7 +36,7 @@ const ChartTotal = ({
     },
     wasted: {
       label: "Wasted",
-      color: "var(--chart-2)",
+      color: "var(--destructive)",
     },
   };
 
@@ -118,7 +118,7 @@ const ChartTotal = ({
             <div className="flex items-center gap-1.5">
               <span
                 className="inline-block w-2.5 h-2.5 rounded-xs"
-                style={{ backgroundColor: "var(--chart-2)" }}
+                style={{ backgroundColor: "var(--destructive)" }}
                 aria-hidden="true"
               />
               <span>Wasted</span>

@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/chart";
 import { sanitize, capitalize } from "@/lib/utils/utilities";
 import { CategoryType } from "@/lib/utils/types";
+import { chartColors } from "@/lib/utils/constants";
 
 const ChartCategoryMonth = ({
   monthlyCategory,
@@ -16,21 +17,24 @@ const ChartCategoryMonth = ({
   monthlyCategory: { category: CategoryType; wasted: number }[];
   monthlyWaste: number;
 }) => {
-  const chartData = monthlyCategory.map((item, i) => ({
-    category: sanitize(item.category),
-    label: capitalize(item.category),
-    color: `var(--chart-${i + 1})`,
-    wasted: item.wasted,
-    percentage: Math.round((item.wasted / monthlyWaste) * 100),
-    fill: `var(--color-${sanitize(item.category)})`,
-  }));
+  const chartData = monthlyCategory.map((item) => {
+    const key = sanitize(item.category);
+    return {
+      category: key,
+      label: capitalize(item.category),
+      color: chartColors[key],
+      wasted: item.wasted,
+      percentage: Math.round((item.wasted / monthlyWaste) * 100),
+      fill: `var(--color-${key})`,
+    };
+  });
 
   const chartConfig: ChartConfig = { wasted: { label: "Waste" } };
 
   chartData.forEach((item, i) => {
     chartConfig[item.category] = {
       label: item.label,
-      color: `var(--chart-${i + 1})`,
+      color: chartColors[item.category],
     };
   });
 

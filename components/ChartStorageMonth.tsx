@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/chart";
 import { StorageType } from "@/lib/utils/types";
 import { capitalize } from "@/lib/utils/utilities";
+import { chartColors } from "@/lib/utils/constants";
 
 const ChartStorageMonth = ({
   monthlyStorage,
@@ -18,7 +19,7 @@ const ChartStorageMonth = ({
 }) => {
   const chartData = monthlyStorage.map((item, i) => ({
     storage: item.storage,
-    color: `var(--chart-${i + 13})`,
+    color: chartColors[item.storage],
     wasted: item.wasted,
     percentage: Math.round((item.wasted / monthlyWaste) * 100),
     fill: `var(--color-${item.storage})`,
@@ -29,7 +30,7 @@ const ChartStorageMonth = ({
   chartData.forEach((item, i) => {
     chartConfig[item.storage] = {
       label: item.storage,
-      color: `var(--chart-${i + 13})`,
+      color: chartColors[item.storage],
     };
   });
 
