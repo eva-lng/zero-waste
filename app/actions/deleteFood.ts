@@ -29,7 +29,7 @@ async function deleteFood(foodId: string, _formData: FormData) {
 
   await foodItem.deleteOne();
 
-  revalidatePath("/items");
+  revalidatePath("/inventory");
   revalidatePath("/dashboard");
 }
 

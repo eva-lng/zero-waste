@@ -26,7 +26,7 @@ const LoginForm = () => {
           setLoading(true);
         },
         onSuccess: () => {
-          router.push("/dashboard");
+          router.push("/overview");
         },
         onError: (ctx) => {
           setError(ctx.error.message);

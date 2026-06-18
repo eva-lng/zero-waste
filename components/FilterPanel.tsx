@@ -33,7 +33,7 @@ const FilterPanel = ({
   ];
 
   return (
-    <div className="border rounded-lg p-2 text-center">
+    <div className="p-2 text-center">
       {filterGroups.map((group) => (
         <section key={group.type}>
           <div className="flex justify-center gap-3">

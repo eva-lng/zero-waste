@@ -16,7 +16,7 @@ const Header = () => {
   const monthParam = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`;
 
   return (
-    <header className="bg-blue-400 lg:mb-4">
+    <header className="bg-card lg:mb-4 border-border border-b">
       <div className="container mx-auto flex justify-between items-center p-2">
         <div>
           <Link href="/">
@@ -29,7 +29,7 @@ const Header = () => {
             {session ? (
               <>
                 <li>
-                  <Link href="/dashboard">Dashboard</Link>
+                  <Link href="/overview">Overview</Link>
                 </li>
                 <li>
                   <Link href={`/stats?month=${monthParam}`}>Stats</Link>

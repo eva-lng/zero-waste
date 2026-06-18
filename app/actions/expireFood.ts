@@ -54,7 +54,7 @@ async function expireFood(foodId: string, prevState: any, formData: FormData) {
     ...(status === "finished" && { finishedAt: new Date() }),
   });
 
-  revalidatePath("/items");
+  revalidatePath("/inventory");
   revalidatePath("/dashboard");
   return { data: { quantity: "" }, errors: {}, successTimeStamp: Date.now() };
 }

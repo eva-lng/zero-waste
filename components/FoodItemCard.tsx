@@ -21,7 +21,7 @@ const FoodItemCard = ({
   return (
     <div className="border border-gray-500 rounded p-2 mb-2">
       <div className="flex justify-between ">
-        <Link href={`/items/${item._id}`}>
+        <Link href={`/inventory/${item._id}`}>
           <div className="flex flex-col">
             <h3>{item.name}</h3>
             <span>

@@ -48,7 +48,7 @@ const SignupForm = () => {
           setLoading(true);
         },
         onSuccess: () => {
-          router.push("/dashboard");
+          router.push("/overview");
         },
         onError: (ctx) => {
           if (ctx.error.code === "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL") {

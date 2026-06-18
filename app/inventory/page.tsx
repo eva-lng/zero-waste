@@ -18,7 +18,7 @@ import FoodItem from "@/models/FoodItem";
 import FoodItemsList from "@/components/FoodItemsList";
 import FiltersBar from "@/components/FiltersBar";
 
-const ItemsPage = async ({
+const InventoryPage = async ({
   searchParams,
 }: {
   searchParams: Promise<{
@@ -83,7 +83,7 @@ const ItemsPage = async ({
     <>
       <h2 className="text-3xl text-center">Items</h2>
       <div className="text-center text-blue-700">
-        <Link href="/items/add">Add Food</Link>
+        <Link href="/inventory/add">Add Food</Link>
       </div>
       <FiltersBar />
       <FoodItemsList items={serializedItems} />
@@ -91,4 +91,4 @@ const ItemsPage = async ({
   );
 };
 
-export default ItemsPage;
+export default InventoryPage;

@@ -82,7 +82,7 @@ async function moveFood(foodId: string, prevState: any, formData: FormData) {
     await foodItem.updateOne({ quantity: total });
   }
 
-  revalidatePath("/items");
+  revalidatePath("/inventory");
   revalidatePath("/dashboard");
   return {
     data: { quantity: "", storage: "" },

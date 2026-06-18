@@ -69,7 +69,7 @@ async function addFood(prevState: any, formData: FormData) {
   await newFood.save();
 
   revalidatePath("/", "layout");
-  redirect("/items");
+  redirect("/inventory");
 }
 
 export default addFood;
