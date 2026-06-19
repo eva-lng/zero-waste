@@ -45,6 +45,7 @@
   --color-primary-hover: var(--primary-hover);
   --color-primary-light: var(--primary-light);
   --color-primary-light-foreground: var(--primary-light-foreground);
+  --color-primary-light-hover: var(--primary-light-hover);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -77,6 +78,7 @@
   --primary-light-foreground: oklch(
     0.3 0.1 145
   ); /* dark green text for light bg */
+  --primary-light-hover: oklch(0.86 0.09 145);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(

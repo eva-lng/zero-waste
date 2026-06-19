@@ -17,12 +17,10 @@ const FilterPanel = ({
   params: ReadonlyURLSearchParams;
   toggleFilter: (type: FilterType, value: string) => void;
 }) => {
-  const [expandedSections, setExpandedSections] = useState<FilterType[]>([]);
+  const [activeSection, setActiveSection] = useState<FilterType>("category");
 
-  function toggleSection(type: FilterType) {
-    setExpandedSections((prev) =>
-      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type],
-    );
+  function handleTabChange(type: FilterType) {
+    setActiveSection(type);
   }
 
   const filterGroups: { type: FilterType; options: string[] }[] = [
@@ -33,51 +31,51 @@ const FilterPanel = ({
   ];
 
   return (
-    <div className="p-2 text-center">
-      {filterGroups.map((group) => (
-        <section key={group.type}>
-          <div className="flex justify-center gap-3">
-            <h3>{group.type === "open" ? "Status" : capitalize(group.type)}</h3>
-            <span className="">({params.getAll(group.type).length})</span>
+    <nav>
+      <ul role="tablist" className="flex justify-around">
+        {filterGroups.map((group) => (
+          <li key={group.type} role="presentation" className="flex gap-1">
             <button
-              className="inline-flex items-center gap-1 cursor-pointer"
-              onClick={() => toggleSection(group.type)}
+              role="tab"
+              aria-selected={activeSection === group.type}
+              aria-controls={`filter-panel-${group.type}`}
+              onClick={() => handleTabChange(group.type)}
             >
-              {expandedSections.includes(group.type) ? (
-                <RxTriangleUp />
-              ) : (
-                <RxTriangleDown />
-              )}
+              {group.type === "open" ? "Status" : capitalize(group.type)}{" "}
+              {params.getAll(group.type).length > 0 &&
+                ` (${params.getAll(group.type).length})`}
             </button>
-          </div>
-
-          {expandedSections.includes(group.type) && (
-            <div className="flex flex-wrap gap-3 justify-center py-2">
-              {group.options.map((option) => {
-                const checked = params.getAll(group.type).includes(option);
-                return (
-                  <div key={option}>
-                    <label
-                      htmlFor={`${group.type}-${option}`}
-                      className={`cursor-pointer text-sm px-3 py-1 rounded-full ${checked ? "bg-blue-500 text-white border border-blue-600" : "bg-slate-100 text-slate-600"}`}
-                    >
-                      <input
-                        type="checkbox"
-                        hidden
-                        id={`${group.type}-${option}`}
-                        checked={checked}
-                        onChange={() => toggleFilter(group.type, option)}
-                      />
-                      {option === "true" ? "Open" : capitalize(option)}
-                    </label>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </section>
-      ))}
-    </div>
+          </li>
+        ))}
+      </ul>
+      <div
+        role="tabpanel"
+        id={`filter-panel-${activeSection}`}
+        className="flex flex-wrap gap-3 justify-center py-2"
+      >
+        {filterGroups
+          .find((g) => g.type === activeSection)
+          ?.options.map((option) => {
+            const checked = params.getAll(activeSection).includes(option);
+            return (
+              <label
+                key={option}
+                htmlFor={`${activeSection}-${option}`}
+                className={`cursor-pointer text-sm px-3 py-1 rounded-full ${checked ? "bg-blue-500 text-white border border-blue-600" : "bg-slate-100 text-slate-600"}`}
+              >
+                <input
+                  type="checkbox"
+                  hidden
+                  id={`${activeSection}-${option}`}
+                  checked={checked}
+                  onChange={() => toggleFilter(activeSection, option)}
+                />
+                {option === "true" ? "Open" : capitalize(option)}
+              </label>
+            );
+          })}
+      </div>
+    </nav>
   );
 };
 
