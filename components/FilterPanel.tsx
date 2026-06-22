@@ -8,7 +8,6 @@ import {
 } from "@/lib/utils/constants";
 import { FilterType } from "@/lib/utils/types";
 import { capitalize } from "@/lib/utils/utilities";
-import { RxTriangleDown, RxTriangleUp } from "react-icons/rx";
 
 const FilterPanel = ({
   params,
@@ -31,25 +30,26 @@ const FilterPanel = ({
   ];
 
   return (
-    <nav>
-      <ul role="tablist" className="flex justify-around">
+    <div id="filter-panel">
+      <div role="tablist" className="flex justify-around">
         {filterGroups.map((group) => (
-          <li key={group.type} role="presentation" className="flex gap-1">
-            <button
-              role="tab"
-              aria-selected={activeSection === group.type}
-              aria-controls={`filter-panel-${group.type}`}
-              onClick={() => handleTabChange(group.type)}
-            >
-              {group.type === "open" ? "Status" : capitalize(group.type)}{" "}
-              {params.getAll(group.type).length > 0 &&
-                ` (${params.getAll(group.type).length})`}
-            </button>
-          </li>
+          <button
+            key={group.type}
+            role="tab"
+            id={`filter-tab-${group.type}`}
+            aria-selected={activeSection === group.type}
+            aria-controls={`filter-panel-${group.type}`}
+            onClick={() => handleTabChange(group.type)}
+          >
+            {group.type === "open" ? "Status" : capitalize(group.type)}{" "}
+            {params.getAll(group.type).length > 0 &&
+              ` (${params.getAll(group.type).length})`}
+          </button>
         ))}
-      </ul>
+      </div>
       <div
         role="tabpanel"
+        aria-labelledby={`filter-tab-${activeSection}`}
         id={`filter-panel-${activeSection}`}
         className="flex flex-wrap gap-3 justify-center py-2"
       >
@@ -65,7 +65,7 @@ const FilterPanel = ({
               >
                 <input
                   type="checkbox"
-                  hidden
+                  className="sr-only"
                   id={`${activeSection}-${option}`}
                   checked={checked}
                   onChange={() => toggleFilter(activeSection, option)}
@@ -75,7 +75,7 @@ const FilterPanel = ({
             );
           })}
       </div>
-    </nav>
+    </div>
   );
 };
 

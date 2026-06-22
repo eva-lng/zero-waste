@@ -55,6 +55,8 @@ const FiltersBar = () => {
         <button
           onClick={() => setOpen((prev) => !prev)}
           className="inline-flex items-center md:gap-1 bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline"
+          aria-expanded={open}
+          aria-controls="filter-panel"
         >
           <MdFilterList />
           <span className="relative inline-flex items-center gap-1.5">
