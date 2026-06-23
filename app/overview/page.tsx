@@ -9,7 +9,6 @@ import {
   isExpiringSoon,
   isExpired,
   getExpirationLabelShort,
-  getExpiredLabelShort,
 } from "@/lib/utils/utilities";
 import { getAllTimeStats } from "@/lib/data/stats";
 import { VscPieChart } from "react-icons/vsc";
@@ -110,7 +109,7 @@ const OverviewPage = async () => {
         </nav>
 
         <nav
-          aria-label="Inventory quick links"
+          aria-label="Storage quick links"
           className="border rounded-lg p-2 bg-card"
         >
           <p className="border-b">Storages</p>
@@ -154,7 +153,7 @@ const OverviewPage = async () => {
                   className="flex items-center gap-0.5"
                 >
                   {soonCount} item{soonCount > 1 && "s"}
-                  <HiArrowSmallRight />
+                  <HiArrowSmallRight aria-hidden="true" />
                 </Link>
               </div>
               <ul>
@@ -182,7 +181,7 @@ const OverviewPage = async () => {
                   className="flex items-center gap-0.5"
                 >
                   {expiredCount} item{expiredCount > 1 && "s"}
-                  <HiArrowSmallRight />
+                  <HiArrowSmallRight aria-hidden="true" />
                 </Link>
               </div>
               <ul>
@@ -193,7 +192,7 @@ const OverviewPage = async () => {
                   >
                     <span>{item.name}</span>
                     <span>
-                      {getExpiredLabelShort(new Date(item.expirationDate))}
+                      {getExpirationLabelShort(new Date(item.expirationDate))}
                     </span>
                   </li>
                 ))}

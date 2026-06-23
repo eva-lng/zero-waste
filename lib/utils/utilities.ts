@@ -36,68 +36,48 @@ export function getExpirationState(
   return "fresh";
 }
 
-export function getDaysToExpiration(expirationDate: Date): number {
+export function getDaysDifference(expirationDate: Date): number {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-
   const exp = new Date(expirationDate);
   exp.setHours(0, 0, 0, 0);
-
-  const diffInMs = exp.getTime() - today.getTime();
-  return Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-}
-
-export function getDaysFromExpiration(expirationDate: Date): number {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const exp = new Date(expirationDate);
-  exp.setHours(0, 0, 0, 0);
-
-  const diffInMs = today.getTime() - exp.getTime();
-  return Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-}
-
-export function getExpirationLabelLong(expirationDate: Date): string {
-  const days = getDaysToExpiration(expirationDate);
-
-  if (days < 0) return "Expired";
-  else if (days === 0) return "Expires today";
-  else if (days === 1) return "Expires tomorrow";
-  else if (days >= 60) return `Expires in ${Math.floor(days / 30)} months`;
-  else if (days >= 30) return "Expires in 1 month";
-  else return `Expires in ${days} days`;
+  return Math.floor((exp.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 }
 
 export function getExpirationLabelShort(expirationDate: Date): string {
-  const days = getDaysToExpiration(expirationDate);
+  const days = getDaysDifference(expirationDate);
+  if (days < 0) return getExpiredLabelShort(expirationDate);
+  if (days === 0) return "Today";
+  if (days === 1) return "Tomorrow";
+  if (days >= 60) return `In ${Math.floor(days / 30)} months`;
+  if (days >= 30) return "In 1 month";
+  return `In ${days} days`;
+}
 
-  if (days < 0) return "Expired";
-  else if (days === 0) return "Today";
-  else if (days === 1) return "Tomorrow";
-  else if (days >= 60) return `In ${Math.floor(days / 30)} months`;
-  else if (days >= 30) return "In 1 month";
-  else return `In ${days} days`;
+export function getExpirationLabelLong(expirationDate: Date): string {
+  const days = getDaysDifference(expirationDate);
+  if (days < 0) return getExpiredLabelLong(expirationDate);
+  if (days === 0) return "Expires today";
+  if (days === 1) return "Expires tomorrow";
+  if (days >= 60) return `Expires in ${Math.floor(days / 30)} months`;
+  if (days >= 30) return "Expires in 1 month";
+  return `Expires in ${days} days`;
 }
 
 export function getExpiredLabelShort(expirationDate: Date): string {
-  const days = getDaysFromExpiration(expirationDate);
-
-  if (days === 0) return "Today";
-  else if (days === 1) return "Yesterday";
-  else if (days >= 60) return `${Math.floor(days / 30)} months ago`;
-  else if (days >= 30) return "1 month ago";
-  else return `${days} days ago`;
+  const days = -getDaysDifference(expirationDate);
+  if (days === 1) return "Yesterday";
+  if (days >= 60) return `${Math.floor(days / 30)} months ago`;
+  if (days >= 30) return "1 month ago";
+  return `${days} days ago`;
 }
 
 export function getExpiredLabelLong(expirationDate: Date): string {
-  const days = getDaysFromExpiration(expirationDate);
-
-  if (days === 0) return "Expires Today";
-  else if (days === 1) return "Expired Yesterday";
-  else if (days >= 60) return `Expired ${Math.floor(days / 30)} months ago`;
-  else if (days >= 30) return "Expired 1 month ago";
-  else return `Expired ${days} days ago`;
+  const days = -getDaysDifference(expirationDate);
+  if (days === 1) return "Expired Yesterday";
+  if (days >= 60) return `Expired ${Math.floor(days / 30)} months ago`;
+  if (days >= 30) return "Expired 1 month ago";
+  return `Expired ${days} days ago`;
 }
 
 export function capitalize(str: string): string {
