@@ -5,8 +5,15 @@ import dbConnect from "@/lib/mongodb";
 import FoodItem from "@/models/FoodItem";
 import Link from "next/link";
 import { FoodItemDB, StorageType } from "@/lib/utils/types";
-import { isExpiringSoon, isExpired } from "@/lib/utils/utilities";
+import {
+  isExpiringSoon,
+  isExpired,
+  getExpirationLabelShort,
+  getExpiredLabelShort,
+} from "@/lib/utils/utilities";
 import { getAllTimeStats } from "@/lib/data/stats";
+import { VscPieChart } from "react-icons/vsc";
+import { HiArrowSmallRight } from "react-icons/hi2";
 
 const OverviewPage = async () => {
   await dbConnect();
@@ -23,9 +30,10 @@ const OverviewPage = async () => {
 
   const { consumed: totalConsumed, wasted: totalWasted } =
     await getAllTimeStats(userId);
-  const wastedPercentage = Math.round(
-    (totalWasted * 100) / (totalConsumed + totalWasted),
-  );
+  const wastedPercentage =
+    totalConsumed + totalWasted === 0
+      ? 0
+      : Math.round((totalWasted * 100) / (totalConsumed + totalWasted));
 
   const foodItems = await FoodItem.find({ user: userId, status: "active" })
     .sort({ expirationDate: 1 })
@@ -52,25 +60,35 @@ const OverviewPage = async () => {
     }
   }
 
+  const soonItems: FoodItemDB[] = foodItems
+    .filter((item) => isExpiringSoon(item.expirationDate))
+    .slice(0, 3);
+  const expiredItems: FoodItemDB[] = foodItems
+    .filter((item) => isExpired(item.expirationDate))
+    .slice(0, 3);
+
   return (
     <>
-      <h2 className="text-3xl text-center">Overview</h2>
-
-      <div className="flex justify-around mb-5">
-        <section className="rounded-lg p-3 bg-muted">
+      <div className="grid grid-cols-2 gap-2 md:gap-4 mb-4">
+        <div className="rounded-lg p-3 bg-muted">
           <p>Consumed</p>
-          <p className="font-bold text-xl">{100 - wastedPercentage}%</p>
-        </section>
+          <p className="font-bold text-xl">
+            {totalConsumed > 0 ? 100 - wastedPercentage : 0}%
+          </p>
+        </div>
 
-        <section className="rounded-lg p-3 bg-muted">
+        <div className="rounded-lg p-3 bg-muted">
           <p>Thrown</p>
           <p className="font-bold text-xl">{wastedPercentage}%</p>
-        </section>
+        </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row justify-around items-center gap-8 sm:gap-0 ">
-        <section className="w-3xs border rounded-lg p-2 bg-card">
-          <h3 className="border-b">Smart List</h3>
+      <div className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-4 mb-4">
+        <nav
+          aria-label="Inventory quick links"
+          className="border rounded-lg p-2 bg-card"
+        >
+          <p className="border-b">Smart List</p>
           <ul>
             <li className="flex justify-between">
               <Link href="/inventory">All</Link>
@@ -89,10 +107,13 @@ const OverviewPage = async () => {
               <span>{openCount}</span>
             </li>
           </ul>
-        </section>
+        </nav>
 
-        <section className="w-3xs border rounded-lg p-2 bg-card">
-          <h3 className="border-b">Storages</h3>
+        <nav
+          aria-label="Inventory quick links"
+          className="border rounded-lg p-2 bg-card"
+        >
+          <p className="border-b">Storages</p>
           <ul>
             <li className="flex justify-between">
               <Link href="/inventory?storage=pantry">Pantry</Link>
@@ -107,8 +128,80 @@ const OverviewPage = async () => {
               <span>{storageCount.freezer}</span>
             </li>
           </ul>
-        </section>
+        </nav>
+
+        <div className="border rounded-lg p-2 bg-card hidden md:flex justify-center items-center">
+          <Link
+            href="/stats"
+            className="flex flex-col items-center cursor-pointer"
+          >
+            <VscPieChart className="text-2xl" />
+            <span className="flex items-center gap-0.5">
+              View full stats <HiArrowSmallRight aria-hidden="true" />
+            </span>
+          </Link>
+        </div>
       </div>
+
+      {(soonCount > 0 || expiredCount > 0) && (
+        <div className="grid sm:grid-cols-2 gap-4 sm:gap-2 md:gap-4">
+          {soonCount > 0 && (
+            <section className="border rounded-lg p-2 bg-card">
+              <div className="flex justify-between border-b">
+                <h2>Expiring soon</h2>
+                <Link
+                  href="/inventory?expiration=soon"
+                  className="flex items-center gap-0.5"
+                >
+                  {soonCount} item{soonCount > 1 && "s"}
+                  <HiArrowSmallRight />
+                </Link>
+              </div>
+              <ul>
+                {soonItems.map((item) => (
+                  <li
+                    key={item._id.toString()}
+                    className="flex justify-between"
+                  >
+                    <span>{item.name}</span>
+                    <span>
+                      {getExpirationLabelShort(new Date(item.expirationDate))}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {expiredCount > 0 && (
+            <section className="border rounded-lg p-2 bg-card">
+              <div className="flex justify-between border-b">
+                <h2>Expired</h2>
+                <Link
+                  href="/inventory?expiration=expired"
+                  className="flex items-center gap-0.5"
+                >
+                  {expiredCount} item{expiredCount > 1 && "s"}
+                  <HiArrowSmallRight />
+                </Link>
+              </div>
+              <ul>
+                {expiredItems.map((item) => (
+                  <li
+                    key={item._id.toString()}
+                    className="flex justify-between"
+                  >
+                    <span>{item.name}</span>
+                    <span>
+                      {getExpiredLabelShort(new Date(item.expirationDate))}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
+      )}
     </>
   );
 };

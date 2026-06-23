@@ -31,7 +31,7 @@ export default function RootLayout({
       >
         <div className="flex flex-col h-dvh">
           <Header />
-          <main className="mx-auto w-full max-w-[800px] p-5 border border-amber-600">
+          <main className="mx-auto w-full max-w-[800px] p-3 border border-amber-600">
             {children}
           </main>
           <NavbarMain />
