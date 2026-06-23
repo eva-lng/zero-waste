@@ -21,7 +21,7 @@ const FoodItemsList = ({ items }: { items: FoodItemClient[] }) => {
         const storageKey = storage as StorageType;
         return (
           <section key={storageKey}>
-            <h3 className="text-xl">{capitalize(storageKey)}</h3>
+            <h3 className="text-xl">{storageKey.toUpperCase()}</h3>
             <ul>
               {itemsByStorage[storageKey]?.map((item) => (
                 <li key={item._id}>

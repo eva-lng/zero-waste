@@ -18,7 +18,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const FoodConsumeButton = ({ item }: { item: FoodItemClient }) => {
+const FoodConsumeButton = ({
+  item,
+  compact,
+}: {
+  item: FoodItemClient;
+  compact: boolean;
+}) => {
   const initialState = {
     data: {
       quantity: "",
@@ -51,22 +57,26 @@ const FoodConsumeButton = ({ item }: { item: FoodItemClient }) => {
   return (
     <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <div className="flex flex-col items-center cursor-pointer">
-          <GiKnifeFork size={25} />
-          <span className="text-sm">Consumed</span>
-        </div>
+        <button className="flex flex-col items-center gap-1 flex-1 py-2 cursor-pointer">
+          <GiKnifeFork size={18} />
+          <span className="text-xs">Consume</span>
+        </button>
       </DialogTrigger>
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
         <form action={formAction} noValidate>
           <DialogHeader>
             <DialogTitle>Consume {item.name}</DialogTitle>
-            {/* <DialogDescription>
-              Select quantity to mark as consumed
-            </DialogDescription> */}
+            <DialogDescription className="sr-only">
+              Adjust quantity to mark as consumed
+            </DialogDescription>
           </DialogHeader>
 
           <DialogFoodInfo item={item} />
-          <DialogFoodQty item={item} errors={errors} />
+          <DialogFoodQty
+            item={item}
+            sectionLabel="Quantity to consume"
+            errors={errors}
+          />
 
           <DialogFooter>
             <DialogClose asChild>

@@ -17,9 +17,11 @@ import {
 const FoodDeleteButton = ({
   foodId,
   name,
+  compact,
 }: {
   foodId: string;
   name: string;
+  compact: boolean;
 }) => {
   const deleteFoodById = deleteFood.bind(null, foodId);
 
@@ -27,10 +29,10 @@ const FoodDeleteButton = ({
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <div className="flex flex-col items-center cursor-pointer">
-            <FiTrash2 size={25} />
-            <span className="text-sm">Delete</span>
-          </div>
+          <button className="flex flex-col items-center gap-1 flex-1 py-2 cursor-pointer">
+            <FiTrash2 size={18} />
+            <span className="text-xs">Delete</span>
+          </button>
         </AlertDialogTrigger>
         <AlertDialogContent size="sm">
           <AlertDialogHeader>

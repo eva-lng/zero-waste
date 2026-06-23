@@ -30,8 +30,8 @@ const FilterPanel = ({
   ];
 
   return (
-    <div id="filter-panel">
-      <div role="tablist" className="flex justify-around">
+    <div id="filter-panel" className="bg-card border p-2 rounded-lg">
+      <div role="tablist" className="flex justify-around border-b">
         {filterGroups.map((group) => (
           <button
             key={group.type}

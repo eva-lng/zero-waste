@@ -1,30 +1,24 @@
 import { FoodItemClient } from "@/lib/utils/types";
-import { capitalize } from "@/lib/utils/utilities";
+import { capitalize, getExpirationLabelShort } from "@/lib/utils/utilities";
 
 const DialogFoodInfo = ({ item }: { item: FoodItemClient }) => {
   return (
     <div>
-      <div className="flex justify-between border-b p-0.5">
+      <p>ITEM INFO</p>
+      <div className="flex justify-between">
         <span>Storage</span>
         <span>{capitalize(item.storage)}</span>
       </div>
-      <div className="flex justify-between border-b p-0.5">
-        <span>Expiration date</span>
-        <span>
-          {new Date(item.expirationDate).toLocaleDateString("en-GB", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
-        </span>
+      <div className="flex justify-between">
+        <span>Expires</span>
+        <span>{getExpirationLabelShort(new Date(item.expirationDate))}</span>
       </div>
-      <div className="flex justify-between p-0.5">
-        <span>Storage date</span>
+      <div className="flex justify-between">
+        <span>Added</span>
         <span>
           {new Date(item.createdAt).toLocaleDateString("en-GB", {
             day: "numeric",
-            month: "long",
-            year: "numeric",
+            month: "short",
           })}
         </span>
       </div>

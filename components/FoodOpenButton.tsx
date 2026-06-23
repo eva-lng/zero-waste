@@ -19,7 +19,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
+const FoodOpenButton = ({
+  item,
+  compact,
+}: {
+  item: FoodItemClient;
+  compact: boolean;
+}) => {
   const initialState = {
     data: { quantity: "", expirationDate: "" },
     errors: {},
@@ -82,44 +88,43 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
   return (
     <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <div className="flex flex-col items-center cursor-pointer">
-          <LuPackageOpen size={25} />
-          <span className="text-sm">Open</span>
-        </div>
+        <button className="flex flex-col items-center gap-1 flex-1 py-2 cursor-pointer">
+          <LuPackageOpen size={18} />
+          <span className="text-xs">Open</span>
+        </button>
       </DialogTrigger>
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
         <form action={formAction} noValidate>
           <DialogHeader>
             <DialogTitle>Open {item.name}</DialogTitle>
-            {/* <DialogDescription>
+            <DialogDescription className="sr-only">
               Open {item.name} and adjust expiration date (optional).
-            </DialogDescription> */}
+            </DialogDescription>
           </DialogHeader>
 
           <DialogFoodInfo item={item} />
-          <DialogFoodQty item={item} errors={errors} />
+          <DialogFoodQty
+            item={item}
+            sectionLabel="Quantity to open"
+            errors={errors}
+          />
 
           <div className="my-3">
-            <div className="flex justify-between border-b p-0.5">
-              <span>Open date</span>
+            <p>OPEN DATE & NEW EXPIRATION</p>
+            <div className="flex justify-between">
+              <span>Opened</span>
               <span>
                 {openDate.toLocaleDateString("en-GB", {
                   day: "numeric",
-                  month: "long",
-                  year: "numeric",
+                  month: "short",
                 })}
               </span>
             </div>
 
             <DateAdjustField adjustDate={adjustDate} />
 
-            <div className="flex justify-between p-0.5">
-              <label
-                htmlFor="expirationDate"
-                className="text-gray-700 font-bold"
-              >
-                Expiration Date
-              </label>
+            <div className="flex justify-between">
+              <label htmlFor="expirationDate">Expiration Date</label>
               <input
                 type="date"
                 id="expirationDate"
@@ -129,6 +134,7 @@ const FoodOpenButton = ({ item }: { item: FoodItemClient }) => {
                   setExpDateState(new Date(e.target.value).getTime());
                   setHasAdjusted(true);
                 }}
+                className="border rounded p-1"
                 required
                 aria-invalid={!!errors?.expirationDate}
                 aria-describedby={

@@ -10,23 +10,13 @@ import Link from "next/link";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { FiMoreVertical } from "react-icons/fi";
 import { TbEdit } from "react-icons/tb";
-import FoodDeleteButton from "./FoodDeleteButton";
-import FoodConsumeButton from "./FoodConsumeButton";
-import FoodExpireButton from "./FoodExpireButton";
-import FoodOpenButton from "./FoodOpenButton";
-import FoodMoveButton from "./FoodMoveButton";
 import ActionMenu from "./ActionMenu";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/components/ui/drawer";
-import { it } from "node:test";
 
 const FoodItemCard = ({
   item,
@@ -41,7 +31,7 @@ const FoodItemCard = ({
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   return (
-    <div className="relative bg-card border rounded p-2 mb-2">
+    <div className="relative bg-card border rounded-lg p-2 mb-2">
       <button
         className="w-full text-left cursor-pointer"
         onClick={() => setDrawerOpen(true)}
@@ -65,8 +55,9 @@ const FoodItemCard = ({
           e.stopPropagation();
           onToggle();
         }}
+        aria-label="Item actions"
       >
-        <FiMoreVertical />
+        <FiMoreVertical aria-hidden="true" />
       </button>
 
       {isMenuOpen && <ActionMenu item={item} />}
@@ -77,13 +68,21 @@ const FoodItemCard = ({
         direction={isDesktop ? "right" : "bottom"}
       >
         <DrawerContent>
-          <div className="mx-auto w-full max-w-sm">
+          <div
+            className={`mx-auto w-full max-w-sm p-3 ${isDesktop && "p-5 mt-10"}`}
+          >
             <DrawerTitle className="sr-only">{item.name}</DrawerTitle>
+            <DrawerDescription className="sr-only">
+              Food item details
+            </DrawerDescription>
 
             <div className="flex justify-between">
               <h3>{capitalize(item.name)}</h3>
-              <Link href={`/inventory/${item._id}/edit`}>
-                <TbEdit />
+              <Link
+                href={`/inventory/${item._id}/edit`}
+                aria-label={`Edit ${item.name}`}
+              >
+                <TbEdit aria-hidden="true" />
               </Link>
             </div>
             <p>
@@ -91,21 +90,23 @@ const FoodItemCard = ({
               {item.details && ` • ${capitalize(item.details)}`}
             </p>
 
-            <ActionMenu item={item} />
+            <ActionMenu item={item} compact={isDesktop} />
 
-            <h4>QUANTITY</h4>
+            <p>QUANTITY</p>
             <div className="flex justify-between">
               <span>Amount</span>
               <span>
                 {item.quantity} {item.unit}
               </span>
             </div>
-            <div className="flex justify-between">
-              {item.gramsPerUnit && <span>Grams per {item.unit}</span>}
-              <span>{item.gramsPerUnit && item.gramsPerUnit} g</span>
-            </div>
+            {item.gramsPerUnit && (
+              <div className="flex justify-between">
+                <span>Grams per {item.unit}</span>
+                <span>{item.gramsPerUnit} g</span>
+              </div>
+            )}
 
-            <h4>STORAGE & STATUS</h4>
+            <p>STORAGE & STATUS</p>
             <div className="flex justify-between">
               <span>Storage</span>
               <span>{item.storage}</span>
@@ -126,7 +127,7 @@ const FoodItemCard = ({
               )}
             </div>
 
-            <h4>DATES</h4>
+            <p>DATES</p>
             <div className="flex justify-between">
               <span>Expires</span>
               <span>

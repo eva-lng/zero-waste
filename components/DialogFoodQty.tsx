@@ -4,9 +4,13 @@ import { FoodItemClient } from "@/lib/utils/types";
 
 const DialogFoodQty = ({
   item,
+  textRemaining = "Remaining after",
+  sectionLabel = "Quantity",
   errors,
 }: {
   item: FoodItemClient;
+  textRemaining?: string;
+  sectionLabel?: string;
   errors?: { quantity?: string[] };
 }) => {
   const [quantity, setQuantity] = useState(Math.min(1, item.quantity));
@@ -14,8 +18,9 @@ const DialogFoodQty = ({
 
   return (
     <div className="my-3">
-      <div className="flex justify-between border-b p-0.5">
-        <span>Remaining</span>
+      <p>{sectionLabel.toUpperCase()}</p>
+      <div className="flex justify-between">
+        <span>{textRemaining}</span>
         <span>
           {remaining} {item.unit}
           {(item.unit === "piece" || item.unit === "package") &&
@@ -23,16 +28,15 @@ const DialogFoodQty = ({
             "s"}
         </span>
       </div>
-      <div className="flex justify-between p-0.5">
-        <label htmlFor="quantity" className="text-gray-700 font-bold">
-          Quantity
-        </label>
+      <div className="flex justify-between">
+        <label htmlFor="quantity">Quantity</label>
         <input
           type="number"
           id="quantity"
           name="quantity"
           value={quantity}
           onChange={(e) => setQuantity(Number(e.target.value))}
+          className="border p-1 rounded"
           min={item.unit === "piece" || item.unit === "package" ? 0.25 : 1}
           max={item.quantity}
           step={item.unit === "piece" || item.unit === "package" ? 0.25 : 1}
