@@ -47,7 +47,7 @@ export function getDaysToExpiration(expirationDate: Date): number {
   return Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 }
 
-export function getExpirationLabel(expirationDate: Date): string {
+export function getExpirationLabelLong(expirationDate: Date): string {
   const days = getDaysToExpiration(expirationDate);
 
   if (days < 0) return "Expired";
@@ -56,6 +56,17 @@ export function getExpirationLabel(expirationDate: Date): string {
   else if (days >= 60) return `Expires in ${Math.floor(days / 30)} months`;
   else if (days >= 30) return "Expires in 1 month";
   else return `Expires in ${days} days`;
+}
+
+export function getExpirationLabelShort(expirationDate: Date): string {
+  const days = getDaysToExpiration(expirationDate);
+
+  if (days < 0) return "Expired";
+  else if (days === 0) return "Today";
+  else if (days === 1) return "In 1 day";
+  else if (days >= 60) return `In ${Math.floor(days / 30)} months`;
+  else if (days >= 30) return "In 1 month";
+  else return `In ${days} days`;
 }
 
 export function capitalize(str: string): string {
