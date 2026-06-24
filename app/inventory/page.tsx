@@ -81,10 +81,6 @@ const InventoryPage = async ({
 
   return (
     <>
-      <h2 className="text-3xl text-center">Items</h2>
-      <div className="text-center text-blue-700">
-        <Link href="/inventory/add">Add Food</Link>
-      </div>
       <FiltersBar />
       <FoodItemsList items={serializedItems} />
     </>

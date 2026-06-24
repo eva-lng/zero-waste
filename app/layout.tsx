@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import NavbarMain from "@/components/NavbarMain";
+import FAB from "@/components/FAB";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -31,9 +32,10 @@ export default function RootLayout({
       >
         <div className="flex flex-col h-dvh">
           <Header />
-          <main className="mx-auto w-full max-w-[800px] p-3 border border-amber-600">
+          <main className="mx-auto w-full max-w-[800px] p-3 border border-amber-600 pb-30">
             {children}
           </main>
+          <FAB />
           <NavbarMain />
         </div>
       </body>

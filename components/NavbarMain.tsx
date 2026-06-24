@@ -1,9 +1,13 @@
 "use client";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
+import { usePathname } from "next/navigation";
+import { BsPlus } from "react-icons/bs";
 
 const NavbarMain = () => {
   const { data: session, isPending, error } = authClient.useSession();
+
+  const pathname = usePathname();
 
   const monthParam = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`;
 
@@ -18,6 +22,17 @@ const NavbarMain = () => {
           </li>
           <li>
             <Link href="/inventory">Inventory</Link>
+          </li>
+          <li
+            className={`hidden md:block ${pathname === "/inventory/add" && "md:hidden"}`}
+          >
+            <Link
+              href="/inventory/add"
+              aria-label="Add food item"
+              className="flex items-center justify-center w-12 h-12 -mt-4 rounded-full bg-primary hover:bg-primary-hover text-primary-foreground shadow-lg transition-colors"
+            >
+              <BsPlus className="text-2xl" aria-hidden="true" />
+            </Link>
           </li>
           <li>
             <Link href={`/stats?month=${monthParam}`}>Stats</Link>
