@@ -1,5 +1,12 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import { z } from "zod";
+import {
+  changeUsernameSchema,
+  changePasswordSchema,
+} from "@/lib/utils/schemas";
 
 type Props = {
   name: string;
@@ -19,6 +26,57 @@ const ProfileClient = ({
   const [activeForm, setActiveForm] = useState<"username" | "password" | null>(
     null,
   );
+  const [fieldErrors, setFieldErrors] = useState<{
+    password?: string;
+    username?: string;
+  }>({});
+  const [username, setUsername] = useState(name);
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const router = useRouter();
+
+  const logout = () => {
+    authClient.signOut();
+    router.push("/");
+  };
+
+  const handleUsernameSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFieldErrors({});
+    setError(null);
+
+    const validated = changeUsernameSchema.safeParse({ username });
+
+    if (!validated.success) {
+      const flattened = z.flattenError(validated.error);
+      setFieldErrors({
+        username: flattened.fieldErrors.username?.[0],
+      });
+      return;
+    }
+
+    await authClient.updateUser(
+      {
+        name: username,
+      },
+      {
+        onRequest: () => {
+          setLoading(true);
+        },
+        onSuccess: () => {
+          setLoading(false);
+          setActiveForm(null);
+          router.refresh();
+        },
+        onError: (ctx) => {
+          setError(ctx.error.message);
+          setLoading(false);
+        },
+      },
+    );
+  };
 
   return (
     <div className="grid md:grid-cols-[35%_65%] gap-4 px-4">
@@ -34,24 +92,6 @@ const ProfileClient = ({
       </div>
 
       <div className="flex flex-col gap-3">
-        {/* stats card */}
-        <div className="bg-card border border-border rounded-lg">
-          <div className="flex justify-between md:gap-8 md:justify-start px-4 py-3">
-            <div>
-              <p className="text-xs text-muted-foreground mb-0.5">
-                Member since
-              </p>
-              <p className="text-sm text-foreground">{memberSince}</p>
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground mb-0.5">
-                Items tracked
-              </p>
-              <p className="text-sm text-foreground">{itemCount}</p>
-            </div>
-          </div>
-        </div>
-
         {/* stats card */}
         <div className="bg-card border rounded-lg overflow-hidden">
           <div className="flex flex-col md:grid md:grid-cols-2">
@@ -81,7 +121,7 @@ const ProfileClient = ({
               className="w-full flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors"
             >
               <div className="flex items-center gap-3">
-                {/* replace with your icon */}
+                {/* replace with icon */}
                 <span className="text-muted-foreground" aria-hidden="true">
                   👤
                 </span>
@@ -97,17 +137,44 @@ const ProfileClient = ({
 
             {activeForm === "username" && (
               <div className="px-4 py-3 bg-primary-light/20 border-t">
-                <form className="flex flex-col gap-2">
-                  <input
-                    type="text"
-                    defaultValue={name}
-                    autoFocus
-                    className="w-full border border-primary rounded-md px-3 py-1.5 text-sm bg-card focus:outline-none focus:ring-1 focus:ring-primary"
-                  />
+                <form
+                  onSubmit={handleUsernameSubmit}
+                  noValidate
+                  className="flex flex-col gap-2"
+                >
+                  <div>
+                    <input
+                      type="text"
+                      name="username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      required
+                      autoFocus
+                      className="w-full border border-primary rounded-md px-3 py-1.5 text-sm bg-card focus:outline-none focus:ring-1 focus:ring-primary"
+                      aria-invalid={!!fieldErrors.username}
+                      aria-describedby={
+                        fieldErrors.username ? "username-" : undefined
+                      }
+                    />
+                    {fieldErrors.username && (
+                      <small
+                        id="username-error"
+                        aria-live="polite"
+                        className="block mt-0.5 text-xs text-destructive text-right"
+                      >
+                        {fieldErrors.username}
+                      </small>
+                    )}
+                  </div>
                   <div className="flex justify-end gap-3">
                     <button
                       type="button"
-                      onClick={() => setActiveForm(null)}
+                      onClick={() => {
+                        setActiveForm(null);
+                        setUsername(name);
+                        setFieldErrors({});
+                        setError(null);
+                      }}
                       className="text-xs text-muted-foreground"
                     >
                       Cancel
@@ -188,7 +255,10 @@ const ProfileClient = ({
           </div>
 
           {/* log out */}
-          <button className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground hover:bg-muted transition-colors">
+          <button
+            onClick={logout}
+            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground hover:bg-muted transition-colors"
+          >
             <span className="text-muted-foreground" aria-hidden="true">
               →
             </span>

@@ -106,7 +106,7 @@ const SignupForm = () => {
       </div>
       <div className="mb-3">
         {fieldErrors.name && (
-          <small id="email-name" aria-live="polite" className="text-red-500">
+          <small id="name-error" aria-live="polite" className="text-red-500">
             {fieldErrors.name}
           </small>
         )}
@@ -132,7 +132,11 @@ const SignupForm = () => {
       </div>
       <div className="mb-3">
         {fieldErrors.password && (
-          <small id="password-name" aria-live="polite" className="text-red-500">
+          <small
+            id="password-error"
+            aria-live="polite"
+            className="text-red-500"
+          >
             {fieldErrors.password}
           </small>
         )}

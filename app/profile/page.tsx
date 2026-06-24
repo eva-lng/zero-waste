@@ -29,11 +29,14 @@ const ProfilePage = async () => {
   return (
     <>
       <ProfileClient
-        name="Jamie Doe"
-        email="jamie@example.com"
-        initials="JD"
-        memberSince="Mar 2026"
-        itemCount={142}
+        name={session.user.name ?? ""}
+        email={session.user.email ?? ""}
+        initials={initials}
+        memberSince={session.user.createdAt.toLocaleDateString("en-GB", {
+          month: "long",
+          year: "numeric",
+        })}
+        itemCount={itemCount}
       />
     </>
   );

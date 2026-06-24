@@ -124,3 +124,28 @@ export const signupSchema = z.object({
     .min(1, "Name is required")
     .max(30, "Name can be 30 characters max"),
 });
+
+export const changePasswordSchema = z
+  .object({
+    currentPassword: z.string().min(1, "Current password is required"),
+    newPassword: z
+      .string()
+      .min(8, "Minimum 8 characters")
+      .regex(
+        /[A-Z0-9]/,
+        "Must contain at least one uppercase letter and one number",
+      ),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export const changeUsernameSchema = z.object({
+  username: z
+    .string()
+    .trim()
+    .min(1, "Name is required")
+    .max(30, "Name can be 30 characters max"),
+});
