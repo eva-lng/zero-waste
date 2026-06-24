@@ -17,7 +17,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-card lg:mb-4 border-b">
+      <header className="bg-card border-b">
         <div className="container mx-auto flex justify-between items-center p-2">
           <Link href="/">
             <h1>Logo</h1>
