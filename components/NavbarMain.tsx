@@ -18,10 +18,20 @@ const NavbarMain = () => {
       <div className="container mx-auto p-2">
         <ul className="flex justify-between items-center">
           <li>
-            <Link href="/overview">Overview</Link>
+            <Link
+              href="/overview"
+              className={`py-2 px-4 rounded-lg text-muted-foreground hover:bg-muted ${pathname === "/overview" && "text-primary"}`}
+            >
+              Overview
+            </Link>
           </li>
           <li>
-            <Link href="/inventory">Inventory</Link>
+            <Link
+              href="/inventory"
+              className={`py-2 px-4 rounded-lg text-muted-foreground hover:bg-muted ${pathname === "/inventory" && "text-primary"}`}
+            >
+              Inventory
+            </Link>
           </li>
           <li
             className={`hidden md:block ${pathname === "/inventory/add" && "md:hidden"}`}
@@ -35,10 +45,20 @@ const NavbarMain = () => {
             </Link>
           </li>
           <li>
-            <Link href={`/stats?month=${monthParam}`}>Stats</Link>
+            <Link
+              href={`/stats?month=${monthParam}`}
+              className={`py-2 px-4 rounded-lg text-muted-foreground hover:bg-muted ${pathname === "/stats" && "text-primary"}`}
+            >
+              Stats
+            </Link>
           </li>
           <li>
-            <Link href="/profile">Profile</Link>
+            <Link
+              href="/profile"
+              className={`py-2 px-4 rounded-lg text-muted-foreground hover:bg-muted ${pathname === "/profile" && "text-primary"}`}
+            >
+              Profile
+            </Link>
           </li>
         </ul>
       </div>
