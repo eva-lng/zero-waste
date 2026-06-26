@@ -70,3 +70,5 @@ export interface FoodItemClient {
 export type ExpirationStateType = "fresh" | "soon" | "expired";
 
 export type FilterType = "category" | "storage" | "expiration" | "open";
+
+export type ProfileFormType = "username" | "password" | null;
