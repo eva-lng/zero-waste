@@ -82,7 +82,9 @@ const FoodExpireButton = ({
                 Cancel
               </Button>
             </DialogClose>
-            <SubmitButton pendingText="Saving...">Save</SubmitButton>
+            <SubmitButton pendingText="Saving..." loading={pending}>
+              Save
+            </SubmitButton>
           </DialogFooter>
         </form>
       </DialogContent>

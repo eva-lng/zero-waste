@@ -7,17 +7,17 @@ import { z } from "zod";
 import { changeUsernameSchema } from "@/lib/utils/schemas";
 import SubmitButton from "./SubmitButton";
 
-type ChangeUsernameSectionProps = {
+type ChangeUsernameButtonProps = {
   name: string;
   activeForm: ProfileFormType;
   setActiveForm: React.Dispatch<React.SetStateAction<ProfileFormType>>;
 };
 
-const ChangeUsernameSection = ({
+const ChangeUsernameButton = ({
   name,
   activeForm,
   setActiveForm,
-}: ChangeUsernameSectionProps) => {
+}: ChangeUsernameButtonProps) => {
   const [fieldErrorsUsername, setFieldErrorsUsername] = useState<
     string | undefined
   >("");
@@ -150,4 +150,4 @@ const ChangeUsernameSection = ({
   );
 };
 
-export default ChangeUsernameSection;
+export default ChangeUsernameButton;

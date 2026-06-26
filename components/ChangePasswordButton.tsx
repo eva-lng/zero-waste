@@ -7,15 +7,15 @@ import { z } from "zod";
 import { changePasswordSchema } from "@/lib/utils/schemas";
 import SubmitButton from "./SubmitButton";
 
-type ChangePasswordSectionProps = {
+type ChangePasswordButtonProps = {
   activeForm: ProfileFormType;
   setActiveForm: React.Dispatch<React.SetStateAction<ProfileFormType>>;
 };
 
-const ChangePasswordSection = ({
+const ChangePasswordButton = ({
   activeForm,
   setActiveForm,
-}: ChangePasswordSectionProps) => {
+}: ChangePasswordButtonProps) => {
   const [fieldErrorsPassword, setFieldErrorsPassword] = useState<{
     currentPassword?: string;
     newPassword?: string;
@@ -246,4 +246,4 @@ const ChangePasswordSection = ({
   );
 };
 
-export default ChangePasswordSection;
+export default ChangePasswordButton;

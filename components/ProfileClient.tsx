@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
-import ChangeUsernameSection from "./ChangeUsernameSection";
-import ChangePasswordSection from "./ChangePasswordSection";
+import ChangeUsernameButton from "./ChangeUsernameButton";
+import ChangePasswordButton from "./ChangePasswordButton";
 import DeleteAccountButton from "./DeleteAccountButton";
 
 const ProfileClient = ({ name }: { name: string }) => {
@@ -23,14 +23,14 @@ const ProfileClient = ({ name }: { name: string }) => {
       {/* account actions card */}
       <div className="bg-card border rounded-lg overflow-hidden">
         {/* change username */}
-        <ChangeUsernameSection
+        <ChangeUsernameButton
           name={name}
           activeForm={activeForm}
           setActiveForm={setActiveForm}
         />
 
         {/* change password */}
-        <ChangePasswordSection
+        <ChangePasswordButton
           activeForm={activeForm}
           setActiveForm={setActiveForm}
         />

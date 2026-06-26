@@ -127,7 +127,7 @@ const FoodMoveButton = ({
                 Cancel
               </Button>
             </DialogClose>
-            <SubmitButton pendingText="Saving..." className="cursor-pointer">
+            <SubmitButton pendingText="Saving..." loading={pending}>
               Save
             </SubmitButton>
           </DialogFooter>
