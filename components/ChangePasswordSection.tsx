@@ -5,6 +5,7 @@ import { authClient } from "@/lib/auth-client";
 import { ProfileFormType } from "@/lib/utils/types";
 import { z } from "zod";
 import { changePasswordSchema } from "@/lib/utils/schemas";
+import SubmitButton from "./SubmitButton";
 
 type ChangePasswordSectionProps = {
   activeForm: ProfileFormType;
@@ -224,16 +225,18 @@ const ChangePasswordSection = ({
                     setFieldErrorsPassword({});
                     setError(null);
                   }}
+                  disabled={loading}
                   className="text-xs text-muted-foreground"
                 >
                   Cancel
                 </button>
-                <button
-                  type="submit"
-                  className="text-xs bg-primary hover:bg-primary-hover text-primary-foreground rounded-md px-3 py-1.5 transition-colors"
+                <SubmitButton
+                  className="text-xs bg-primary enabled:hover:bg-primary-hover text-primary-foreground rounded-md px-3 py-1.5 transition-colors"
+                  loading={loading}
+                  pendingText="Saving..."
                 >
                   Save
-                </button>
+                </SubmitButton>
               </div>
             </form>
           </div>

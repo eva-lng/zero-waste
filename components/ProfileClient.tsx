@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import ChangeUsernameSection from "./ChangeUsernameSection";
 import ChangePasswordSection from "./ChangePasswordSection";
+import DeleteAccountButton from "./DeleteAccountButton";
 
 const ProfileClient = ({ name }: { name: string }) => {
   const [activeForm, setActiveForm] = useState<"username" | "password" | null>(
@@ -47,9 +48,7 @@ const ProfileClient = ({ name }: { name: string }) => {
       </div>
 
       {/* delete account */}
-      <button className="w-full md:w-auto md:self-start bg-destructive-light text-destructive-light-foreground rounded-lg px-4 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity">
-        Delete account
-      </button>
+      <DeleteAccountButton username={name} />
     </>
   );
 };

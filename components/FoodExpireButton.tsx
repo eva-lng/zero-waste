@@ -82,9 +82,7 @@ const FoodExpireButton = ({
                 Cancel
               </Button>
             </DialogClose>
-            <SubmitButton pendingText="Saving..." className="cursor-pointer">
-              Save
-            </SubmitButton>
+            <SubmitButton pendingText="Saving...">Save</SubmitButton>
           </DialogFooter>
         </form>
       </DialogContent>

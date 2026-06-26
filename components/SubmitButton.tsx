@@ -24,7 +24,7 @@ const SubmitButton = ({
     <button
       type="submit"
       disabled={isLoading}
-      className={`${className} inline-flex items-center gap-1`}
+      className={`${className} inline-flex items-center gap-1 cursor-pointer disabled:cursor-not-allowed`}
     >
       {isLoading && <Spinner />} {isLoading ? pendingText : children}
     </button>
