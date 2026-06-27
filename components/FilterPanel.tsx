@@ -40,6 +40,7 @@ const FilterPanel = ({
             aria-selected={activeSection === group.type}
             aria-controls={`filter-panel-${group.type}`}
             onClick={() => handleTabChange(group.type)}
+            className={`p-1 rounded-md hover:bg-muted ${activeSection === group.type ? "text-primary border-b-2 border-primary" : "text-muted-foreground"}`}
           >
             {group.type === "open" ? "Status" : capitalize(group.type)}{" "}
             {params.getAll(group.type).length > 0 &&
@@ -61,7 +62,7 @@ const FilterPanel = ({
               <label
                 key={option}
                 htmlFor={`${activeSection}-${option}`}
-                className={`cursor-pointer text-sm px-3 py-1 rounded-full ${checked ? "bg-blue-500 text-white border border-blue-600" : "bg-slate-100 text-slate-600"}`}
+                className={`cursor-pointer text-sm px-3 py-1 rounded-full ${checked ? "bg-primary-light text-primary-light-foreground hover:bg-primary-light-hover" : "bg-background border text-muted-foreground hover:bg-muted hover:text-foreground"}`}
               >
                 <input
                   type="checkbox"

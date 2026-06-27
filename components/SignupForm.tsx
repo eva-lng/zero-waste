@@ -152,7 +152,7 @@ const SignupForm = () => {
 
       <SubmitButton
         loading={loading}
-        className="bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline"
+        className="bg-blue-500 enabled:hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline"
       >
         Sign up
       </SubmitButton>

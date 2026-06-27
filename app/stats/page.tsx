@@ -70,7 +70,66 @@ const StatsPage = async ({
 
   return (
     <>
-      <h2 className="text-3xl text-center">Consumption and Waste Trends</h2>
+      <section className="rounded-lg bg-card border p-4 md:p-5">
+        <div className="mb-4 flex items-center gap-2 text-xs text-muted-foreground tracking-wide uppercase">
+          <h2>Overall</h2>
+          <span>•</span>
+          <p>
+            since{" "}
+            {session.user.createdAt.toLocaleDateString("en-GB", {
+              month: "short",
+              year: "numeric",
+            })}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:items-center">
+          {/* LEFT */}
+          <div className="flex gap-3">
+            <div className="flex-1 rounded-md bg-muted p-4">
+              <p className="text-muted-foreground text-sm">Consumed</p>
+              <p className="mt-1 text-xl font-bold text-foreground">
+                {totalConsumed + totalWasted > 0
+                  ? Math.round(
+                      (totalConsumed * 100) / (totalConsumed + totalWasted),
+                    )
+                  : 0}
+                %
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground-light">
+                {totalConsumed} g
+              </p>
+            </div>
+
+            <div className="flex-1 rounded-md bg-muted p-4">
+              <p className="text-muted-foreground text-sm">Wasted</p>
+              <p className="mt-1 text-xl font-bold text-foreground">
+                {totalConsumed + totalWasted > 0
+                  ? Math.round(
+                      (totalWasted * 100) / (totalConsumed + totalWasted),
+                    )
+                  : 0}
+                %
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground-light">
+                {totalWasted} g
+              </p>
+            </div>
+          </div>
+
+          {/* RIGHT */}
+          <div className="flex items-center">
+            {totalConsumed + totalWasted > 0 && (
+              <ChartTotal
+                totalConsumed={totalConsumed}
+                totalWasted={totalWasted}
+              />
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* <h2 className="text-3xl text-center">Consumption and Waste Trends</h2>
       <section className="mb-5">
         <h3>Overall stats</h3>
         <p>Total consumed: {totalConsumed} grams</p>
@@ -120,7 +179,7 @@ const StatsPage = async ({
             </>
           )}
         </div>
-      </section>
+      </section> */}
     </>
   );
 };

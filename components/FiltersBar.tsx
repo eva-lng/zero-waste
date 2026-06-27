@@ -54,7 +54,7 @@ const FiltersBar = () => {
         <SearchBar />
         <button
           onClick={() => setOpen((prev) => !prev)}
-          className="inline-flex items-center md:gap-1 bg-blue-500 hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline"
+          className="inline-flex items-center md:gap-1 bg-card text-foreground border cursor-pointer py-2 px-2 md:px-4 rounded-md focus:shadow-outline"
           aria-expanded={open}
           aria-controls="filter-panel"
         >
@@ -62,7 +62,7 @@ const FiltersBar = () => {
           <span className="relative inline-flex items-center gap-1.5">
             <span className="hidden md:inline">Filters</span>
             {activeFilters.length > 0 && (
-              <span className="bg-white text-blue-500 text-xs rounded-full px-1.5 py-0.5 absolute -top-6 -right-5 md:static">
+              <span className="bg-primary text-primary-foreground text-xs rounded-full px-1.5 py-0.5 absolute -top-6 -right-4 md:static">
                 {activeFilters.length}
               </span>
             )}

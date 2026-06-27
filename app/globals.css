@@ -65,22 +65,22 @@
   --foreground: oklch(0.15 0 0); /* near black - primary text */
   --card: oklch(1 0 0); /* pure white - card/block background */
   --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  /* --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0); */
   --primary: oklch(0.5 0.18 145);
   --primary-foreground: oklch(
     0.985 0 0
   ); /* text color for solid green backgrounds */
   --primary-hover: oklch(0.42 0.18 145);
   --primary-light: oklch(
-    0.92 0.08 145
+    0.9422 0.0367 127.39
   ); /* pale green background (active filter pills, subtle highlights) */
   --primary-light-foreground: oklch(
     0.3 0.1 145
   ); /* dark green text for light bg */
-  --primary-light-hover: oklch(0.86 0.09 145);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  --primary-light-hover: oklch(0.9018 0.0562 126.26);
+  /* --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0); */
   --muted: oklch(
     0.9594 0.012 101.48
   ); /* light grey - highlighted backgrounds, hover states */
@@ -88,8 +88,8 @@
   --muted-foreground-light: oklch(
     0.65 0 0
   ); /* tertiary text - smallest/least important */
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  /* --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0); */
   --success: oklch(0.55 0.18 145);
   --success-foreground: oklch(0.985 0 0);
   --warning: oklch(0.75 0.16 70);
@@ -125,13 +125,13 @@
   --chart-21: oklch(0.6847 0.1479 237.32);
   --chart-22: oklch(0.78 0.12 200);
   --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
+  /* --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-ring: oklch(0.708 0 0); */
 }
 
 .dark {
@@ -174,5 +174,29 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-card border p-4 md:p-5;
+  }
+  .stat-label {
+    @apply text-muted-foreground text-xs;
+  }
+  .stat-number {
+    @apply text-foreground text-3xl md:text-5xl;
+  }
+  .card-title {
+    @apply text-sm font-semibold text-foreground;
+  }
+  .card-body-label {
+    @apply text-sm text-foreground;
+  }
+  .card-body-expiry {
+    @apply text-sm font-medium;
+  }
+  .section-link {
+    @apply text-[13px] font-medium text-foreground;
   }
 }

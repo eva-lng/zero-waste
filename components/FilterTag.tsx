@@ -12,10 +12,10 @@ const FilterTag = ({
   removeFilter: (type: FilterType, value: string) => void;
 }) => {
   return (
-    <div className="flex items-center gap-1 bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">
+    <div className="flex items-center gap-1 bg-primary-light hover:bg-primary-light-hover text-primary-light-foreground text-sm px-3 py-1 rounded-full">
       <span>{type === "open" ? capitalize(type) : capitalize(value)}</span>
       <button
-        className="cursor-pointer"
+        className="cursor-pointer hover:bg-[rgba(0,0,0,0.08)]"
         onClick={() => removeFilter(type, value)}
       >
         <FiX />

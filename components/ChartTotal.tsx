@@ -42,11 +42,11 @@ const ChartTotal = ({
 
   return (
     <div
-      className="w-[50%]"
       role="region"
       aria-label="Total consumed vs wasted chart"
+      className="w-full"
     >
-      <ChartContainer config={chartConfig} className="h-[40px] w-full">
+      <ChartContainer config={chartConfig} className="h-10 w-full">
         <BarChart layout="vertical" data={chartData} accessibilityLayer>
           <XAxis type="number" hide />
           <YAxis type="category" hide />
@@ -88,23 +88,23 @@ const ChartTotal = ({
             dataKey="consumed"
             stackId="a"
             fill="var(--color-consumed)"
-            radius={[4, 0, 0, 4]}
+            radius={[10, 0, 0, 10]}
           />
           <Bar
             dataKey="wasted"
             stackId="a"
             fill="var(--color-wasted)"
-            radius={[0, 4, 4, 0]}
+            radius={[0, 10, 10, 0]}
           />
         </BarChart>
       </ChartContainer>
 
-      <div aria-label="Chart legend" className="flex justify-center">
-        <ul className="mt-2 flex gap-6 text-xs">
+      <div aria-label="Chart legend" className="mt-3">
+        <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs">
           <li className="flex items-center gap-2">
             <div className="flex items-center gap-1.5">
               <span
-                className="inline-block w-2.5 h-2.5 rounded-xs"
+                className="w-2.5 h-2.5 rounded-xs"
                 style={{ backgroundColor: "var(--chart-0)" }}
                 aria-hidden="true"
               />
