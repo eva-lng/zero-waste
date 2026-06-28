@@ -68,74 +68,70 @@ const OverviewPage = async () => {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-2 md:gap-4 mb-4">
-        <div className="rounded-lg p-3 bg-muted">
-          <p>Consumed</p>
-          <p className="font-bold text-xl">
+      <div className="grid grid-cols-2 gap-3 md:gap-4 mb-4">
+        <div className="stats-card">
+          <p className="stat-label">Consumed</p>
+          <p className="stat-number">
             {totalConsumed > 0 ? 100 - wastedPercentage : 0}%
           </p>
         </div>
 
-        <div className="rounded-lg p-3 bg-muted">
-          <p>Thrown</p>
-          <p className="font-bold text-xl">{wastedPercentage}%</p>
+        <div className="stats-card">
+          <p className="stat-label">Thrown</p>
+          <p className="stat-number">{wastedPercentage}%</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-4 mb-4">
-        <nav
-          aria-label="Inventory quick links"
-          className="border rounded-lg p-2 bg-card"
-        >
-          <p className="border-b">Smart List</p>
-          <ul>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mb-4 border border-blue-400">
+        <nav aria-label="Inventory quick links" className="card">
+          <p className="card-title border-b">Smart List</p>
+          <ul className="card-body">
             <li className="flex justify-between">
               <Link href="/inventory">All</Link>
-              <span>{foodItems.length}</span>
+              <span className="text-medium">{foodItems.length}</span>
             </li>
             <li className="flex justify-between">
-              <Link href="/inventory?expiration=soon">Soon to expire</Link>
-              <span>{soonCount}</span>
+              <Link href="/inventory?expiration=soon">Expiring soon</Link>
+              <span className="text-warning text-medium">{soonCount}</span>
             </li>
             <li className="flex justify-between">
               <Link href="/inventory?expiration=expired">Expired</Link>
-              <span>{expiredCount}</span>
+              <span className="text-destructive-light-foreground text-medium">
+                {expiredCount}
+              </span>
             </li>
             <li className="flex justify-between">
               <Link href="/inventory?open=true">Open</Link>
-              <span>{openCount}</span>
+              <span className="text-medium">{openCount}</span>
             </li>
           </ul>
         </nav>
 
-        <nav
-          aria-label="Storage quick links"
-          className="border rounded-lg p-2 bg-card"
-        >
-          <p className="border-b">Storages</p>
-          <ul>
+        <nav aria-label="Storage quick links" className="card">
+          <p className="card-title border-b">Storages</p>
+          <ul className="card-body">
             <li className="flex justify-between">
               <Link href="/inventory?storage=pantry">Pantry</Link>
-              <span>{storageCount.pantry}</span>
+              <span className="text-medium">{storageCount.pantry}</span>
             </li>
             <li className="flex justify-between">
               <Link href="/inventory?storage=fridge">Fridge</Link>
-              <span>{storageCount.fridge}</span>
+              <span className="text-medium">{storageCount.fridge}</span>
             </li>
             <li className="flex justify-between">
               <Link href="/inventory?storage=freezer">Freezer</Link>
-              <span>{storageCount.freezer}</span>
+              <span className="text-medium">{storageCount.freezer}</span>
             </li>
           </ul>
         </nav>
 
-        <div className="border rounded-lg p-2 bg-card hidden md:flex justify-center items-center">
+        <div className="card hidden md:flex justify-center items-center">
           <Link
             href="/stats"
             className="flex flex-col items-center cursor-pointer"
           >
             <VscPieChart className="text-2xl" />
-            <span className="flex items-center gap-0.5">
+            <span className="flex items-center gap-0.5 text-sm">
               View full stats <HiArrowSmallRight aria-hidden="true" />
             </span>
           </Link>

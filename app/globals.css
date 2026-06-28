@@ -94,6 +94,7 @@
   --success-foreground: oklch(0.985 0 0);
   --warning: oklch(0.75 0.16 70);
   --warning-foreground: oklch(0.2 0.05 70);
+  /* --destructive: oklch(0.4288 0.1732 23.33); */
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
   --destructive-light: oklch(0.93 0.04 27.325); /* pale red background */
@@ -178,19 +179,22 @@
 }
 
 @layer components {
-  .card {
-    @apply bg-card border p-4 md:p-5;
+  .stats-card {
+    @apply bg-muted p-4 md:p-5 rounded-lg;
   }
   .stat-label {
     @apply text-muted-foreground text-xs;
   }
   .stat-number {
-    @apply text-foreground text-3xl md:text-5xl;
+    @apply text-3xl md:text-4xl;
+  }
+  .card {
+    @apply bg-card border p-4 md:p-5 rounded-lg;
   }
   .card-title {
-    @apply text-sm font-semibold text-foreground;
+    @apply text-sm md:text-[15px] font-semibold;
   }
-  .card-body-label {
+  .card-body {
     @apply text-sm text-foreground;
   }
   .card-body-expiry {
@@ -200,3 +204,9 @@
     @apply text-[13px] font-medium text-foreground;
   }
 }
+
+/* Spacing:
+- Card padding — 16px / p-4 on mobile, 20px / p-5 on desktop (md:p-5). Apply to every card uniformly.
+- Card title → first row gap — 10px / mt-2.5 as margin-bottom on .card-title, or gap-2.5 on the flex column if you structure it as a gap.
+- Row gap — 8px / gap-2 between rows inside cards.
+- Card gap (between cards) — 12px / gap-3 on mobile, 16px / gap-4 on desktop. */
