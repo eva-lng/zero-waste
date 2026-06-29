@@ -82,45 +82,45 @@ const OverviewPage = async () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mb-4 border border-blue-400">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mb-4">
         <nav aria-label="Inventory quick links" className="card">
-          <p className="card-title border-b">Smart List</p>
-          <ul className="card-body">
+          <p className="card-title border-b pb-2">Smart List</p>
+          <ul className="card-body flex flex-col gap-1 pt-2">
             <li className="flex justify-between">
               <Link href="/inventory">All</Link>
-              <span className="text-medium">{foodItems.length}</span>
+              <span className="font-medium">{foodItems.length}</span>
             </li>
             <li className="flex justify-between">
               <Link href="/inventory?expiration=soon">Expiring soon</Link>
-              <span className="text-warning text-medium">{soonCount}</span>
+              <span className="text-warning font-medium">{soonCount}</span>
             </li>
             <li className="flex justify-between">
               <Link href="/inventory?expiration=expired">Expired</Link>
-              <span className="text-destructive-light-foreground text-medium">
+              <span className="text-destructive-light-foreground font-medium">
                 {expiredCount}
               </span>
             </li>
             <li className="flex justify-between">
               <Link href="/inventory?open=true">Open</Link>
-              <span className="text-medium">{openCount}</span>
+              <span className="font-medium">{openCount}</span>
             </li>
           </ul>
         </nav>
 
         <nav aria-label="Storage quick links" className="card">
-          <p className="card-title border-b">Storages</p>
-          <ul className="card-body">
+          <p className="card-title border-b pb-2">Storages</p>
+          <ul className="card-body flex flex-col gap-1 pt-2">
             <li className="flex justify-between">
               <Link href="/inventory?storage=pantry">Pantry</Link>
-              <span className="text-medium">{storageCount.pantry}</span>
+              <span className="font-medium">{storageCount.pantry}</span>
             </li>
             <li className="flex justify-between">
               <Link href="/inventory?storage=fridge">Fridge</Link>
-              <span className="text-medium">{storageCount.fridge}</span>
+              <span className="font-medium">{storageCount.fridge}</span>
             </li>
             <li className="flex justify-between">
               <Link href="/inventory?storage=freezer">Freezer</Link>
-              <span className="text-medium">{storageCount.freezer}</span>
+              <span className="font-medium">{storageCount.freezer}</span>
             </li>
           </ul>
         </nav>
@@ -141,25 +141,25 @@ const OverviewPage = async () => {
       {(soonCount > 0 || expiredCount > 0) && (
         <div className="grid sm:grid-cols-2 gap-4 sm:gap-2 md:gap-4">
           {soonCount > 0 && (
-            <section className="border rounded-lg p-2 bg-card">
-              <div className="flex justify-between border-b">
-                <h2>Expiring soon</h2>
+            <section className="card">
+              <div className="flex justify-between border-b pb-2">
+                <h2 className="card-title text-warning">Expiring soon</h2>
                 <Link
                   href="/inventory?expiration=soon"
-                  className="flex items-center gap-0.5"
+                  className="flex items-center gap-0.5 section-link"
                 >
                   {soonCount} item{soonCount > 1 && "s"}
                   <HiArrowSmallRight aria-hidden="true" />
                 </Link>
               </div>
-              <ul>
+              <ul className="card-body flex flex-col gap-1 pt-2">
                 {soonItems.map((item) => (
                   <li
                     key={item._id.toString()}
                     className="flex justify-between"
                   >
                     <span>{item.name}</span>
-                    <span>
+                    <span className="text-warning">
                       {getExpirationLabelShort(new Date(item.expirationDate))}
                     </span>
                   </li>
@@ -169,25 +169,27 @@ const OverviewPage = async () => {
           )}
 
           {expiredCount > 0 && (
-            <section className="border rounded-lg p-2 bg-card">
-              <div className="flex justify-between border-b">
-                <h2>Expired</h2>
+            <section className="card">
+              <div className="flex justify-between border-b pb-2">
+                <h2 className="card-title text-destructive-light-foreground">
+                  Expired
+                </h2>
                 <Link
                   href="/inventory?expiration=expired"
-                  className="flex items-center gap-0.5"
+                  className="flex items-center gap-0.5 section-link"
                 >
                   {expiredCount} item{expiredCount > 1 && "s"}
                   <HiArrowSmallRight aria-hidden="true" />
                 </Link>
               </div>
-              <ul>
+              <ul className="card-body flex flex-col gap-1 pt-2">
                 {expiredItems.map((item) => (
                   <li
                     key={item._id.toString()}
                     className="flex justify-between"
                   >
                     <span>{item.name}</span>
-                    <span>
+                    <span className="text-destructive-light-foreground">
                       {getExpirationLabelShort(new Date(item.expirationDate))}
                     </span>
                   </li>

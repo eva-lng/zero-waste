@@ -92,7 +92,7 @@
   --accent-foreground: oklch(0.205 0 0); */
   --success: oklch(0.55 0.18 145);
   --success-foreground: oklch(0.985 0 0);
-  --warning: oklch(0.75 0.16 70);
+  --warning: oklch(0.6133 0.1288 67.96);
   --warning-foreground: oklch(0.2 0.05 70);
   /* --destructive: oklch(0.4288 0.1732 23.33); */
   --destructive: oklch(0.577 0.245 27.325);
@@ -201,7 +201,7 @@
     @apply text-sm font-medium;
   }
   .section-link {
-    @apply text-[13px] font-medium text-foreground;
+    @apply text-[13px] md:text-sm font-medium;
   }
 }
 
