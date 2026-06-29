@@ -5,6 +5,7 @@ import {
   capitalize,
   getExpirationLabelLong,
   getExpirationLabelShort,
+  getExpiryColor,
 } from "@/lib/utils/utilities";
 import Link from "next/link";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -31,34 +32,42 @@ const FoodItemCard = ({
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   return (
-    <div className="relative bg-card border rounded-lg p-2 mb-2">
-      <button
-        className="w-full text-left cursor-pointer"
-        onClick={() => setDrawerOpen(true)}
-      >
-        <span className="block">{capitalize(item.name)}</span>
-        <span className="block">
-          {item.quantity} {item.unit}
-          {(item.unit === "piece" || item.unit === "package") &&
-            item.quantity > 1 &&
-            "s"}{" "}
-          • {capitalize(item.category)}
-        </span>
-        <span className="block">
-          {getExpirationLabelLong(new Date(item.expirationDate))}
-        </span>
-      </button>
+    <div className="card p-0">
+      <div className="relative p-4">
+        <button
+          className="w-full text-left cursor-pointer"
+          onClick={() => setDrawerOpen(true)}
+          aria-label={`View details for ${item.name}`}
+        >
+          <span className="block card-title mb-0.5 md:mb-1">
+            {capitalize(item.name)}
+          </span>
+          <span className="block card-meta mb-[1px] md:mb-0.5">
+            {item.quantity} {item.unit}
+            {(item.unit === "piece" || item.unit === "package") &&
+              item.quantity > 1 &&
+              "s"}
+            {" • "}
+            {item.category}
+          </span>
+          <span
+            className={`block text-xs md:text-sm font-medium ${getExpiryColor(new Date(item.expirationDate))}`}
+          >
+            {getExpirationLabelLong(new Date(item.expirationDate))}
+          </span>
+        </button>
 
-      <button
-        className="absolute top-3 right-2 cursor-pointer"
-        onClick={(e) => {
-          e.stopPropagation();
-          onToggle();
-        }}
-        aria-label="Item actions"
-      >
-        <FiMoreVertical aria-hidden="true" />
-      </button>
+        <button
+          className={`absolute top-4 right-3 cursor-pointer p-2 rounded-md hover:bg-muted ${isMenuOpen && "text-primary"}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggle();
+          }}
+          aria-label="Item actions"
+        >
+          <FiMoreVertical aria-hidden="true" />
+        </button>
+      </div>
 
       {isMenuOpen && <ActionMenu item={item} />}
 
@@ -69,7 +78,7 @@ const FoodItemCard = ({
       >
         <DrawerContent>
           <div
-            className={`mx-auto w-full max-w-sm p-3 ${isDesktop && "p-5 mt-10"}`}
+            className={`mx-auto w-full max-w-sm ${isDesktop ? "p-5 mt-10" : "p-4"}`}
           >
             <DrawerTitle className="sr-only">{item.name}</DrawerTitle>
             <DrawerDescription className="sr-only">
@@ -77,7 +86,7 @@ const FoodItemCard = ({
             </DrawerDescription>
 
             <div className="flex justify-between">
-              <h3>{capitalize(item.name)}</h3>
+              <h3 className="card-title">{capitalize(item.name)}</h3>
               <Link
                 href={`/inventory/${item._id}/edit`}
                 aria-label={`Edit ${item.name}`}
@@ -115,17 +124,17 @@ const FoodItemCard = ({
               <span>Status</span>
               <span>{item.isOpen ? "Open" : "Closed"}</span>
             </div>
-            <div className="flex justify-between">
-              {item.isOpen && <span>Opened</span>}
-              {item.openedAt && (
+            {item.isOpen && item.openedAt && (
+              <div className="flex justify-between">
+                <span>Opened</span>
                 <span>
                   {new Date(item.openedAt).toLocaleDateString("en-GB", {
                     day: "numeric",
                     month: "short",
                   })}
                 </span>
-              )}
-            </div>
+              </div>
+            )}
 
             <p>DATES</p>
             <div className="flex justify-between">

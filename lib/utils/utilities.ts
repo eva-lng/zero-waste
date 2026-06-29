@@ -36,6 +36,13 @@ export function getExpirationState(
   return "fresh";
 }
 
+export function getExpiryColor(expirationDate: Date) {
+  const expState = getExpirationState(expirationDate);
+  if (expState === "expired") return "text-destructive-light-foreground";
+  if (expState === "soon") return "text-warning";
+  return "text-muted-foreground";
+}
+
 export function getDaysDifference(expirationDate: Date): number {
   const today = new Date();
   today.setHours(0, 0, 0, 0);

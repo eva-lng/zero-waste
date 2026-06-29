@@ -146,7 +146,7 @@ const OverviewPage = async () => {
                 <h2 className="card-title text-warning">Expiring soon</h2>
                 <Link
                   href="/inventory?expiration=soon"
-                  className="flex items-center gap-0.5 section-link"
+                  className="flex items-center gap-0.5 text-[13px] md:text-sm font-medium"
                 >
                   {soonCount} item{soonCount > 1 && "s"}
                   <HiArrowSmallRight aria-hidden="true" />
@@ -176,7 +176,7 @@ const OverviewPage = async () => {
                 </h2>
                 <Link
                   href="/inventory?expiration=expired"
-                  className="flex items-center gap-0.5 section-link"
+                  className="flex items-center gap-0.5 text-[13px] md:text-sm font-medium"
                 >
                   {expiredCount} item{expiredCount > 1 && "s"}
                   <HiArrowSmallRight aria-hidden="true" />

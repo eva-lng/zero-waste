@@ -71,7 +71,7 @@ const StatsPage = async ({
   return (
     <>
       <section className="rounded-lg bg-card border p-4 md:p-5">
-        <div className="mb-4 flex items-center gap-2 text-xs text-muted-foreground tracking-wide uppercase">
+        <div className="mb-4 flex items-center gap-2 section-title">
           <h2>Overall</h2>
           <span>•</span>
           <p>

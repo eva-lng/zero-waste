@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import { FoodItemClient, StorageType } from "@/lib/utils/types";
-import { capitalize } from "@/lib/utils/utilities";
 import FoodItemCard from "./FoodItemCard";
+import { capitalize } from "@/lib/utils/utilities";
 
 const FoodItemsList = ({ items }: { items: FoodItemClient[] }) => {
   const [openId, setOpenId] = useState<string | null>(null);
@@ -15,14 +15,20 @@ const FoodItemsList = ({ items }: { items: FoodItemClient[] }) => {
   });
 
   return (
-    <div>
-      {items.length === 0 && <p className="text-center">No items found</p>}
+    <div className="flex flex-col gap-6">
+      {items.length === 0 && (
+        <p role="status" className="text-center">
+          No items found
+        </p>
+      )}
       {Object.keys(itemsByStorage).map((storage) => {
         const storageKey = storage as StorageType;
         return (
           <section key={storageKey}>
-            <h3 className="text-xl">{storageKey.toUpperCase()}</h3>
-            <ul>
+            <p className="section-title mb-2">
+              {capitalize(storageKey.toUpperCase())}
+            </p>
+            <ul className="grid md:grid-cols-2 gap-2 md:gap-3">
               {itemsByStorage[storageKey]?.map((item) => (
                 <li key={item._id}>
                   <FoodItemCard

@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <div className="flex flex-col h-dvh">
           <Header />
-          <main className="mx-auto w-full max-w-[800px] p-3 border border-amber-600 pb-30">
+          <main className="mx-auto w-full max-w-[800px] px-4 pb-30">
             {children}
           </main>
           <FAB />

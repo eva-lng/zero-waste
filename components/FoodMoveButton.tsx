@@ -59,8 +59,8 @@ const FoodMoveButton = ({
   return (
     <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <button className="flex flex-col items-center gap-1 flex-1 py-2 cursor-pointer">
-          <LiaExchangeAltSolid size={18} />
+        <button className="flex flex-col items-center gap-1 flex-1 p-2 cursor-pointer hover:bg-muted hover:font-semibold">
+          <LiaExchangeAltSolid size={16} />
           <span className="text-xs">Move</span>
         </button>
       </DialogTrigger>

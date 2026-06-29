@@ -55,8 +55,8 @@ const FoodExpireButton = ({
   return (
     <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <button className="flex flex-col items-center gap-1 flex-1 py-2 cursor-pointer">
-          <TbClockExclamation size={18} />
+        <button className="flex flex-col items-center gap-1 flex-1 p-2 cursor-pointer hover:bg-muted hover:font-semibold">
+          <TbClockExclamation size={16} />
           <span className="text-xs">Expire</span>
         </button>
       </DialogTrigger>
