@@ -17,18 +17,18 @@ const DialogFoodQty = ({
   const remaining = Math.max(0, item.quantity - quantity);
 
   return (
-    <div className="my-3">
-      <p>{sectionLabel.toUpperCase()}</p>
-      <div className="flex justify-between">
+    <div className="flex flex-col gap-1.5 mb-4 card-body">
+      <p className="section-title text-xs">{sectionLabel}</p>
+      <div className="flex justify-between items-center">
         <span>{textRemaining}</span>
-        <span>
+        <span className="font-medium">
           {remaining} {item.unit}
           {(item.unit === "piece" || item.unit === "package") &&
             remaining > 1 &&
             "s"}
         </span>
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <label htmlFor="quantity">Quantity</label>
         <input
           type="number"
@@ -36,7 +36,7 @@ const DialogFoodQty = ({
           name="quantity"
           value={quantity}
           onChange={(e) => setQuantity(Number(e.target.value))}
-          className="border p-1 rounded"
+          className="input w-auto"
           min={item.unit === "piece" || item.unit === "package" ? 0.25 : 1}
           max={item.quantity}
           step={item.unit === "piece" || item.unit === "package" ? 0.25 : 1}
@@ -50,7 +50,7 @@ const DialogFoodQty = ({
           <small
             id="quantity-error"
             aria-live="polite"
-            className="text-red-500"
+            className="text-destructive text-xs"
           >
             {errors.quantity[0]}
           </small>

@@ -102,7 +102,7 @@ const DeleteAccountButton = ({ username }: { username: string }) => {
               type="button"
               onClick={handleDelete}
               disabled={!isConfirmed || loading}
-              className="inline-flex items-center gap-1 text-sm bg-destructive text-destructive-foreground rounded-md px-4 py-2 transition-opacity disabled:opacity-40"
+              className="btn-destructive-subtle"
             >
               {loading && <Spinner />}{" "}
               {loading ? "Deleting..." : "Delete account"}

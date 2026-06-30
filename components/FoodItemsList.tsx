@@ -25,9 +25,7 @@ const FoodItemsList = ({ items }: { items: FoodItemClient[] }) => {
         const storageKey = storage as StorageType;
         return (
           <section key={storageKey}>
-            <p className="section-title mb-2">
-              {capitalize(storageKey.toUpperCase())}
-            </p>
+            <p className="section-title mb-2">{capitalize(storageKey)}</p>
             <ul className="grid md:grid-cols-2 gap-2 md:gap-3">
               {itemsByStorage[storageKey]?.map((item) => (
                 <li key={item._id}>

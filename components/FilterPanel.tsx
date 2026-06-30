@@ -62,7 +62,7 @@ const FilterPanel = ({
               <label
                 key={option}
                 htmlFor={`${activeSection}-${option}`}
-                className={`cursor-pointer text-sm px-3 py-1 rounded-full ${checked ? "bg-primary-light text-primary-light-foreground hover:bg-primary-light-hover" : "bg-background border text-muted-foreground hover:bg-muted hover:text-foreground"}`}
+                className={`cursor-pointer text-sm px-3 py-1 rounded-full ${checked ? "bg-primary-light text-primary-light-foreground hover:bg-primary-light-hover" : "bg-card border text-muted-foreground hover:bg-muted hover:text-foreground"}`}
               >
                 <input
                   type="checkbox"

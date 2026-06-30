@@ -42,7 +42,7 @@ const FoodItemCard = ({
           <span className="block card-title mb-0.5 md:mb-1">
             {capitalize(item.name)}
           </span>
-          <span className="block card-meta mb-[1px] md:mb-0.5">
+          <span className="block card-meta md:text-sm mb-[1px] md:mb-0.5">
             {item.quantity} {item.unit}
             {(item.unit === "piece" || item.unit === "package") &&
               item.quantity > 1 &&
@@ -76,7 +76,7 @@ const FoodItemCard = ({
         onOpenChange={setDrawerOpen}
         direction={isDesktop ? "right" : "bottom"}
       >
-        <DrawerContent>
+        <DrawerContent className="bg-card">
           <div
             className={`mx-auto w-full max-w-sm ${isDesktop ? "p-5 mt-10" : "p-4"}`}
           >
@@ -85,72 +85,84 @@ const FoodItemCard = ({
               Food item details
             </DrawerDescription>
 
-            <div className="flex justify-between">
-              <h3 className="card-title">{capitalize(item.name)}</h3>
+            <div className="mb-4 relative">
+              <h3 className="card-title mb-1">{capitalize(item.name)}</h3>
+
+              <p className="card-meta text-foreground">
+                {capitalize(item.category)}
+                {item.details && ` • ${capitalize(item.details)}`}
+              </p>
               <Link
                 href={`/inventory/${item._id}/edit`}
                 aria-label={`Edit ${item.name}`}
+                className="absolute top-0 right-0 rounded-md p-2 hover:bg-muted"
               >
                 <TbEdit aria-hidden="true" />
               </Link>
             </div>
-            <p>
-              {capitalize(item.category)}
-              {item.details && ` • ${capitalize(item.details)}`}
-            </p>
 
             <ActionMenu item={item} compact={isDesktop} />
 
-            <p>QUANTITY</p>
-            <div className="flex justify-between">
-              <span>Amount</span>
-              <span>
-                {item.quantity} {item.unit}
-              </span>
-            </div>
-            {item.gramsPerUnit && (
-              <div className="flex justify-between">
-                <span>Grams per {item.unit}</span>
-                <span>{item.gramsPerUnit} g</span>
+            <div className="flex flex-col gap-1.5 my-4">
+              <p className="section-title text-xs">Quantity</p>
+              <div className="flex justify-between items-center card-body">
+                <span>Amount</span>
+                <span className="font-medium">
+                  {item.quantity} {item.unit}
+                </span>
               </div>
-            )}
+              {item.gramsPerUnit && (
+                <div className="flex justify-between items-center card-body">
+                  <span>Grams per {item.unit}</span>
+                  <span className="font-medium">{item.gramsPerUnit} g</span>
+                </div>
+              )}
+            </div>
 
-            <p>STORAGE & STATUS</p>
-            <div className="flex justify-between">
-              <span>Storage</span>
-              <span>{item.storage}</span>
+            <div className="flex flex-col gap-1.5 mb-4">
+              <p className="section-title text-xs">Storage & Status</p>
+              <div className="flex justify-between card-body">
+                <span>Storage</span>
+                <span className="font-medium">{item.storage}</span>
+              </div>
+              <div className="flex justify-between items-center card-body">
+                <span>Status</span>
+                <span className="font-medium">
+                  {item.isOpen ? "Open" : "Closed"}
+                </span>
+              </div>
+              {item.isOpen && item.openedAt && (
+                <div className="flex justify-between items-center card-body">
+                  <span>Opened</span>
+                  <span className="font-medium">
+                    {new Date(item.openedAt).toLocaleDateString("en-GB", {
+                      day: "numeric",
+                      month: "short",
+                    })}
+                  </span>
+                </div>
+              )}
             </div>
-            <div className="flex justify-between">
-              <span>Status</span>
-              <span>{item.isOpen ? "Open" : "Closed"}</span>
-            </div>
-            {item.isOpen && item.openedAt && (
-              <div className="flex justify-between">
-                <span>Opened</span>
-                <span>
-                  {new Date(item.openedAt).toLocaleDateString("en-GB", {
+
+            <div className="flex flex-col gap-1.5">
+              <p className="section-title text-xs">Dates</p>
+              <div className="flex justify-between items-center card-body">
+                <span>Expires</span>
+                <span
+                  className={`font-medium ${getExpiryColor(new Date(item.expirationDate))}`}
+                >
+                  {getExpirationLabelShort(new Date(item.expirationDate))}
+                </span>
+              </div>
+              <div className="flex justify-between items-center card-body">
+                <span>Added</span>
+                <span className="font-medium">
+                  {new Date(item.createdAt).toLocaleDateString("en-GB", {
                     day: "numeric",
                     month: "short",
                   })}
                 </span>
               </div>
-            )}
-
-            <p>DATES</p>
-            <div className="flex justify-between">
-              <span>Expires</span>
-              <span>
-                {getExpirationLabelShort(new Date(item.expirationDate))}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span>Added</span>
-              <span>
-                {new Date(item.createdAt).toLocaleDateString("en-GB", {
-                  day: "numeric",
-                  month: "short",
-                })}
-              </span>
             </div>
           </div>
         </DrawerContent>

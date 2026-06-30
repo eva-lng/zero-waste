@@ -66,8 +66,8 @@ const FoodMoveButton = ({
       </DialogTrigger>
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
         <form action={formAction} noValidate>
-          <DialogHeader>
-            <DialogTitle>Move {item.name}</DialogTitle>
+          <DialogHeader className="mb-4">
+            <DialogTitle className="text-[15px]">Move {item.name}</DialogTitle>
             <DialogDescription className="sr-only">
               Select new storage for {item.name}.
             </DialogDescription>
@@ -81,18 +81,18 @@ const FoodMoveButton = ({
             errors={errors}
           />
 
-          <div className="my-3">
-            <p>DESTINATION</p>
-            <div className="flex justify-between">
+          <div className="flex flex-col gap-1.5 mb-4 card-body">
+            <p className="section-title text-xs">Destination</p>
+            <div className="flex justify-between items-center">
               <span>From</span>
-              <span>{capitalize(item.storage)}</span>
+              <span className="font-medium">{capitalize(item.storage)}</span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
               <label htmlFor="storage">To</label>
               <select
                 name="storage"
                 id="storage"
-                className="border rounded p-1"
+                className="select"
                 required
                 aria-invalid={!!errors?.storage}
                 aria-describedby={errors?.storage ? "storage-error" : undefined}
@@ -113,7 +113,7 @@ const FoodMoveButton = ({
                 <small
                   id="storage-error"
                   aria-live="polite"
-                  className="text-red-500"
+                  className="text-destructive text-xs"
                 >
                   {errors.storage[0]}
                 </small>
@@ -127,7 +127,11 @@ const FoodMoveButton = ({
                 Cancel
               </Button>
             </DialogClose>
-            <SubmitButton pendingText="Saving..." loading={pending}>
+            <SubmitButton
+              pendingText="Saving..."
+              loading={pending}
+              className="btn-primary"
+            >
               Save
             </SubmitButton>
           </DialogFooter>

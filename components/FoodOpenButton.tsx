@@ -95,8 +95,8 @@ const FoodOpenButton = ({
       </DialogTrigger>
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
         <form action={formAction} noValidate>
-          <DialogHeader>
-            <DialogTitle>Open {item.name}</DialogTitle>
+          <DialogHeader className="mb-4">
+            <DialogTitle className="text-[15px]">Open {item.name}</DialogTitle>
             <DialogDescription className="sr-only">
               Open {item.name} and adjust expiration date (optional).
             </DialogDescription>
@@ -109,11 +109,11 @@ const FoodOpenButton = ({
             errors={errors}
           />
 
-          <div className="my-3">
-            <p>OPEN DATE & NEW EXPIRATION</p>
-            <div className="flex justify-between">
+          <div className="flex flex-col gap-1.5 mb-4 card-body">
+            <p className="section-title text-xs">Open date & new expiration</p>
+            <div className="flex justify-between items-center">
               <span>Opened</span>
-              <span>
+              <span className="font-medium">
                 {openDate.toLocaleDateString("en-GB", {
                   day: "numeric",
                   month: "short",
@@ -123,7 +123,7 @@ const FoodOpenButton = ({
 
             <DateAdjustField adjustDate={adjustDate} />
 
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
               <label htmlFor="expirationDate">Expiration Date</label>
               <input
                 type="date"
@@ -134,7 +134,7 @@ const FoodOpenButton = ({
                   setExpDateState(new Date(e.target.value).getTime());
                   setHasAdjusted(true);
                 }}
-                className="border rounded p-1"
+                className="select"
                 required
                 aria-invalid={!!errors?.expirationDate}
                 aria-describedby={
@@ -147,7 +147,7 @@ const FoodOpenButton = ({
                 <small
                   id="expirationDate-error"
                   aria-live="polite"
-                  className="text-red-500"
+                  className="text-destructive text-xs"
                 >
                   {errors.expirationDate[0]}
                 </small>
@@ -161,7 +161,11 @@ const FoodOpenButton = ({
                 Cancel
               </Button>
             </DialogClose>
-            <SubmitButton pendingText="Saving..." loading={pending}>
+            <SubmitButton
+              pendingText="Saving..."
+              loading={pending}
+              className="btn-primary"
+            >
               Save
             </SubmitButton>
           </DialogFooter>

@@ -1,21 +1,29 @@
 import { FoodItemClient } from "@/lib/utils/types";
-import { capitalize, getExpirationLabelShort } from "@/lib/utils/utilities";
+import {
+  capitalize,
+  getExpirationLabelShort,
+  getExpiryColor,
+} from "@/lib/utils/utilities";
 
 const DialogFoodInfo = ({ item }: { item: FoodItemClient }) => {
   return (
-    <div>
-      <p>ITEM INFO</p>
-      <div className="flex justify-between">
+    <div className="flex flex-col gap-1.5 mb-4 card-body">
+      <p className="section-title text-xs">Item info</p>
+      <div className="flex justify-between items-center">
         <span>Storage</span>
-        <span>{capitalize(item.storage)}</span>
+        <span className="font-medium">{capitalize(item.storage)}</span>
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <span>Expires</span>
-        <span>{getExpirationLabelShort(new Date(item.expirationDate))}</span>
+        <span
+          className={`font-medium ${getExpiryColor(new Date(item.expirationDate))}`}
+        >
+          {getExpirationLabelShort(new Date(item.expirationDate))}
+        </span>
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <span>Added</span>
-        <span>
+        <span className="font-medium">
           {new Date(item.createdAt).toLocaleDateString("en-GB", {
             day: "numeric",
             month: "short",

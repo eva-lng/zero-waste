@@ -64,8 +64,10 @@ const FoodConsumeButton = ({
       </DialogTrigger>
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
         <form action={formAction} noValidate>
-          <DialogHeader>
-            <DialogTitle>Consume {item.name}</DialogTitle>
+          <DialogHeader className="mb-4">
+            <DialogTitle className="text-[15px]">
+              Consume {item.name}
+            </DialogTitle>
             <DialogDescription className="sr-only">
               Adjust quantity to mark as consumed
             </DialogDescription>
@@ -84,7 +86,11 @@ const FoodConsumeButton = ({
                 Cancel
               </Button>
             </DialogClose>
-            <SubmitButton pendingText="Saving..." loading={pending}>
+            <SubmitButton
+              pendingText="Saving..."
+              loading={pending}
+              className="btn-primary"
+            >
               Save
             </SubmitButton>
           </DialogFooter>

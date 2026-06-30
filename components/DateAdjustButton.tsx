@@ -8,7 +8,7 @@ const DateAdjustButton = ({
   return (
     <button
       type="button"
-      className="bg-blue-100 text-blue-800 text-sm px-3 py-0.5 rounded-full"
+      className="pill-base text-xs py-0.5 pill-light hover:bg-primary hover:text-primary-foreground cursor-pointer"
       onClick={adjustDate}
     >
       {label}

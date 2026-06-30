@@ -62,7 +62,7 @@ const FiltersBar = () => {
           <span className="relative inline-flex items-center gap-1.5">
             <span className="hidden md:inline">Filters</span>
             {activeFilters.length > 0 && (
-              <span className="bg-primary text-primary-foreground text-xs rounded-full px-1.5 py-0.5 absolute -top-6 -right-4 md:static">
+              <span className="bg-primary text-primary-foreground text-[10px] rounded-full px-1.5 py-0.5 absolute -top-6 -right-4 md:static">
                 {activeFilters.length}
               </span>
             )}

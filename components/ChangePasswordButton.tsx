@@ -226,12 +226,12 @@ const ChangePasswordButton = ({
                     setError(null);
                   }}
                   disabled={loading}
-                  className="text-xs text-muted-foreground"
+                  className="btn-outline"
                 >
                   Cancel
                 </button>
                 <SubmitButton
-                  className="text-xs bg-primary enabled:hover:bg-primary-hover text-primary-foreground rounded-md px-3 py-1.5 transition-colors"
+                  className="btn-primary"
                   loading={loading}
                   pendingText="Saving..."
                 >
