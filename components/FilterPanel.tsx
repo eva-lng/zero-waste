@@ -30,29 +30,35 @@ const FilterPanel = ({
   ];
 
   return (
-    <div id="filter-panel" className="bg-card border p-2 rounded-lg">
-      <div role="tablist" className="flex justify-around border-b">
+    <div id="filter-panel" className="card pt-3 mb-3">
+      <div role="tablist" className="flex gap-2 border-b mb-2">
         {filterGroups.map((group) => (
-          <button
+          <div
             key={group.type}
-            role="tab"
-            id={`filter-tab-${group.type}`}
-            aria-selected={activeSection === group.type}
-            aria-controls={`filter-panel-${group.type}`}
-            onClick={() => handleTabChange(group.type)}
-            className={`p-1 rounded-md hover:bg-muted ${activeSection === group.type ? "text-primary border-b-2 border-primary" : "text-muted-foreground"}`}
+            className={
+              activeSection === group.type ? "border-b-2 border-primary" : ""
+            }
           >
-            {group.type === "open" ? "Status" : capitalize(group.type)}{" "}
-            {params.getAll(group.type).length > 0 &&
-              ` (${params.getAll(group.type).length})`}
-          </button>
+            <button
+              role="tab"
+              id={`filter-tab-${group.type}`}
+              aria-selected={activeSection === group.type}
+              aria-controls={`filter-panel-${group.type}`}
+              onClick={() => handleTabChange(group.type)}
+              className={`text-sm p-2 rounded-md hover:bg-muted cursor-pointer ${activeSection === group.type ? "text-primary-light-foreground" : "text-muted-foreground"}`}
+            >
+              {group.type === "open" ? "Status" : capitalize(group.type)}{" "}
+              {params.getAll(group.type).length > 0 &&
+                ` (${params.getAll(group.type).length})`}
+            </button>
+          </div>
         ))}
       </div>
       <div
         role="tabpanel"
         aria-labelledby={`filter-tab-${activeSection}`}
         id={`filter-panel-${activeSection}`}
-        className="flex flex-wrap gap-3 justify-center py-2"
+        className="flex flex-wrap gap-2 pt-2"
       >
         {filterGroups
           .find((g) => g.type === activeSection)
@@ -62,7 +68,7 @@ const FilterPanel = ({
               <label
                 key={option}
                 htmlFor={`${activeSection}-${option}`}
-                className={`cursor-pointer text-sm px-3 py-1 rounded-full ${checked ? "bg-primary-light text-primary-light-foreground hover:bg-primary-light-hover" : "bg-card border text-muted-foreground hover:bg-muted hover:text-foreground"}`}
+                className={`pill-base pill-outline cursor-pointer ${checked && "bg-primary-light text-primary-light-foreground hover:bg-primary-light-hover border-none"}`}
               >
                 <input
                   type="checkbox"

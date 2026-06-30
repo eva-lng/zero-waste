@@ -50,15 +50,23 @@ const FiltersBar = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center gap-3">
+      <div className="flex gap-3 mb-3 md:w-[80%] md:mx-auto">
         <SearchBar />
         <button
           onClick={() => setOpen((prev) => !prev)}
-          className="inline-flex items-center md:gap-1 bg-card text-foreground border cursor-pointer py-2 px-2 md:px-4 rounded-md focus:shadow-outline"
+          // className="inline-flex items-center md:gap-1 bg-card text-foreground border cursor-pointer py-2 px-2 md:px-4 rounded-md focus:shadow-outline"
+          className="btn-outline bg-card relative shrink-0 flex items-center gap-2"
           aria-expanded={open}
           aria-controls="filter-panel"
         >
           <MdFilterList />
+          <span className="hidden md:inline">Filters</span>
+          {activeFilters.length > 0 && (
+            <span className="absolute md:static -top-1.5 -right-1.5 bg-primary text-primary-foreground text-[11px] rounded-full w-4 h-4 flex items-center justify-center">
+              {activeFilters.length}
+            </span>
+          )}
+          {/* <MdFilterList />
           <span className="relative inline-flex items-center gap-1.5">
             <span className="hidden md:inline">Filters</span>
             {activeFilters.length > 0 && (
@@ -66,14 +74,14 @@ const FiltersBar = () => {
                 {activeFilters.length}
               </span>
             )}
-          </span>
+          </span> */}
         </button>
       </div>
 
       {open && <FilterPanel toggleFilter={toggleFilter} params={params} />}
 
       {
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2 mb-6">
           {activeFilters.map(([type, value]) => (
             <FilterTag
               key={`${type}-${value}`}
@@ -82,6 +90,14 @@ const FiltersBar = () => {
               removeFilter={toggleFilter}
             />
           ))}
+          {activeFilters.length > 0 && (
+            <button
+              className="text-sm text-muted-foreground hover:underline ml-1 cursor-pointer"
+              onClick={() => router.push("/inventory")}
+            >
+              Clear all
+            </button>
+          )}
         </div>
       }
     </>

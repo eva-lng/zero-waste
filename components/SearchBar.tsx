@@ -1,6 +1,7 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
+import { IoIosSearch } from "react-icons/io";
 
 const SearchBar = () => {
   const params = useSearchParams();
@@ -20,13 +21,16 @@ const SearchBar = () => {
   }, 400);
 
   return (
-    <input
-      type="search"
-      className="border rounded px-2 py-1"
-      placeholder="Search your food..."
-      onChange={(e) => handleSearch(e.target.value)}
-      defaultValue={params.get("search")?.toString()}
-    />
+    <div className="relative flex-1 ">
+      <IoIosSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+      <input
+        type="search"
+        className="input pl-8 w-full"
+        placeholder="Search items"
+        onChange={(e) => handleSearch(e.target.value)}
+        defaultValue={params.get("search")?.toString()}
+      />
+    </div>
   );
 };
 

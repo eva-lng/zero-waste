@@ -240,10 +240,11 @@
   }
 
   .pill-base {
-    @apply inline-flex items-center justify-center rounded-full px-3 py-1.5 text-sm transition-colors;
+    @apply inline-flex items-center justify-center rounded-full px-3 py-1 text-sm transition-colors;
   }
   .pill-outline {
-    @apply border bg-card text-foreground hover:bg-muted;
+    @apply border bg-card text-muted-foreground 
+      hover:border-primary hover:text-primary-light-foreground;
   }
   .pill-light {
     @apply bg-primary-light text-primary-light-foreground hover:bg-primary-light-hover;
