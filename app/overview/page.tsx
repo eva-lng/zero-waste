@@ -110,7 +110,7 @@ const OverviewPage = async () => {
                 className="flex justify-between items-center"
               >
                 <span>Expired</span>
-                <span className="text-destructive-light-foreground font-medium">
+                <span className="text-destructive font-medium">
                   {expiredCount}
                 </span>
               </Link>
@@ -206,9 +206,7 @@ const OverviewPage = async () => {
           {expiredCount > 0 && (
             <section className="card pt-3 md:pt-4">
               <div className="flex justify-between items-center border-b pb-1">
-                <h2 className="card-title text-destructive-light-foreground">
-                  Expired
-                </h2>
+                <h2 className="card-title text-destructive">Expired</h2>
                 <Link
                   href="/inventory?expiration=expired"
                   className="flex items-center gap-0.5 text-[13px] md:text-sm font-medium -mx-2 px-2 py-1 rounded-md hover:bg-muted transition-colors"
@@ -224,7 +222,7 @@ const OverviewPage = async () => {
                     className="flex justify-between"
                   >
                     <span>{item.name}</span>
-                    <span className="text-destructive-light-foreground">
+                    <span className="text-destructive">
                       {getExpirationLabelShort(new Date(item.expirationDate))}
                     </span>
                   </li>

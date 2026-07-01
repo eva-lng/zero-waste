@@ -65,9 +65,7 @@ const FoodConsumeButton = ({
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
         <form action={formAction} noValidate>
           <DialogHeader className="mb-4">
-            <DialogTitle className="text-[15px]">
-              Consume {item.name}
-            </DialogTitle>
+            <DialogTitle className="text-base">Consume {item.name}</DialogTitle>
             <DialogDescription className="sr-only">
               Adjust quantity to mark as consumed
             </DialogDescription>

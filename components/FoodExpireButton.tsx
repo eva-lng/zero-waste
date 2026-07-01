@@ -63,9 +63,7 @@ const FoodExpireButton = ({
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
         <form action={formAction} noValidate>
           <DialogHeader className="mb-4">
-            <DialogTitle className="text-[15px]">
-              Discard {item.name}
-            </DialogTitle>
+            <DialogTitle className="text-base">Discard {item.name}</DialogTitle>
             <DialogDescription className="sr-only">
               Adjust quantity to mark as expired
             </DialogDescription>

@@ -55,7 +55,8 @@ const DeleteAccountButton = ({ username }: { username: string }) => {
     <>
       <button
         onClick={() => setDialogOpen(true)}
-        className="w-full md:w-auto md:self-start bg-destructive-light text-destructive-light-foreground rounded-lg px-4 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity"
+        // className="w-full md:w-auto md:self-start bg-destructive-light text-destructive rounded-lg px-4 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity"
+        className="btn-destructive-subtle w-full md:w-auto md:self-start"
       >
         Delete account
       </button>
@@ -64,20 +65,26 @@ const DeleteAccountButton = ({ username }: { username: string }) => {
           <AlertDialogHeader>
             {/* <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
             </AlertDialogMedia> */}
-            <AlertDialogTitle>Delete account</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action is permanent and cannot be undone. All your data will
-              be deleted. Type <strong>{username}</strong> to confirm.
+            <AlertDialogTitle className="text-base">
+              Delete account?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-foreground text-left">
+              This will permanently delete your account and all your data. This
+              action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
 
-          <div className="my-2">
+          <div className="mb-2">
+            <p className="text-sm mb-1">
+              Type <strong>{username}</strong> to confirm:
+            </p>
             <input
               type="text"
               value={confirmation}
               onChange={(e) => setConfirmation(e.target.value)}
               placeholder="username"
-              className="w-full border rounded-md px-3 py-1.5 text-sm bg-card focus:outline-none focus:ring-1 focus:ring-destructive"
+              // className="w-full border rounded-md px-3 py-1.5 text-sm bg-card focus:outline-none focus:ring-1 focus:ring-destructive"
+              className="input py-1.5 focus-visible:ring-destructive"
             />
             {error && (
               <small className="block mt-0.5 text-xs text-destructive text-right">
@@ -94,7 +101,7 @@ const DeleteAccountButton = ({ username }: { username: string }) => {
                 setConfirmation("");
                 setError(null);
               }}
-              className="text-sm text-muted-foreground"
+              className="btn-outline hover:border-destructive hover:text-destructive focus-visible:ring-destructive"
             >
               Cancel
             </button>
@@ -102,10 +109,9 @@ const DeleteAccountButton = ({ username }: { username: string }) => {
               type="button"
               onClick={handleDelete}
               disabled={!isConfirmed || loading}
-              className="btn-destructive-subtle"
+              className="btn-destructive"
             >
-              {loading && <Spinner />}{" "}
-              {loading ? "Deleting..." : "Delete account"}
+              {loading && <Spinner />} {loading ? "Deleting..." : "Delete"}
             </button>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -67,7 +67,7 @@ const FoodMoveButton = ({
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
         <form action={formAction} noValidate>
           <DialogHeader className="mb-4">
-            <DialogTitle className="text-[15px]">Move {item.name}</DialogTitle>
+            <DialogTitle className="text-base">Move {item.name}</DialogTitle>
             <DialogDescription className="sr-only">
               Select new storage for {item.name}.
             </DialogDescription>

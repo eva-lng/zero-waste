@@ -1,5 +1,6 @@
 import deleteFood from "@/app/actions/deleteFood";
 import SubmitButton from "./SubmitButton";
+import { capitalize } from "@/lib/utils/utilities";
 import { FiTrash2 } from "react-icons/fi";
 import {
   AlertDialog,
@@ -9,7 +10,6 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogMedia,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
@@ -29,22 +29,25 @@ const FoodDeleteButton = ({
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <button className="flex flex-col items-center gap-1 flex-1 p-2 cursor-pointer text-destructive-light-foreground hover:bg-muted hover:font-medium">
+          <button className="flex flex-col items-center gap-1 flex-1 p-2 cursor-pointer text-destructive hover:bg-muted hover:font-medium">
             <FiTrash2 size={16} />
             <span className="text-xs">Delete</span>
           </button>
         </AlertDialogTrigger>
         <AlertDialogContent size="sm">
           <AlertDialogHeader>
-            <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
+            {/* <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
               <FiTrash2 />
-            </AlertDialogMedia>
-            <AlertDialogTitle>Delete {name}?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This will permanently delete the food item. Do you want to
-              proceed?
+            </AlertDialogMedia> */}
+            <AlertDialogTitle className="text-base">
+              Delete {name}?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-foreground text-left">
+              This will permanently remove <strong>{capitalize(name)}</strong>{" "}
+              from your inventory. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
+
           <AlertDialogFooter>
             <AlertDialogCancel variant="outline" className="cursor-pointer">
               Cancel

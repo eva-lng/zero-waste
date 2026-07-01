@@ -31,8 +31,10 @@
   --color-warning-foreground: var(--warning-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-hover: var(--destructive-hover);
   --color-destructive-light: var(--destructive-light);
   --color-destructive-light-foreground: var(--destructive-light-foreground);
+  --color-destructive-light-hover: var(--destructive-light-hover);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -95,10 +97,13 @@
   --warning: oklch(0.6133 0.1288 67.96);
   --warning-foreground: oklch(0.2 0.05 70);
   /* --destructive: oklch(0.4288 0.1732 23.33); */
-  --destructive: oklch(0.577 0.245 27.325);
+  /* --destructive: oklch(0.577 0.245 27.325); */
+  --destructive: oklch(0.4711 0.1578 22.88);
   --destructive-foreground: oklch(0.985 0 0);
+  --destructive-hover: oklch(0.4048 0.1306 23.64);
   --destructive-light: oklch(0.93 0.04 27.325); /* pale red background */
   --destructive-light-foreground: oklch(0.4 0.18 27.325); /* dark red text */
+  --destructive-light-hover: oklch(0.88 0.07 27.325);
   --border: oklch(0.88 0 0); /* subtle grey - block borders */
   --input: oklch(0.922 0 0);
   --ring: oklch(0.5 0.18 145);
@@ -223,20 +228,22 @@
 
   .btn-primary {
     @apply bg-primary text-primary-foreground rounded-md px-4 py-2 text-sm font-medium transition-colors
-      hover:bg-primary-hover disabled:opacity-40 disabled:pointer-events-none cursor-pointer;
+      enabled:hover:bg-primary-hover disabled:opacity-40 disabled:pointer-events-none enabled:cursor-pointer;
   }
   .btn-outline {
     @apply border text-muted-foreground rounded-md px-4 py-2 text-sm font-medium transition-colors 
-    hover:border-primary hover:text-primary-light-foreground
-    disabled:opacity-40 disabled:pointer-events-none cursor-pointer;
+    enabled:hover:border-primary enabled:hover:text-primary-light-foreground
+    disabled:opacity-40 disabled:pointer-events-none enabled:cursor-pointer;
   }
   .btn-destructive {
     @apply bg-destructive text-destructive-foreground rounded-md px-4 py-2 text-sm font-medium transition-colors 
-    hover:bg-destructive/80 disabled:opacity-40 cursor-pointer;
+    enabled:hover:bg-destructive-hover disabled:opacity-40 enabled:cursor-pointer
+    focus-visible:ring-destructive;
   }
   .btn-destructive-subtle {
-    @apply bg-destructive-light text-destructive-light-foreground rounded-md px-4 py-2 text-sm font-medium transition-opacity
-      hover:opacity-90 cursor-pointer;
+    @apply bg-destructive-light text-destructive-light-foreground rounded-md px-4 py-2 text-sm font-medium transition-colors
+      enabled:hover:bg-destructive-light-hover enabled:cursor-pointer
+      focus-visible:ring-destructive;
   }
 
   .pill-base {

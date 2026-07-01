@@ -38,7 +38,7 @@ export function getExpirationState(
 
 export function getExpiryColor(expirationDate: Date) {
   const expState = getExpirationState(expirationDate);
-  if (expState === "expired") return "text-destructive-light-foreground";
+  if (expState === "expired") return "text-destructive";
   if (expState === "soon") return "text-warning";
   return "text-muted-foreground";
 }

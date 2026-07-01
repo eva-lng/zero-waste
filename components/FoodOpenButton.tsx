@@ -96,7 +96,7 @@ const FoodOpenButton = ({
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
         <form action={formAction} noValidate>
           <DialogHeader className="mb-4">
-            <DialogTitle className="text-[15px]">Open {item.name}</DialogTitle>
+            <DialogTitle className="text-base">Open {item.name}</DialogTitle>
             <DialogDescription className="sr-only">
               Open {item.name} and adjust expiration date (optional).
             </DialogDescription>
