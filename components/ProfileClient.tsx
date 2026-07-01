@@ -21,7 +21,7 @@ const ProfileClient = ({ name }: { name: string }) => {
   return (
     <>
       {/* account actions card */}
-      <div className="bg-card border rounded-lg overflow-hidden">
+      <div className="card p-0 divide-y divide-border overflow-hidden">
         {/* change username */}
         <ChangeUsernameButton
           name={name}
@@ -38,7 +38,7 @@ const ProfileClient = ({ name }: { name: string }) => {
         {/* log out */}
         <button
           onClick={logout}
-          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground hover:bg-muted transition-colors"
+          className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-muted transition-colors cursor-pointer"
         >
           <span className="text-muted-foreground" aria-hidden="true">
             →

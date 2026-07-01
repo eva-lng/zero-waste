@@ -11,6 +11,7 @@ import {
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 import { Spinner } from "@/components/ui/spinner";
+import { FiTrash2 } from "react-icons/fi";
 
 const DeleteAccountButton = ({ username }: { username: string }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -56,15 +57,14 @@ const DeleteAccountButton = ({ username }: { username: string }) => {
       <button
         onClick={() => setDialogOpen(true)}
         // className="w-full md:w-auto md:self-start bg-destructive-light text-destructive rounded-lg px-4 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity"
-        className="btn-destructive-subtle w-full md:w-auto md:self-start"
+        className="inline-flex items-center justify-center gap-2 btn-destructive-subtle w-full md:w-auto md:self-start"
       >
+        <FiTrash2 aria-hidden="true" />
         Delete account
       </button>
       <AlertDialog open={dialogOpen} onOpenChange={handleOpenChange}>
         <AlertDialogContent size="sm">
           <AlertDialogHeader>
-            {/* <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
-            </AlertDialogMedia> */}
             <AlertDialogTitle className="text-base">
               Delete account?
             </AlertDialogTitle>

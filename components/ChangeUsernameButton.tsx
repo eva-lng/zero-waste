@@ -6,6 +6,7 @@ import { ProfileFormType } from "@/lib/utils/types";
 import { z } from "zod";
 import { changeUsernameSchema } from "@/lib/utils/schemas";
 import SubmitButton from "./SubmitButton";
+import { FaUserEdit } from "react-icons/fa";
 
 type ChangeUsernameButtonProps = {
   name: string;
@@ -62,28 +63,26 @@ const ChangeUsernameButton = ({
   };
 
   return (
-    <div className="border-b">
+    <>
       <button
         onClick={() => {
           setActiveForm(activeForm === "username" ? null : "username");
           setError(null);
         }}
-        className="w-full flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors"
+        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-muted transition-colors cursor-pointer"
       >
-        <div className="flex items-center gap-3">
-          {/* replace with icon */}
-          <span className="text-muted-foreground" aria-hidden="true">
-            👤
-          </span>
-          <span className="text-sm text-foreground">Change username</span>
-        </div>
-        <span className="text-muted-foreground text-sm" aria-hidden="true">
+        <FaUserEdit aria-hidden="true" />
+        <span className="text-sm">Change username</span>
+        <span
+          className="hidden md:block ml-auto text-muted-foreground text-sm"
+          aria-hidden="true"
+        >
           ›
         </span>
       </button>
 
       {activeForm === "username" && (
-        <div className="px-4 py-3 bg-primary-light/20 border-t">
+        <div className="px-4 py-3">
           <form
             onSubmit={handleUsernameSubmit}
             noValidate
@@ -97,7 +96,9 @@ const ChangeUsernameButton = ({
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 autoFocus
-                className="w-full border border-primary rounded-md px-3 py-1.5 text-sm bg-card focus:outline-none focus:ring-1 focus:ring-primary"
+                placeholder="New username"
+                // className="w-full border border-primary rounded-md px-3 py-1.5 text-sm bg-card focus:outline-none focus:ring-1 focus:ring-primary"
+                className="input py-1.5"
                 aria-invalid={!!fieldErrorsUsername}
                 aria-describedby={
                   fieldErrorsUsername ? "username-error" : undefined
@@ -131,12 +132,12 @@ const ChangeUsernameButton = ({
                   setError(null);
                 }}
                 disabled={loading}
-                className="btn-outline"
+                className="btn-outline px-3 p-1.5 text-xs"
               >
                 Cancel
               </button>
               <SubmitButton
-                className="btn-primary"
+                className="btn-primary px-3 p-1.5 text-xs"
                 pendingText="Saving..."
                 loading={loading}
               >
@@ -146,7 +147,7 @@ const ChangeUsernameButton = ({
           </form>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
