@@ -227,12 +227,12 @@
   }
   .btn-outline {
     @apply border text-muted-foreground rounded-md px-4 py-2 text-sm font-medium transition-colors 
-    hover:border-primary hover:text-primary-light-foreground cursor-pointer 
-    disabled:opacity-40 disabled:pointer-events-none;
+    hover:border-primary hover:text-primary-light-foreground
+    disabled:opacity-40 disabled:pointer-events-none cursor-pointer;
   }
   .btn-destructive {
     @apply bg-destructive text-destructive-foreground rounded-md px-4 py-2 text-sm font-medium transition-colors 
-    hover:bg-destructive/90 disabled:opacity-40 cursor-pointer;
+    hover:bg-destructive/80 disabled:opacity-40 cursor-pointer;
   }
   .btn-destructive-subtle {
     @apply bg-destructive-light text-destructive-light-foreground rounded-md px-4 py-2 text-sm font-medium transition-opacity

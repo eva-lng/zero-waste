@@ -85,42 +85,77 @@ const OverviewPage = async () => {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mb-4">
         <nav aria-label="Inventory quick links" className="card">
           <p className="card-title border-b pb-2">Smart List</p>
-          <ul className="card-body flex flex-col gap-1 pt-2">
-            <li className="flex justify-between">
-              <Link href="/inventory">All</Link>
-              <span className="font-medium">{foodItems.length}</span>
+          <ul className="card-body flex flex-col pt-1">
+            <li className="-mx-2 px-2 py-1 rounded-md hover:bg-muted transition-colors">
+              <Link
+                href="/inventory"
+                className="flex justify-between items-center"
+              >
+                <span>All</span>
+                <span className="font-medium">{foodItems.length}</span>
+              </Link>
             </li>
-            <li className="flex justify-between">
-              <Link href="/inventory?expiration=soon">Expiring soon</Link>
-              <span className="text-warning font-medium">{soonCount}</span>
+            <li className="-mx-2 px-2 py-1 rounded-md hover:bg-muted transition-colors">
+              <Link
+                href="/inventory?expiration=soon"
+                className="flex justify-between items-center"
+              >
+                <span>Expiring soon</span>
+                <span className="text-warning font-medium">{soonCount}</span>
+              </Link>
             </li>
-            <li className="flex justify-between">
-              <Link href="/inventory?expiration=expired">Expired</Link>
-              <span className="text-destructive-light-foreground font-medium">
-                {expiredCount}
-              </span>
+            <li className="-mx-2 px-2 py-1 rounded-md hover:bg-muted transition-colors">
+              <Link
+                href="/inventory?expiration=expired"
+                className="flex justify-between items-center"
+              >
+                <span>Expired</span>
+                <span className="text-destructive-light-foreground font-medium">
+                  {expiredCount}
+                </span>
+              </Link>
             </li>
-            <li className="flex justify-between">
-              <Link href="/inventory?open=true">Open</Link>
-              <span className="font-medium">{openCount}</span>
+            <li className="-mx-2 px-2 py-1 rounded-md hover:bg-muted transition-colors">
+              <Link
+                href="/inventory?open=true"
+                className="flex justify-between items-center"
+              >
+                <span>Open</span>
+                <span className="font-medium">{openCount}</span>
+              </Link>
             </li>
           </ul>
         </nav>
 
         <nav aria-label="Storage quick links" className="card">
           <p className="card-title border-b pb-2">Storages</p>
-          <ul className="card-body flex flex-col gap-1 pt-2">
-            <li className="flex justify-between">
-              <Link href="/inventory?storage=pantry">Pantry</Link>
-              <span className="font-medium">{storageCount.pantry}</span>
+          <ul className="card-body flex flex-col pt-1">
+            <li className="-mx-2 px-2 py-1 rounded-md hover:bg-muted transition-colors">
+              <Link
+                href="/inventory?storage=pantry"
+                className="flex justify-between items-center"
+              >
+                <span>Pantry</span>
+                <span className="font-medium">{storageCount.pantry}</span>
+              </Link>
             </li>
-            <li className="flex justify-between">
-              <Link href="/inventory?storage=fridge">Fridge</Link>
-              <span className="font-medium">{storageCount.fridge}</span>
+            <li className="-mx-2 px-2 py-1 rounded-md hover:bg-muted transition-colors">
+              <Link
+                href="/inventory?storage=fridge"
+                className="flex justify-between items-center"
+              >
+                <span>Fridge</span>
+                <span className="font-medium">{storageCount.fridge}</span>
+              </Link>
             </li>
-            <li className="flex justify-between">
-              <Link href="/inventory?storage=freezer">Freezer</Link>
-              <span className="font-medium">{storageCount.freezer}</span>
+            <li className="-mx-2 px-2 py-1 rounded-md hover:bg-muted transition-colors">
+              <Link
+                href="/inventory?storage=freezer"
+                className="flex justify-between items-center"
+              >
+                <span>Freezer</span>
+                <span className="font-medium">{storageCount.freezer}</span>
+              </Link>
             </li>
           </ul>
         </nav>
@@ -131,7 +166,7 @@ const OverviewPage = async () => {
             className="flex flex-col items-center cursor-pointer"
           >
             <VscPieChart className="text-2xl" />
-            <span className="flex items-center gap-0.5 text-sm">
+            <span className="flex items-center gap-0.5 text-sm px-2 py-1 rounded-md hover:bg-muted transition-colors">
               View full stats <HiArrowSmallRight aria-hidden="true" />
             </span>
           </Link>
@@ -141,18 +176,18 @@ const OverviewPage = async () => {
       {(soonCount > 0 || expiredCount > 0) && (
         <div className="grid sm:grid-cols-2 gap-4 sm:gap-2 md:gap-4">
           {soonCount > 0 && (
-            <section className="card">
-              <div className="flex justify-between border-b pb-2">
+            <section className="card pt-3 md:pt-4">
+              <div className="flex justify-between items-center border-b pb-1">
                 <h2 className="card-title text-warning">Expiring soon</h2>
                 <Link
                   href="/inventory?expiration=soon"
-                  className="flex items-center gap-0.5 text-[13px] md:text-sm font-medium"
+                  className="flex items-center gap-0.5 text-[13px] md:text-sm font-medium -mx-2 px-2 py-1 rounded-md hover:bg-muted transition-colors"
                 >
                   {soonCount} item{soonCount > 1 && "s"}
                   <HiArrowSmallRight aria-hidden="true" />
                 </Link>
               </div>
-              <ul className="card-body flex flex-col gap-1 pt-2">
+              <ul className="card-body flex flex-col gap-2 pt-2">
                 {soonItems.map((item) => (
                   <li
                     key={item._id.toString()}
@@ -169,20 +204,20 @@ const OverviewPage = async () => {
           )}
 
           {expiredCount > 0 && (
-            <section className="card">
-              <div className="flex justify-between border-b pb-2">
+            <section className="card pt-3 md:pt-4">
+              <div className="flex justify-between items-center border-b pb-1">
                 <h2 className="card-title text-destructive-light-foreground">
                   Expired
                 </h2>
                 <Link
                   href="/inventory?expiration=expired"
-                  className="flex items-center gap-0.5 text-[13px] md:text-sm font-medium"
+                  className="flex items-center gap-0.5 text-[13px] md:text-sm font-medium -mx-2 px-2 py-1 rounded-md hover:bg-muted transition-colors"
                 >
                   {expiredCount} item{expiredCount > 1 && "s"}
                   <HiArrowSmallRight aria-hidden="true" />
                 </Link>
               </div>
-              <ul className="card-body flex flex-col gap-1 pt-2">
+              <ul className="card-body flex flex-col gap-2 pt-2">
                 {expiredItems.map((item) => (
                   <li
                     key={item._id.toString()}
