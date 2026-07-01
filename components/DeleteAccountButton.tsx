@@ -111,7 +111,8 @@ const DeleteAccountButton = ({ username }: { username: string }) => {
               disabled={!isConfirmed || loading}
               className="btn-destructive"
             >
-              {loading && <Spinner />} {loading ? "Deleting..." : "Delete"}
+              {loading && <Spinner />}{" "}
+              {loading ? "Deleting..." : "Delete account"}
             </button>
           </AlertDialogFooter>
         </AlertDialogContent>
