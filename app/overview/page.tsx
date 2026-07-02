@@ -11,8 +11,7 @@ import {
   getExpirationLabelShort,
 } from "@/lib/utils/utilities";
 import { getAllTimeStats } from "@/lib/data/stats";
-import { VscPieChart } from "react-icons/vsc";
-import { HiArrowSmallRight } from "react-icons/hi2";
+import { TbChartPie, TbChevronRight } from "react-icons/tb";
 
 const OverviewPage = async () => {
   await dbConnect();
@@ -165,9 +164,9 @@ const OverviewPage = async () => {
             href="/stats"
             className="flex flex-col items-center cursor-pointer"
           >
-            <VscPieChart className="text-2xl" />
+            <TbChartPie strokeWidth={1.5} className="text-2xl" />
             <span className="flex items-center gap-0.5 text-sm px-2 py-1 rounded-md hover:bg-muted transition-colors">
-              View full stats <HiArrowSmallRight aria-hidden="true" />
+              View full stats <TbChevronRight aria-hidden="true" />
             </span>
           </Link>
         </div>
@@ -184,7 +183,7 @@ const OverviewPage = async () => {
                   className="flex items-center gap-0.5 text-[13px] md:text-sm font-medium -mx-2 px-2 py-1 rounded-md hover:bg-muted transition-colors"
                 >
                   {soonCount} item{soonCount > 1 && "s"}
-                  <HiArrowSmallRight aria-hidden="true" />
+                  <TbChevronRight aria-hidden="true" />
                 </Link>
               </div>
               <ul className="card-body flex flex-col gap-2 pt-2">
@@ -212,7 +211,7 @@ const OverviewPage = async () => {
                   className="flex items-center gap-0.5 text-[13px] md:text-sm font-medium -mx-2 px-2 py-1 rounded-md hover:bg-muted transition-colors"
                 >
                   {expiredCount} item{expiredCount > 1 && "s"}
-                  <HiArrowSmallRight aria-hidden="true" />
+                  <TbChevronRight aria-hidden="true" />
                 </Link>
               </div>
               <ul className="card-body flex flex-col gap-2 pt-2">

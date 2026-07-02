@@ -1,7 +1,7 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
-import { IoIosSearch } from "react-icons/io";
+import { TbSearch } from "react-icons/tb";
 
 const SearchBar = () => {
   const params = useSearchParams();
@@ -22,7 +22,11 @@ const SearchBar = () => {
 
   return (
     <div className="relative flex-1 ">
-      <IoIosSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+      <TbSearch
+        className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+        size={14}
+        aria-hidden="true"
+      />
       <input
         type="search"
         className="input pl-8 w-full"

@@ -11,6 +11,7 @@ import {
   AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 import { Spinner } from "@/components/ui/spinner";
+import { TbTrash } from "react-icons/tb";
 import { FiTrash2 } from "react-icons/fi";
 
 const DeleteAccountButton = ({ username }: { username: string }) => {
@@ -58,7 +59,7 @@ const DeleteAccountButton = ({ username }: { username: string }) => {
         onClick={() => setDialogOpen(true)}
         className="inline-flex items-center justify-center gap-2 btn-destructive-subtle w-full md:w-auto md:self-start"
       >
-        <FiTrash2 aria-hidden="true" />
+        <TbTrash aria-hidden="true" />
         Delete account
       </button>
       <AlertDialog open={dialogOpen} onOpenChange={handleOpenChange}>

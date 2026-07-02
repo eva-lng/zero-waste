@@ -5,6 +5,7 @@ import { authClient } from "@/lib/auth-client";
 import ChangeUsernameButton from "./ChangeUsernameButton";
 import ChangePasswordButton from "./ChangePasswordButton";
 import DeleteAccountButton from "./DeleteAccountButton";
+import { TbLogout } from "react-icons/tb";
 
 const ProfileClient = ({ name }: { name: string }) => {
   const [activeForm, setActiveForm] = useState<"username" | "password" | null>(
@@ -40,9 +41,7 @@ const ProfileClient = ({ name }: { name: string }) => {
           onClick={logout}
           className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-muted transition-colors cursor-pointer"
         >
-          <span className="text-muted-foreground" aria-hidden="true">
-            →
-          </span>
+          <TbLogout aria-hidden="true" />
           Log out
         </button>
       </div>

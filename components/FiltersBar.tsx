@@ -2,10 +2,10 @@
 import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FilterType } from "@/lib/utils/types";
-import { MdFilterList } from "react-icons/md";
 import FilterPanel from "./FilterPanel";
 import FilterTag from "./FilterTag";
 import SearchBar from "./SearchBar";
+import { TbAdjustmentsHorizontal } from "react-icons/tb";
 
 const FiltersBar = () => {
   const [open, setOpen] = useState(false);
@@ -58,7 +58,7 @@ const FiltersBar = () => {
           aria-expanded={open}
           aria-controls="filter-panel"
         >
-          <MdFilterList />
+          <TbAdjustmentsHorizontal />
           <span className="hidden md:inline">Filters</span>
           {activeFilters.length > 0 && (
             <span className="absolute md:static -top-1.5 -right-1.5 bg-primary text-primary-foreground text-[11px] rounded-full w-4 h-4 flex items-center justify-center">

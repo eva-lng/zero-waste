@@ -7,6 +7,7 @@ import { z } from "zod";
 import { changePasswordSchema } from "@/lib/utils/schemas";
 import SubmitButton from "./SubmitButton";
 import { MdOutlineLock } from "react-icons/md";
+import { TbChevronRight, TbLock } from "react-icons/tb";
 
 type ChangePasswordButtonProps = {
   activeForm: ProfileFormType;
@@ -90,14 +91,12 @@ const ChangePasswordButton = ({
         }}
         className="w-full flex items-center gap-3 px-4 py-3 hover:bg-muted transition-colors cursor-pointer"
       >
-        <MdOutlineLock aria-hidden="true" />
+        <TbLock aria-hidden="true" />
         <span className="text-sm text-foreground">Change password</span>
-        <span
+        <TbChevronRight
           className="hidden md:block ml-auto text-muted-foreground text-sm"
           aria-hidden="true"
-        >
-          ›
-        </span>
+        />
       </button>
 
       {activeForm === "password" && (

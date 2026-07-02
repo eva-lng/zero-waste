@@ -6,7 +6,7 @@ import { ProfileFormType } from "@/lib/utils/types";
 import { z } from "zod";
 import { changeUsernameSchema } from "@/lib/utils/schemas";
 import SubmitButton from "./SubmitButton";
-import { FaUserEdit } from "react-icons/fa";
+import { TbChevronRight, TbUserEdit } from "react-icons/tb";
 
 type ChangeUsernameButtonProps = {
   name: string;
@@ -71,14 +71,12 @@ const ChangeUsernameButton = ({
         }}
         className="w-full flex items-center gap-3 px-4 py-3 hover:bg-muted transition-colors cursor-pointer"
       >
-        <FaUserEdit aria-hidden="true" />
+        <TbUserEdit aria-hidden="true" />
         <span className="text-sm">Change username</span>
-        <span
+        <TbChevronRight
           className="hidden md:block ml-auto text-muted-foreground text-sm"
           aria-hidden="true"
-        >
-          ›
-        </span>
+        />
       </button>
 
       {activeForm === "username" && (

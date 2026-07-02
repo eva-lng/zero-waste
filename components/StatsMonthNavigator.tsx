@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { MONTHS } from "@/lib/utils/constants";
-import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
+import { TbChevronLeft, TbChevronRight } from "react-icons/tb";
 
 const StatsMonthNavigator = ({
   year,
@@ -32,7 +32,7 @@ const StatsMonthNavigator = ({
           )
         }
       >
-        ‹
+        <TbChevronLeft className="text-muted-foreground" />
       </button>
       <span className="text-[15px] font-medium">
         {MONTHS[month - 1]} {year}
@@ -46,7 +46,7 @@ const StatsMonthNavigator = ({
           )
         }
       >
-        ›
+        <TbChevronRight className="text-muted-foreground" />
       </button>
     </div>
   );
