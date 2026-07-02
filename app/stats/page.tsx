@@ -70,7 +70,64 @@ const StatsPage = async ({
 
   return (
     <>
-      <section className="rounded-lg bg-card border p-4 md:p-5">
+      <section className="card mb-4">
+        <h2 className="mb-4 section-title">
+          Overall • since{" "}
+          {session.user.createdAt.toLocaleDateString("en-GB", {
+            month: "short",
+            year: "numeric",
+          })}
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:items-center">
+          {/* LEFT */}
+          <div className="grid grid-cols-2 gap-3 md:gap-4">
+            {/* total consumed */}
+            <div className="stats-card">
+              <p className="stat-label">Consumed</p>
+              <p className="mt-1 stat-number">
+                {totalConsumed + totalWasted > 0
+                  ? Math.round(
+                      (totalConsumed * 100) / (totalConsumed + totalWasted),
+                    )
+                  : 0}
+                %
+              </p>
+              <p className="mt-1 text-xs md:text-sm text-muted-foreground">
+                {totalConsumed} g
+              </p>
+            </div>
+            {/* total wasted */}
+            <div className="stats-card">
+              <p className="stat-label">Wasted</p>
+              <p className="mt-1 stat-number">
+                {totalConsumed + totalWasted > 0
+                  ? Math.round(
+                      (totalWasted * 100) / (totalConsumed + totalWasted),
+                    )
+                  : 0}
+                %
+              </p>
+              <p className="mt-1 text-xs md:text-sm text-muted-foreground">
+                {totalWasted} g
+              </p>
+            </div>
+          </div>
+
+          {/* RIGHT */}
+          <div className="flex items-center">
+            {totalConsumed + totalWasted > 0 && (
+              <ChartTotal
+                totalConsumed={totalConsumed}
+                totalWasted={totalWasted}
+              />
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* previous code */}
+      {/* <section className="card mb-4 bg-yellow-100">
         <div className="mb-4 flex items-center gap-2 section-title">
           <h2>Overall</h2>
           <span>•</span>
@@ -84,7 +141,7 @@ const StatsPage = async ({
         </div>
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:items-center">
-          {/* LEFT */}
+          
           <div className="flex gap-3">
             <div className="flex-1 rounded-md bg-muted p-4">
               <p className="text-muted-foreground text-sm">Consumed</p>
@@ -116,8 +173,7 @@ const StatsPage = async ({
               </p>
             </div>
           </div>
-
-          {/* RIGHT */}
+          
           <div className="flex items-center">
             {totalConsumed + totalWasted > 0 && (
               <ChartTotal
@@ -127,8 +183,9 @@ const StatsPage = async ({
             )}
           </div>
         </div>
-      </section>
+      </section> */}
 
+      {/* OLD */}
       {/* <h2 className="text-3xl text-center">Consumption and Waste Trends</h2>
       <section className="mb-5">
         <h3>Overall stats</h3>

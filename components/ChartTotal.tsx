@@ -99,12 +99,12 @@ const ChartTotal = ({
         </BarChart>
       </ChartContainer>
 
-      <div aria-label="Chart legend" className="mt-3">
+      <div aria-label="Chart legend" className="mt-3 ml-1">
         <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs">
           <li className="flex items-center gap-2">
             <div className="flex items-center gap-1.5">
               <span
-                className="w-2.5 h-2.5 rounded-xs"
+                className="w-2.5 h-2.5 rounded-full"
                 style={{ backgroundColor: "var(--chart-0)" }}
                 aria-hidden="true"
               />
@@ -117,7 +117,7 @@ const ChartTotal = ({
           <li className="flex items-center gap-2">
             <div className="flex items-center gap-1.5">
               <span
-                className="inline-block w-2.5 h-2.5 rounded-xs"
+                className="inline-block w-2.5 h-2.5 rounded-full"
                 style={{ backgroundColor: "var(--destructive)" }}
                 aria-hidden="true"
               />
