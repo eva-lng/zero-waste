@@ -56,7 +56,6 @@ const DeleteAccountButton = ({ username }: { username: string }) => {
     <>
       <button
         onClick={() => setDialogOpen(true)}
-        // className="w-full md:w-auto md:self-start bg-destructive-light text-destructive rounded-lg px-4 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity"
         className="inline-flex items-center justify-center gap-2 btn-destructive-subtle w-full md:w-auto md:self-start"
       >
         <FiTrash2 aria-hidden="true" />
@@ -83,7 +82,6 @@ const DeleteAccountButton = ({ username }: { username: string }) => {
               value={confirmation}
               onChange={(e) => setConfirmation(e.target.value)}
               placeholder="username"
-              // className="w-full border rounded-md px-3 py-1.5 text-sm bg-card focus:outline-none focus:ring-1 focus:ring-destructive"
               className="input py-1.5 focus-visible:ring-destructive"
             />
             {error && (

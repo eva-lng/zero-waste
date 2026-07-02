@@ -100,16 +100,16 @@ const ChartCategoryMonth = ({
                       <tspan
                         x={viewBox.cx}
                         y={viewBox.cy}
-                        className="fill-foreground text-3xl font-bold"
+                        className="fill-foreground text-2xl font-bold"
                       >
-                        {monthlyWaste.toLocaleString()}
+                        {monthlyWaste.toLocaleString()} g
                       </tspan>
                       <tspan
                         x={viewBox.cx}
                         y={(viewBox.cy || 0) + 24}
-                        className="fill-muted-foreground"
+                        className="fill-foreground md:text-sm"
                       >
-                        grams of waste
+                        waste
                       </tspan>
                     </text>
                   );
@@ -120,10 +120,13 @@ const ChartCategoryMonth = ({
         </PieChart>
       </ChartContainer>
 
-      <div className="flex justify-center" aria-label="Chart legend">
-        <ul className="mt-4 space-y-1 grid grid-cols-2 gap-x-4">
+      <div className="mx-auto max-w-sm" aria-label="Category chart legend">
+        <ul className="space-y-1 grid grid-cols-2 gap-x-8">
           {chartData.map((item) => (
-            <li key={item.category} className="flex items-center gap-3 text-xs">
+            <li
+              key={item.category}
+              className="flex items-center justify-between text-xs"
+            >
               <div className="flex items-center gap-2">
                 <span
                   className="inline-block w-2.5 h-2.5 rounded-xs"

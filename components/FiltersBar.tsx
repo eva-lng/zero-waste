@@ -54,7 +54,6 @@ const FiltersBar = () => {
         <SearchBar />
         <button
           onClick={() => setOpen((prev) => !prev)}
-          // className="inline-flex items-center md:gap-1 bg-card text-foreground border cursor-pointer py-2 px-2 md:px-4 rounded-md focus:shadow-outline"
           className="btn-outline bg-card relative shrink-0 flex items-center gap-2"
           aria-expanded={open}
           aria-controls="filter-panel"
@@ -66,15 +65,6 @@ const FiltersBar = () => {
               {activeFilters.length}
             </span>
           )}
-          {/* <MdFilterList />
-          <span className="relative inline-flex items-center gap-1.5">
-            <span className="hidden md:inline">Filters</span>
-            {activeFilters.length > 0 && (
-              <span className="bg-primary text-primary-foreground text-[10px] rounded-full px-1.5 py-0.5 absolute -top-6 -right-4 md:static">
-                {activeFilters.length}
-              </span>
-            )}
-          </span> */}
         </button>
       </div>
 

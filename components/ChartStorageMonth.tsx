@@ -38,7 +38,7 @@ const ChartStorageMonth = ({
     <div role="region" aria-label="Monthly waste by storage chart">
       <ChartContainer
         config={chartConfig}
-        className="mx-auto aspect-square max-h-[180px]"
+        className="mx-auto aspect-square max-h-[220px]"
       >
         <PieChart accessibilityLayer>
           <ChartTooltip
@@ -77,13 +77,16 @@ const ChartStorageMonth = ({
         </PieChart>
       </ChartContainer>
 
-      <div className="flex justify-center">
+      <div className="mx-auto max-w-xs md:mt-5">
         <ul
-          className="mt-4 space-y-1 grid grid-cols-2 gap-x-4"
-          aria-label="Chart legend"
+          className="space-y-1 grid grid-cols-2 gap-x-8"
+          aria-label="Storage chart legend"
         >
           {chartData.map((item) => (
-            <li key={item.storage} className="flex items-center gap-3 text-xs">
+            <li
+              key={item.storage}
+              className="flex items-center justify-between text-xs"
+            >
               <div className="flex items-center gap-2">
                 <span
                   className="inline-block w-2.5 h-2.5 rounded-xs"

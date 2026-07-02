@@ -22,31 +22,31 @@ const StatsMonthNavigator = ({
   const nextMonth = month === 12 ? 1 : month + 1;
 
   return (
-    <div className="flex justify-between">
+    <div className="flex items-center justify-between md:gap-10">
       <button
         disabled={isFirst}
-        className="cursor-pointer"
+        className="w-7 h-7 flex items-center justify-center border rounded-md hover:bg-muted cursor-pointer disabled:invisible"
         onClick={() =>
           router.push(
             `/stats?month=${prevYear}-${String(prevMonth).padStart(2, "0")}`,
           )
         }
       >
-        <MdArrowBackIos />
+        ‹
       </button>
-      <span>
+      <span className="text-[15px] font-medium">
         {MONTHS[month - 1]} {year}
       </span>
       <button
         disabled={isLast}
-        className="cursor-pointer"
+        className="w-7 h-7 flex items-center justify-center border rounded-md hover:bg-muted cursor-pointer disabled:invisible"
         onClick={() =>
           router.push(
             `/stats?month=${nextYear}-${String(nextMonth).padStart(2, "0")}`,
           )
         }
       >
-        <MdArrowForwardIos />
+        ›
       </button>
     </div>
   );

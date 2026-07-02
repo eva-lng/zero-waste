@@ -3,16 +3,17 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
 import FoodItem from "@/models/FoodItem";
+import { capitalize } from "@/lib/utils/utilities";
 import {
   getAllTimeStats,
   getMonthlyWaste,
   getMonthlyCategoryStats,
   getMonthlyStorageStats,
 } from "@/lib/data/stats";
+import ChartTotal from "@/components/ChartTotal";
 import StatsMonthNavigator from "@/components/StatsMonthNavigator";
 import ChartCategoryMonth from "@/components/ChartCategoryMonth";
 import ChartStorageMonth from "@/components/ChartStorageMonth";
-import ChartTotal from "@/components/ChartTotal";
 
 const StatsPage = async ({
   searchParams,
@@ -123,6 +124,62 @@ const StatsPage = async ({
               />
             )}
           </div>
+        </div>
+      </section>
+
+      <section className="card">
+        <div className="md:flex items-center justify-between mb-4">
+          <h2 className="section-title mb-4 md:m-0">Monthly Breakdown</h2>
+          <StatsMonthNavigator
+            year={yearVal}
+            month={monthVal}
+            isFirst={isFirst}
+            isLast={isLast}
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="stats-card">
+            <p className="stat-label">Total wasted</p>
+            <p className="md:text-lg font-semibold">{monthlyWaste} g</p>
+          </div>
+          <div className="stats-card">
+            <p className="stat-label">Top category</p>
+            <p className="md:text-lg font-semibold">
+              {monthlyCategory[0]?.category
+                ? capitalize(monthlyCategory[0].category)
+                : "-"}
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {monthlyCategory.length > 0 && monthlyStorage.length > 0 && (
+            <>
+              <div>
+                <p className="text-muted-foreground text-xs md:text-sm font-medium">
+                  Waste by category
+                </p>
+                <ChartCategoryMonth
+                  monthlyCategory={monthlyCategory}
+                  monthlyWaste={monthlyWaste}
+                />
+              </div>
+
+              {/* horizontal divider on mobile */}
+              <div className="border-t border-border md:hidden" />
+
+              <div>
+                <p className="text-muted-foreground text-xs md:text-sm font-medium md:mb-10">
+                  Waste by storage
+                </p>
+                <ChartStorageMonth
+                  monthlyStorage={monthlyStorage}
+                  monthlyWaste={monthlyWaste}
+                />
+              </div>
+            </>
+          )}
         </div>
       </section>
 
