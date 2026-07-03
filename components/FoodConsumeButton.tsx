@@ -6,6 +6,7 @@ import SubmitButton from "./SubmitButton";
 import DialogFoodInfo from "./DialogFoodInfo";
 import DialogFoodQty from "./DialogFoodQty";
 import { GiKnifeFork } from "react-icons/gi";
+import { TbToolsKitchen2 } from "react-icons/tb";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -57,8 +58,8 @@ const FoodConsumeButton = ({
   return (
     <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <button className="flex flex-col items-center gap-1 flex-1 p-2 cursor-pointer hover:bg-muted hover:font-semibold">
-          <GiKnifeFork size={16} />
+        <button className="flex flex-col items-center gap-1 flex-1 p-2 cursor-pointer hover:bg-muted">
+          <TbToolsKitchen2 size={16} />
           <span className="text-xs">Consume</span>
         </button>
       </DialogTrigger>

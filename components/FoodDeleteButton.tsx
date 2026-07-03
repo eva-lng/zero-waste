@@ -3,7 +3,7 @@ import { useState } from "react";
 import deleteFood from "@/app/actions/deleteFood";
 import SubmitButton from "./SubmitButton";
 import { capitalize } from "@/lib/utils/utilities";
-import { FiTrash2 } from "react-icons/fi";
+import { TbTrash } from "react-icons/tb";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -36,7 +36,7 @@ const FoodDeleteButton = ({
       <AlertDialog open={dialogOpen} onOpenChange={handleOpenChange}>
         <AlertDialogTrigger asChild>
           <button className="flex flex-col items-center gap-1 flex-1 p-2 cursor-pointer text-destructive hover:bg-muted hover:font-medium">
-            <FiTrash2 size={16} />
+            <TbTrash size={16} />
             <span className="text-xs">Delete</span>
           </button>
         </AlertDialogTrigger>

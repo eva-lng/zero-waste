@@ -1,6 +1,6 @@
 import { FilterType } from "@/lib/utils/types";
 import { capitalize } from "@/lib/utils/utilities";
-import { FiX } from "react-icons/fi";
+import { TbX } from "react-icons/tb";
 
 const FilterTag = ({
   type,
@@ -18,7 +18,7 @@ const FilterTag = ({
         className="flex items-center justify-center font-medium ml-1 w-3 h-3 hover:bg-[rgba(0,0,0,0.08)] cursor-pointer"
         onClick={() => removeFilter(type, value)}
       >
-        <FiX />
+        <TbX />
       </button>
     </span>
   );

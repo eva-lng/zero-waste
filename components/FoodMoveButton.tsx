@@ -6,7 +6,7 @@ import SubmitButton from "./SubmitButton";
 import DialogFoodInfo from "./DialogFoodInfo";
 import DialogFoodQty from "./DialogFoodQty";
 import { capitalize } from "@/lib/utils/utilities";
-import { LiaExchangeAltSolid } from "react-icons/lia";
+import { TbArrowsExchange } from "react-icons/tb";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -59,8 +59,8 @@ const FoodMoveButton = ({
   return (
     <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <button className="flex flex-col items-center gap-1 flex-1 p-2 cursor-pointer hover:bg-muted hover:font-semibold">
-          <LiaExchangeAltSolid size={16} />
+        <button className="flex flex-col items-center gap-1 flex-1 p-2 cursor-pointer hover:bg-muted">
+          <TbArrowsExchange size={16} />
           <span className="text-xs">Move</span>
         </button>
       </DialogTrigger>

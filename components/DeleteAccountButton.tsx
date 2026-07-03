@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Spinner } from "@/components/ui/spinner";
 import { TbTrash } from "react-icons/tb";
-import { FiTrash2 } from "react-icons/fi";
 
 const DeleteAccountButton = ({ username }: { username: string }) => {
   const [dialogOpen, setDialogOpen] = useState(false);

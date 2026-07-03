@@ -2,7 +2,13 @@
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { usePathname } from "next/navigation";
-import { BsPlus } from "react-icons/bs";
+import {
+  TbPlus,
+  TbLayoutDashboard,
+  TbSalad,
+  TbChartPie,
+  TbUser,
+} from "react-icons/tb";
 
 const NavbarMain = () => {
   const { data: session, isPending, error } = authClient.useSession();
@@ -15,22 +21,43 @@ const NavbarMain = () => {
 
   return (
     <nav className="bottom-0 fixed w-full bg-card border-t">
-      <div className="container mx-auto p-2">
+      <div className="container xl:max-w-[1200px] 2xl:max-w-[1200px] mx-auto px-2">
         <ul className="flex justify-between items-center">
           <li>
             <Link
               href="/overview"
-              className={`py-2 px-4 rounded-lg text-muted-foreground hover:bg-muted ${pathname === "/overview" && "text-primary"}`}
+              className="flex flex-col items-center rounded-md px-3 py-1.5 transition-colors text-muted-foreground hover:bg-muted"
             >
-              Overview
+              <span
+                className={`rounded-full px-3 py-1 ${pathname === "/overview" && "bg-primary-light text-primary-light-foreground"}`}
+              >
+                <TbLayoutDashboard
+                  className="text-xl md:text-2xl"
+                  aria-hidden="true"
+                />
+              </span>
+              <span
+                className={`mt-1 text-xs md:text-sm ${pathname === "/overview" && "text-primary-light-foreground"}`}
+              >
+                Overview
+              </span>
             </Link>
           </li>
           <li>
             <Link
               href="/inventory"
-              className={`py-2 px-4 rounded-lg text-muted-foreground hover:bg-muted ${pathname === "/inventory" && "text-primary"}`}
+              className="flex flex-col items-center rounded-md px-3 py-1.5 transition-colors text-muted-foreground hover:bg-muted"
             >
-              Inventory
+              <span
+                className={`rounded-full px-3 py-1 ${pathname === "/inventory" && "bg-primary-light text-primary-light-foreground"}`}
+              >
+                <TbSalad className="text-xl md:text-2xl" aria-hidden="true" />
+              </span>
+              <span
+                className={`mt-1 text-xs md:text-sm ${pathname === "/inventory" && "text-primary-light-foreground"}`}
+              >
+                Inventory
+              </span>
             </Link>
           </li>
           <li
@@ -39,25 +66,46 @@ const NavbarMain = () => {
             <Link
               href="/inventory/add"
               aria-label="Add food item"
-              className="flex items-center justify-center w-12 h-12 -mt-4 rounded-full bg-primary hover:bg-primary-hover text-primary-foreground shadow-lg transition-colors"
+              className="flex items-center justify-center w-12 h-12  rounded-full bg-primary hover:bg-primary-hover text-primary-foreground shadow-xl transition-colors"
             >
-              <BsPlus className="text-2xl" aria-hidden="true" />
+              <TbPlus size={18} strokeWidth={3} aria-hidden="true" />
             </Link>
           </li>
           <li>
             <Link
-              href={`/stats?month=${monthParam}`}
-              className={`py-2 px-4 rounded-lg text-muted-foreground hover:bg-muted ${pathname === "/stats" && "text-primary"}`}
+              href="/stats"
+              className="flex flex-col items-center rounded-md px-3 py-1.5 transition-colors text-muted-foreground hover:bg-muted"
             >
-              Stats
+              <span
+                className={`rounded-full px-3 py-1 ${pathname === "/stats" && "bg-primary-light text-primary-light-foreground"}`}
+              >
+                <TbChartPie
+                  className="text-xl md:text-2xl"
+                  aria-hidden="true"
+                />
+              </span>
+              <span
+                className={`mt-1 text-xs md:text-sm ${pathname === "/stats" && "text-primary-light-foreground"}`}
+              >
+                Stats
+              </span>
             </Link>
           </li>
           <li>
             <Link
               href="/profile"
-              className={`py-2 px-4 rounded-lg text-muted-foreground hover:bg-muted ${pathname === "/profile" && "text-primary"}`}
+              className="flex flex-col items-center rounded-md px-3 py-1.5 transition-colors text-muted-foreground hover:bg-muted"
             >
-              Profile
+              <span
+                className={`rounded-full px-3 py-1 ${pathname === "/profile" && "bg-primary-light text-primary-light-foreground"}`}
+              >
+                <TbUser className="text-xl md:text-2xl" aria-hidden="true" />
+              </span>
+              <span
+                className={`mt-1 text-xs md:text-sm ${pathname === "/profile" && "text-primary-light-foreground"}`}
+              >
+                Profile
+              </span>
             </Link>
           </li>
         </ul>

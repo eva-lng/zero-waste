@@ -7,6 +7,7 @@ import DialogFoodInfo from "./DialogFoodInfo";
 import DialogFoodQty from "./DialogFoodQty";
 import DateAdjustField from "./DateAdjustField";
 import { LuPackageOpen } from "react-icons/lu";
+import { TbPackage } from "react-icons/tb";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -88,8 +89,8 @@ const FoodOpenButton = ({
   return (
     <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <button className="flex flex-col items-center gap-1 flex-1 p-2 cursor-pointer hover:bg-muted hover:font-semibold">
-          <LuPackageOpen size={16} />
+        <button className="flex flex-col items-center gap-1 flex-1 p-2 cursor-pointer hover:bg-muted">
+          <TbPackage size={16} />
           <span className="text-xs">Open</span>
         </button>
       </DialogTrigger>

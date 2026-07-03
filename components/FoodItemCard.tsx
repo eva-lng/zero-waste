@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { FoodItemClient } from "@/lib/utils/types";
 import {
   capitalize,
@@ -7,10 +9,7 @@ import {
   getExpirationLabelShort,
   getExpiryColor,
 } from "@/lib/utils/utilities";
-import Link from "next/link";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { FiMoreVertical } from "react-icons/fi";
-import { TbEdit } from "react-icons/tb";
+import { TbDotsVertical, TbDropletHalf2, TbEdit } from "react-icons/tb";
 import ActionMenu from "./ActionMenu";
 import {
   Drawer,
@@ -39,8 +38,9 @@ const FoodItemCard = ({
           onClick={() => setDrawerOpen(true)}
           aria-label={`View details for ${item.name}`}
         >
-          <span className="block card-title mb-0.5 md:mb-1">
+          <span className="flex items-baseline gap-1 card-title mb-0.5 md:mb-1">
             {capitalize(item.name)}
+            {item.isOpen && <TbDropletHalf2 size={12} aria-hidden="true" />}
           </span>
           <span className="block card-meta md:text-sm mb-[1px] md:mb-0.5">
             {item.quantity} {item.unit}
@@ -65,7 +65,7 @@ const FoodItemCard = ({
           }}
           aria-label="Item actions"
         >
-          <FiMoreVertical aria-hidden="true" />
+          <TbDotsVertical aria-hidden="true" />
         </button>
       </div>
 
@@ -86,7 +86,10 @@ const FoodItemCard = ({
             </DrawerDescription>
 
             <div className="mb-4 relative">
-              <h3 className="card-title mb-1">{capitalize(item.name)}</h3>
+              <div className="flex items-baseline gap-1">
+                <h3 className="card-title mb-1">{capitalize(item.name)}</h3>
+                {item.isOpen && <TbDropletHalf2 size={12} aria-hidden="true" />}
+              </div>
 
               <p className="card-meta text-foreground">
                 {capitalize(item.category)}

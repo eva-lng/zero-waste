@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { TbLogout, TbLogin2 } from "react-icons/tb";
 
 const Header = () => {
   const { data: session, isPending, error } = authClient.useSession();
@@ -14,21 +15,27 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-card border-b">
-      <div className="container mx-auto flex justify-between items-center p-2">
+    <header className="bg-card border-b mb-4 md:mb-6">
+      <div className="container xl:max-w-[1200px] 2xl:max-w-[1200px] mx-auto flex justify-between items-center px-2 py-1.5">
         <Link href="/">
           <h1>Logo</h1>
         </Link>
 
         {session ? (
-          <button onClick={logout} className="cursor-pointer">
-            Logout
+          <button
+            onClick={logout}
+            className="inline-flex items-center gap-2 text-sm md:text-base px-4 py-1.5 rounded-md hover:bg-muted cursor-pointer"
+          >
+            <TbLogout />
+            Log out
           </button>
         ) : (
-          <div className="flex items-center gap-2">
-            <Link href="/login">Login</Link>
-            <Link href="/signup">Get Started</Link>
-          </div>
+          <Link
+            href="/login"
+            className="inline-flex items-center gap-2 text-sm md:text-base font-semibold px-4 py-1.5 rounded-md bg-primary text-primary-foreground hover:bg-primary-hover"
+          >
+            <TbLogin2 /> Log in
+          </Link>
         )}
       </div>
     </header>
