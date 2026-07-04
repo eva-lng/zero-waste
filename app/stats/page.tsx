@@ -71,14 +71,15 @@ const StatsPage = async ({
 
   return (
     <>
+      <h2 className="sr-only">Stats</h2>
       <section className="card mb-4">
-        <h2 className="mb-4 section-title">
+        <h3 className="mb-4 section-title">
           Overall • since{" "}
           {session.user.createdAt.toLocaleDateString("en-GB", {
             month: "short",
             year: "numeric",
           })}
-        </h2>
+        </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:items-center">
           {/* LEFT */}
@@ -129,7 +130,7 @@ const StatsPage = async ({
 
       <section className="card">
         <div className="md:flex items-center justify-between mb-4">
-          <h2 className="section-title mb-4 md:m-0">Monthly Breakdown</h2>
+          <h3 className="section-title mb-4 md:m-0">Monthly Breakdown</h3>
           <StatsMonthNavigator
             year={yearVal}
             month={monthVal}

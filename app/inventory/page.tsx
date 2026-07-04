@@ -81,6 +81,7 @@ const InventoryPage = async ({
 
   return (
     <>
+      <h2 className="sr-only">Inventory</h2>
       <FiltersBar />
       <FoodItemsList items={serializedItems} />
     </>

@@ -14,7 +14,6 @@ const AddFoodPage = async () => {
 
   return (
     <>
-      <h2 className="text-3xl text-center mb-6">Add Food Page</h2>
       <FoodAddForm />
     </>
   );

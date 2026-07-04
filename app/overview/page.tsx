@@ -67,6 +67,7 @@ const OverviewPage = async () => {
 
   return (
     <>
+      <h2 className="sr-only">Overview</h2>
       <div className="grid grid-cols-2 gap-3 md:gap-4 mb-4">
         <div className="stats-card">
           <p className="stat-label">Consumed</p>

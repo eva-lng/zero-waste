@@ -184,6 +184,9 @@
   *:focus-visible {
     @apply outline-none ring-2 ring-ring rounded-sm;
   }
+  input[type="radio"] {
+    @apply accent-primary;
+  }
 }
 
 @layer components {
@@ -218,7 +221,8 @@
       disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .select {
-    @apply rounded-md border border-input bg-card px-3 py-2 text-sm text-foreground 
+    @apply rounded-md border border-input bg-card px-3 py-2 text-sm text-foreground
+      h-[38px] 
       disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .input,
