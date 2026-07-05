@@ -38,9 +38,9 @@ const EditFoodPage = async ({
   const serializedItem = toClient(foodItem);
 
   return (
-    <section>
+    <>
       <FoodEditForm foodItem={serializedItem} />
-    </section>
+    </>
   );
 };
 

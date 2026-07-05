@@ -34,99 +34,102 @@ const FoodAddForm = () => {
   const router = useRouter();
 
   return (
-    <div className="max-w-[680px] mx-auto">
-      <h2 className="text-base md:text-lg font-medium mb-4">Add Food Item</h2>
+    <section className="max-w-[680px] mx-auto">
+      <h2 className="text-base md:text-lg font-medium mb-4">Add food item</h2>
 
       <form key={JSON.stringify(formState.data)} action={formAction} noValidate>
         <div className="card">
-          {/* food item name */}
-          <div className="mb-3">
-            <label htmlFor="name" className="block mb-1 text-xs font-medium">
-              Food Item Name <span className="text-destructive">*</span>
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              className={cn(
-                "input",
-                formState.errors?.name &&
-                  "border-destructive focus-visible:ring-destructive",
-              )}
-              placeholder="E.g. apple"
-              defaultValue={formState.data.name}
-              required
-              aria-invalid={!!formState.errors?.name}
-              aria-describedby={
-                formState.errors?.name ? "name-error" : undefined
-              }
-            />
+          {/* name, category */}
+          <div className="mb-3 grid grid-cols-1 md:grid-cols-2 gap-3">
+            {/* food item name */}
+            <div>
+              <label htmlFor="name" className="block mb-1 text-xs font-medium">
+                Food item name <span className="text-destructive">*</span>
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                className={cn(
+                  "input",
+                  formState.errors?.name &&
+                    "border-destructive focus-visible:ring-destructive",
+                )}
+                placeholder="E.g. apple"
+                defaultValue={formState.data.name}
+                required
+                aria-invalid={!!formState.errors?.name}
+                aria-describedby={
+                  formState.errors?.name ? "name-error" : undefined
+                }
+              />
 
-            {formState.errors?.name && (
-              <small
-                id="name-error"
-                aria-live="polite"
-                className="block mt-1 text-destructive text-xs text-end"
-              >
-                {formState.errors.name[0]}
-              </small>
-            )}
-          </div>
-
-          {/* category */}
-          <div className="mb-3">
-            <label
-              htmlFor="category"
-              className="block mb-1 text-xs font-medium"
-            >
-              Category <span className="text-destructive">*</span>
-            </label>
-            <select
-              name="category"
-              id="category"
-              className={cn(
-                "select w-full",
-                formState.errors?.category &&
-                  "border-destructive focus-visible:ring-destructive",
+              {formState.errors?.name && (
+                <small
+                  id="name-error"
+                  aria-live="polite"
+                  className="block mt-1 text-destructive text-xs text-end"
+                >
+                  {formState.errors.name[0]}
+                </small>
               )}
-              defaultValue={formState.data.category}
-              required
-              aria-invalid={!!formState.errors?.category}
-              aria-describedby={
-                formState.errors?.category ? "category-error" : undefined
-              }
-            >
-              <option value="vegetables">Vegetables</option>
-              <option value="fruits">Fruits</option>
-              <option value="dairy & eggs">Dairy & eggs</option>
-              <option value="meat">Meat</option>
-              <option value="seafood">Seafood</option>
-              <option value="plant-based">Plant-based</option>
-              <option value="bread & pastry">Bread & pastry</option>
-              <option value="grains & pasta">Grains & pasta</option>
-              <option value="legumes & dried foods">
-                Legumes & dried foods
-              </option>
-              <option value="nuts & seeds">Nuts & seeds</option>
-              <option value="canned goods">Canned goods</option>
-              <option value="baking ingredients">Baking ingredients</option>
-              <option value="snacks & sweets">Snacks & sweets</option>
-              <option value="prepared meals">Prepared meals</option>
-              <option value="leftovers">Leftovers</option>
-              <option value="condiments">Condiments</option>
-              <option value="spices">Spices</option>
-              <option value="beverages">Beverages</option>
-              <option value="other">Other</option>
-            </select>
-            {formState.errors?.category && (
-              <small
-                id="category-error"
-                aria-live="polite"
-                className="block mt-1 text-destructive text-xs text-end"
+            </div>
+
+            {/* category */}
+            <div>
+              <label
+                htmlFor="category"
+                className="block mb-1 text-xs font-medium"
               >
-                {formState.errors.category[0]}
-              </small>
-            )}
+                Category <span className="text-destructive">*</span>
+              </label>
+              <select
+                name="category"
+                id="category"
+                className={cn(
+                  "select w-full",
+                  formState.errors?.category &&
+                    "border-destructive focus-visible:ring-destructive",
+                )}
+                defaultValue={formState.data.category}
+                required
+                aria-invalid={!!formState.errors?.category}
+                aria-describedby={
+                  formState.errors?.category ? "category-error" : undefined
+                }
+              >
+                <option value="vegetables">Vegetables</option>
+                <option value="fruits">Fruits</option>
+                <option value="dairy & eggs">Dairy & eggs</option>
+                <option value="meat">Meat</option>
+                <option value="seafood">Seafood</option>
+                <option value="plant-based">Plant-based</option>
+                <option value="bread & pastry">Bread & pastry</option>
+                <option value="grains & pasta">Grains & pasta</option>
+                <option value="legumes & dried foods">
+                  Legumes & dried foods
+                </option>
+                <option value="nuts & seeds">Nuts & seeds</option>
+                <option value="canned goods">Canned goods</option>
+                <option value="baking ingredients">Baking ingredients</option>
+                <option value="snacks & sweets">Snacks & sweets</option>
+                <option value="prepared meals">Prepared meals</option>
+                <option value="leftovers">Leftovers</option>
+                <option value="condiments">Condiments</option>
+                <option value="spices">Spices</option>
+                <option value="beverages">Beverages</option>
+                <option value="other">Other</option>
+              </select>
+              {formState.errors?.category && (
+                <small
+                  id="category-error"
+                  aria-live="polite"
+                  className="block mt-1 text-destructive text-xs text-end"
+                >
+                  {formState.errors.category[0]}
+                </small>
+              )}
+            </div>
           </div>
 
           {/* details */}
@@ -161,7 +164,7 @@ const FoodAddForm = () => {
             )}
           </div>
 
-          {/* unit & quantity */}
+          {/* unit, quantity */}
           <div className="mb-3 grid grid-cols-2 md:grid-cols-3 gap-3">
             {/* unit */}
             <div>
@@ -416,7 +419,7 @@ const FoodAddForm = () => {
           </SubmitButton>
         </div>
       </form>
-    </div>
+    </section>
   );
 };
 
