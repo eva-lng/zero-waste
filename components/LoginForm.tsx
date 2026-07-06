@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import SubmitButton from "./SubmitButton";
 
@@ -37,51 +38,67 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="text-center">
-      <div className="mb-3">
-        <label htmlFor="email" className="block text-gray-700 font-bold mb-1.5">
-          Email
-        </label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          className="border rounded py-1 px-2"
-          placeholder="example@domain.com"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
-      <div className="mb-3">
-        <label
-          htmlFor="password"
-          className="block text-gray-700 font-bold mb-1.5"
-        >
-          Password
-        </label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          className="border rounded py-1 px-2"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-
-      {error && (
+    <form onSubmit={handleSubmit}>
+      <div className="card">
+        {/* email */}
         <div className="mb-3">
-          <small aria-live="polite" className="text-red-500">
+          <label htmlFor="email" className="block mb-1 text-xs font-medium">
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            className="input"
+            placeholder="example@domain.com"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+
+        {/* password */}
+        <div>
+          <label htmlFor="password" className="block mb-1 text-xs font-medium">
+            Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            className="input"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        {error && (
+          <small
+            aria-live="polite"
+            className="block mt-1 text-destructive text-xs text-end"
+          >
             {error}
           </small>
-        </div>
-      )}
+        )}
 
-      <SubmitButton loading={loading} className="btn-primary">
-        Log in
-      </SubmitButton>
+        <SubmitButton
+          loading={loading}
+          className="btn-primary w-full inline-flex justify-center items-center my-4"
+        >
+          Log in
+        </SubmitButton>
+
+        <p className="text-xs text-center">
+          Don't have an account?{" "}
+          <Link
+            href="/signup"
+            className="text-primary hover:text-primary-hover font-medium"
+          >
+            Sign up
+          </Link>
+        </p>
+      </div>
     </form>
   );
 };

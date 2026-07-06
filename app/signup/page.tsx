@@ -3,16 +3,19 @@ import SignupForm from "@/components/SignupForm";
 
 const SignupPage = () => {
   return (
-    <>
-      <h2 className="text-3xl text-center">Sign up</h2>
-      <p className="text-center">
-        Have an account?{" "}
-        <Link href="/login" className="text-blue-700">
-          Log in now
+    <div className="flex flex-1 items-center justify-center py-8">
+      <section className="w-full max-w-[400px]">
+        <Link href="/">
+          <h2 className="text-center text-xl md:text-2xl font-semibold mb-1">
+            Zero Waste
+          </h2>
         </Link>
-      </p>
-      <SignupForm />
-    </>
+        <p className="text-center text-xs md:text-sm mb-5">
+          Create your account
+        </p>
+        <SignupForm />
+      </section>
+    </div>
   );
 };
 

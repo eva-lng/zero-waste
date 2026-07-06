@@ -13,9 +13,10 @@ const AddFoodPage = async () => {
   }
 
   return (
-    <>
+    <section className="max-w-[680px] mx-auto">
+      <h2 className="text-base md:text-lg font-medium mb-4">Add food item</h2>
       <FoodAddForm />
-    </>
+    </section>
   );
 };
 

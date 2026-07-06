@@ -231,7 +231,7 @@
   }
 
   .btn-primary {
-    @apply bg-primary text-primary-foreground rounded-md px-4 py-2 text-sm font-medium transition-colors
+    @apply bg-primary text-primary-foreground rounded-md px-4 py-2 text-sm font-semibold transition-colors 
       enabled:hover:bg-primary-hover disabled:opacity-40 disabled:pointer-events-none enabled:cursor-pointer;
   }
   .btn-outline {

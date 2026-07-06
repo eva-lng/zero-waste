@@ -1,10 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { signupSchema } from "@/lib/utils/schemas";
 import { z } from "zod";
 import SubmitButton from "./SubmitButton";
+import { cn } from "@/lib/utils";
 
 const SignupForm = () => {
   const [fieldErrors, setFieldErrors] = useState<{
@@ -63,99 +65,135 @@ const SignupForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="text-center">
-      <div>
-        <label htmlFor="email" className="block text-gray-700 font-bold mb-1.5">
-          Email Address
-        </label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          className="border rounded py-1 px-2"
-          placeholder="example@domain.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          aria-invalid={!!fieldErrors.email}
-          aria-describedby={fieldErrors.email ? "email-error" : undefined}
-        />
-      </div>
-      <div className="mb-3">
-        {fieldErrors.email && (
-          <small id="email-error" aria-live="polite" className="text-red-500">
-            {fieldErrors.email}
-          </small>
-        )}
-      </div>
-      <div>
-        <label htmlFor="name" className="block text-gray-700 font-bold mb-1.5">
-          Name
-        </label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          className="border rounded py-1 px-2"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          aria-invalid={!!fieldErrors.name}
-          aria-describedby={fieldErrors.name ? "name-error" : undefined}
-        />
-      </div>
-      <div className="mb-3">
-        {fieldErrors.name && (
-          <small id="name-error" aria-live="polite" className="text-red-500">
-            {fieldErrors.name}
-          </small>
-        )}
-      </div>
-      <div>
-        <label
-          htmlFor="password"
-          className="block text-gray-700 font-bold mb-1.5"
-        >
-          Password
-        </label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          className="border rounded py-1 px-2"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          aria-invalid={!!fieldErrors.password}
-          aria-describedby={fieldErrors.password ? "password-error" : undefined}
-        />
-      </div>
-      <div className="mb-3">
-        {fieldErrors.password && (
-          <small
-            id="password-error"
-            aria-live="polite"
-            className="text-red-500"
-          >
-            {fieldErrors.password}
-          </small>
-        )}
-      </div>
+    <form onSubmit={handleSubmit} noValidate>
+      <div className="card">
+        {/* name */}
+        <div className="mb-3">
+          <label htmlFor="name" className="block mb-1 text-xs font-medium">
+            Name
+          </label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            className={cn(
+              "input",
+              fieldErrors?.name &&
+                "border-destructive focus-visible:ring-destructive",
+            )}
+            placeholder="Your name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            aria-invalid={!!fieldErrors.name}
+            aria-describedby={fieldErrors.name ? "name-error" : undefined}
+          />
+          {fieldErrors.name && (
+            <small
+              id="name-error"
+              aria-live="polite"
+              className="block mt-1 text-destructive text-xs text-end"
+            >
+              {fieldErrors.name}
+            </small>
+          )}
+        </div>
 
-      {error && (
+        {/* email */}
+        <div className="mb-3">
+          <label htmlFor="email" className="block mb-1 text-xs font-medium">
+            Email address
+          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            className={cn(
+              "input",
+              fieldErrors?.email &&
+                "border-destructive focus-visible:ring-destructive",
+            )}
+            placeholder="example@domain.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            aria-invalid={!!fieldErrors.email}
+            aria-describedby={fieldErrors.email ? "email-error" : undefined}
+          />
+          {fieldErrors.email && (
+            <small
+              id="email-error"
+              aria-live="polite"
+              className="block mt-1 text-destructive text-xs text-end"
+            >
+              {fieldErrors.email}
+            </small>
+          )}
+        </div>
+
+        {/* password */}
         <div>
-          <small aria-live="polite" className="text-red-500">
+          <label htmlFor="password" className="block mb-1 text-xs font-medium">
+            Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            className={cn(
+              "input",
+              fieldErrors?.password &&
+                "border-destructive focus-visible:ring-destructive",
+            )}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            aria-invalid={!!fieldErrors.password}
+            aria-describedby={
+              fieldErrors.password ? "password-error" : undefined
+            }
+          />
+          {fieldErrors.password ? (
+            <small
+              id="password-error"
+              aria-live="polite"
+              className="block mt-1 text-destructive text-xs text-end"
+            >
+              {fieldErrors.password}
+            </small>
+          ) : (
+            <small className="block mt-1 text-muted-foreground text-xs">
+              Min. 8 characters, one uppercase and one number
+            </small>
+          )}
+        </div>
+
+        {error && (
+          <small
+            aria-live="polite"
+            className="block mt-2 text-destructive text-xs text-center"
+          >
             {error}
           </small>
-        </div>
-      )}
+        )}
 
-      <SubmitButton
-        loading={loading}
-        className="bg-blue-500 enabled:hover:bg-blue-600 text-white font-bold cursor-pointer py-2 px-4 rounded-full focus:shadow-outline"
-      >
-        Sign up
-      </SubmitButton>
+        <SubmitButton
+          loading={loading}
+          className="btn-primary w-full inline-flex justify-center items-center my-4"
+        >
+          Sign up
+        </SubmitButton>
+
+        <p className="text-xs text-center">
+          Already have an account?{" "}
+          <Link
+            href="/login"
+            className="text-primary hover:text-primary-hover font-medium"
+          >
+            Log in
+          </Link>
+        </p>
+      </div>
     </form>
   );
 };
