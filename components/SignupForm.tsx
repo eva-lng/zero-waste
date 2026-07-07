@@ -179,7 +179,7 @@ const SignupForm = () => {
 
         <SubmitButton
           loading={loading}
-          className="btn-primary w-full inline-flex justify-center items-center my-4"
+          className="btn-primary w-full justify-center my-4"
         >
           Sign up
         </SubmitButton>

@@ -84,7 +84,7 @@ const LoginForm = () => {
 
         <SubmitButton
           loading={loading}
-          className="btn-primary w-full inline-flex justify-center items-center my-4"
+          className="btn-primary w-full justify-center my-4"
         >
           Log in
         </SubmitButton>

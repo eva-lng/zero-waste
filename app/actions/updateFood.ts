@@ -85,7 +85,7 @@ async function updateFood(foodId: string, prevState: any, formData: FormData) {
 
   revalidatePath("/inventory");
   revalidatePath("/dashboard");
-  redirect("/inventory/");
+  redirect("/inventory");
 }
 
 export default updateFood;

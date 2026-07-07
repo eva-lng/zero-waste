@@ -224,12 +224,12 @@ const ChangePasswordButton = ({
                   setError(null);
                 }}
                 disabled={loading}
-                className="btn-outline px-3 py-1.5"
+                className="btn-outline px-3 py-1.5 text-xs"
               >
                 Cancel
               </button>
               <SubmitButton
-                className="btn-primary px-3 py-1.5"
+                className="btn-primary px-3 py-1.5 text-xs"
                 loading={loading}
                 pendingText="Saving..."
               >

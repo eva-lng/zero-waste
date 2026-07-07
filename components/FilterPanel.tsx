@@ -8,6 +8,7 @@ import {
 } from "@/lib/utils/constants";
 import { FilterType } from "@/lib/utils/types";
 import { capitalize } from "@/lib/utils/utilities";
+import { cn } from "@/lib/utils";
 
 const FilterPanel = ({
   params,
@@ -45,7 +46,12 @@ const FilterPanel = ({
               aria-selected={activeSection === group.type}
               aria-controls={`filter-panel-${group.type}`}
               onClick={() => handleTabChange(group.type)}
-              className={`text-sm p-2 rounded-md hover:bg-muted cursor-pointer ${activeSection === group.type ? "text-primary-light-foreground" : "text-muted-foreground"}`}
+              className={cn(
+                "text-sm p-2 rounded-md hover:bg-muted cursor-pointer",
+                activeSection === group.type
+                  ? "text-primary-light-foreground"
+                  : "text-muted-foreground",
+              )}
             >
               {group.type === "open" ? "Status" : capitalize(group.type)}{" "}
               {params.getAll(group.type).length > 0 &&
@@ -68,7 +74,11 @@ const FilterPanel = ({
               <label
                 key={option}
                 htmlFor={`${activeSection}-${option}`}
-                className={`pill-base pill-outline cursor-pointer ${checked && "bg-primary-light text-primary-light-foreground hover:bg-primary-light-hover border-none"}`}
+                className={cn(
+                  "pill-base pill-outline cursor-pointer",
+                  checked &&
+                    "bg-primary-light text-primary-light-foreground hover:bg-primary-light-hover border-none",
+                )}
               >
                 <input
                   type="checkbox"

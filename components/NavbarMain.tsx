@@ -9,13 +9,14 @@ import {
   TbChartPie,
   TbUser,
 } from "react-icons/tb";
+import { cn } from "@/lib/utils";
 
 const NavbarMain = () => {
   const { data: session, isPending, error } = authClient.useSession();
 
   const pathname = usePathname();
 
-  const monthParam = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`;
+  // const monthParam = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`;
 
   if (isPending || !session) return null;
 
@@ -29,7 +30,11 @@ const NavbarMain = () => {
               className="flex flex-col items-center rounded-md px-3 py-1.5 transition-colors text-muted-foreground hover:bg-muted"
             >
               <span
-                className={`rounded-full px-3 py-1 ${pathname === "/overview" && "bg-primary-light text-primary-light-foreground"}`}
+                className={cn(
+                  "rounded-full px-3 py-1",
+                  pathname === "/overview" &&
+                    "bg-primary-light text-primary-light-foreground",
+                )}
               >
                 <TbLayoutDashboard
                   className="text-xl md:text-2xl"
@@ -37,7 +42,10 @@ const NavbarMain = () => {
                 />
               </span>
               <span
-                className={`mt-1 text-xs md:text-sm ${pathname === "/overview" && "text-primary-light-foreground"}`}
+                className={cn(
+                  "mt-1 text-xs md:text-sm",
+                  pathname === "/overview" && "text-primary-light-foreground",
+                )}
               >
                 Overview
               </span>
@@ -49,19 +57,29 @@ const NavbarMain = () => {
               className="flex flex-col items-center rounded-md px-3 py-1.5 transition-colors text-muted-foreground hover:bg-muted"
             >
               <span
-                className={`rounded-full px-3 py-1 ${pathname === "/inventory" && "bg-primary-light text-primary-light-foreground"}`}
+                className={cn(
+                  "rounded-full px-3 py-1",
+                  pathname === "/inventory" &&
+                    "bg-primary-light text-primary-light-foreground",
+                )}
               >
                 <TbSalad className="text-xl md:text-2xl" aria-hidden="true" />
               </span>
               <span
-                className={`mt-1 text-xs md:text-sm ${pathname === "/inventory" && "text-primary-light-foreground"}`}
+                className={cn(
+                  "mt-1 text-xs md:text-sm",
+                  pathname === "/inventory" && "text-primary-light-foreground",
+                )}
               >
                 Inventory
               </span>
             </Link>
           </li>
           <li
-            className={`hidden md:block ${pathname === "/inventory/add" && "md:hidden"}`}
+            className={cn(
+              "hidden md:block",
+              pathname === "/inventory/add" && "md:hidden",
+            )}
           >
             <Link
               href="/inventory/add"
@@ -77,7 +95,11 @@ const NavbarMain = () => {
               className="flex flex-col items-center rounded-md px-3 py-1.5 transition-colors text-muted-foreground hover:bg-muted"
             >
               <span
-                className={`rounded-full px-3 py-1 ${pathname === "/stats" && "bg-primary-light text-primary-light-foreground"}`}
+                className={cn(
+                  "rounded-full px-3 py-1",
+                  pathname === "/stats" &&
+                    "bg-primary-light text-primary-light-foreground",
+                )}
               >
                 <TbChartPie
                   className="text-xl md:text-2xl"
@@ -85,7 +107,10 @@ const NavbarMain = () => {
                 />
               </span>
               <span
-                className={`mt-1 text-xs md:text-sm ${pathname === "/stats" && "text-primary-light-foreground"}`}
+                className={cn(
+                  "mt-1 text-xs md:text-sm",
+                  pathname === "/stats" && "text-primary-light-foreground",
+                )}
               >
                 Stats
               </span>
@@ -97,12 +122,19 @@ const NavbarMain = () => {
               className="flex flex-col items-center rounded-md px-3 py-1.5 transition-colors text-muted-foreground hover:bg-muted"
             >
               <span
-                className={`rounded-full px-3 py-1 ${pathname === "/profile" && "bg-primary-light text-primary-light-foreground"}`}
+                className={cn(
+                  "rounded-full px-3 py-1",
+                  pathname === "/profile" &&
+                    "bg-primary-light text-primary-light-foreground",
+                )}
               >
                 <TbUser className="text-xl md:text-2xl" aria-hidden="true" />
               </span>
               <span
-                className={`mt-1 text-xs md:text-sm ${pathname === "/profile" && "text-primary-light-foreground"}`}
+                className={cn(
+                  "mt-1 text-xs md:text-sm",
+                  pathname === "/profile" && "text-primary-light-foreground",
+                )}
               >
                 Profile
               </span>

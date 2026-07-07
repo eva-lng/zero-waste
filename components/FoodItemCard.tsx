@@ -17,6 +17,7 @@ import {
   DrawerDescription,
   DrawerTitle,
 } from "@/components/ui/drawer";
+import { cn } from "@/lib/utils";
 
 const FoodItemCard = ({
   item,
@@ -51,14 +52,20 @@ const FoodItemCard = ({
             {item.category}
           </span>
           <span
-            className={`block text-xs md:text-sm font-medium ${getExpiryColor(new Date(item.expirationDate))}`}
+            className={cn(
+              "block text-xs md:text-sm font-medium",
+              getExpiryColor(new Date(item.expirationDate)),
+            )}
           >
             {getExpirationLabelLong(new Date(item.expirationDate))}
           </span>
         </button>
 
         <button
-          className={`absolute top-4 right-3 cursor-pointer p-2 rounded-md hover:bg-muted ${isMenuOpen && "text-primary"}`}
+          className={cn(
+            "absolute top-4 right-3 cursor-pointer p-2 rounded-md hover:bg-muted",
+            isMenuOpen && "text-primary",
+          )}
           onClick={(e) => {
             e.stopPropagation();
             onToggle();
@@ -78,7 +85,10 @@ const FoodItemCard = ({
       >
         <DrawerContent className="bg-card">
           <div
-            className={`mx-auto w-full max-w-sm ${isDesktop ? "p-5 mt-10" : "p-4"}`}
+            className={cn(
+              "mx-auto w-full max-w-sm",
+              isDesktop ? "p-5 mt-10" : "p-4",
+            )}
           >
             <DrawerTitle className="sr-only">{item.name}</DrawerTitle>
             <DrawerDescription className="sr-only">
@@ -152,7 +162,10 @@ const FoodItemCard = ({
               <div className="flex justify-between items-center card-body">
                 <span>Expires</span>
                 <span
-                  className={`font-medium ${getExpiryColor(new Date(item.expirationDate))}`}
+                  className={cn(
+                    "font-medium",
+                    getExpiryColor(new Date(item.expirationDate)),
+                  )}
                 >
                   {getExpirationLabelShort(new Date(item.expirationDate))}
                 </span>

@@ -4,6 +4,7 @@ import {
   getExpirationLabelShort,
   getExpiryColor,
 } from "@/lib/utils/utilities";
+import { cn } from "@/lib/utils";
 
 const DialogFoodInfo = ({ item }: { item: FoodItemClient }) => {
   return (
@@ -16,7 +17,10 @@ const DialogFoodInfo = ({ item }: { item: FoodItemClient }) => {
       <div className="flex justify-between items-center">
         <span>Expires</span>
         <span
-          className={`font-medium ${getExpiryColor(new Date(item.expirationDate))}`}
+          className={cn(
+            "font-medium",
+            getExpiryColor(new Date(item.expirationDate)),
+          )}
         >
           {getExpirationLabelShort(new Date(item.expirationDate))}
         </span>

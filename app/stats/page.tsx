@@ -15,11 +15,7 @@ import StatsMonthNavigator from "@/components/StatsMonthNavigator";
 import ChartCategoryMonth from "@/components/ChartCategoryMonth";
 import ChartStorageMonth from "@/components/ChartStorageMonth";
 
-const StatsPage = async ({
-  searchParams,
-}: {
-  searchParams: Promise<{ month: string }>;
-}) => {
+const StatsPage = async () => {
   await dbConnect();
 
   const session = await auth.api.getSession({
@@ -32,11 +28,7 @@ const StatsPage = async ({
 
   const userId = session.user.id;
 
-  const { month } = await searchParams;
-
-  const currentMonth =
-    month ??
-    `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`;
+  const currentMonth = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`;
   const [yearVal, monthVal] = currentMonth.split("-").map(Number);
 
   const firstItem = await FoodItem.findOne({ user: userId }).sort({
