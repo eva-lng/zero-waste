@@ -51,7 +51,7 @@ async function openFood(foodId: string, prevState: any, formData: FormData) {
   }
 
   const opened = validated.data.quantity;
-  const total = Math.max(0, foodItem.quantity - opened);
+  const total = Math.round(Math.max(0, foodItem.quantity - opened) * 100) / 100;
 
   if (total === 0) {
     await foodItem.updateOne({

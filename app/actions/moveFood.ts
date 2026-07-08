@@ -53,7 +53,7 @@ async function moveFood(foodId: string, prevState: any, formData: FormData) {
 
   const newStorage = validated.data.storage;
   const moved = validated.data.quantity;
-  const total = Math.max(0, foodItem.quantity - moved);
+  const total = Math.round(Math.max(0, foodItem.quantity - moved) * 100) / 100;
 
   if (total === 0) {
     await foodItem.updateOne({ storage: newStorage });

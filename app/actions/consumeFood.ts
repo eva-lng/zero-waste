@@ -44,7 +44,8 @@ async function consumeFood(foodId: string, prevState: any, formData: FormData) {
   }
 
   const consumed = validated.data.quantity;
-  const total = Math.max(0, foodItem.quantity - consumed);
+  const total =
+    Math.round(Math.max(0, foodItem.quantity - consumed) * 100) / 100;
   const status: StatusType = total === 0 ? "finished" : "active";
 
   await foodItem.updateOne({
