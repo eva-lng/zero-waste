@@ -163,10 +163,10 @@ const OverviewPage = async () => {
         <div className="card hidden md:flex justify-center items-center">
           <Link
             href="/stats"
-            className="flex flex-col items-center cursor-pointer"
+            className="flex flex-col items-center cursor-pointer px-2 py-1 rounded-md hover:bg-muted"
           >
-            <TbChartPie strokeWidth={1.5} className="text-2xl" />
-            <span className="flex items-center gap-0.5 text-sm px-2 py-1 rounded-md hover:bg-muted transition-colors">
+            <TbChartPie strokeWidth={1.5} className="text-2xl mb-1" />
+            <span className="flex items-center gap-0.5 text-sm transition-colors">
               View full stats <TbChevronRight aria-hidden="true" />
             </span>
           </Link>

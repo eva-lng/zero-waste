@@ -221,8 +221,8 @@ const FoodAddForm = () => {
                 formState.errors?.quantity &&
                   "border-destructive focus-visible:ring-destructive",
               )}
-              step={0.25}
-              min={0.25}
+              step={0.1}
+              min={0.1}
               defaultValue={formState.data.quantity}
               required
               aria-invalid={!!formState.errors?.quantity}

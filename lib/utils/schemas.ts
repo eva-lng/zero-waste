@@ -52,8 +52,8 @@ const piecePackageSchema = z.object({
   unit: z.enum(["piece", "package"]),
   quantity: z.coerce
     .number({ error: "Quantity must be a number" })
-    .min(0.25, "Minimum quantity is 0.25")
-    .refine((n) => Number.isInteger(n * 4), "Must be in 0.25 increments"),
+    .min(0.1, "Minimum quantity is 0.1")
+    .refine((n) => Number.isInteger(n * 10), "Must be in 0.1 increments"),
   gramsPerUnit: z.coerce
     .number({ error: "Grams per unit must be a number" })
     .int("Grams per unit must be a whole number")
@@ -92,8 +92,8 @@ export const createUnitSchema = (unit: string, maxQty: number) => {
           .int("Quantity must be a whole number")
       : z.coerce
           .number({ error: "Quantity must be a number" })
-          .min(0.25, "Minimum quantity is 0.25")
-          .refine((n) => Number.isInteger(n * 4), "Must be in 0.25 increments");
+          .min(0.1, "Minimum quantity is 0.1")
+          .refine((n) => Number.isInteger(n * 10), "Must be in 0.1 increments");
 
   return z.object({
     quantity: baseQty.refine((n) => n <= maxQty, "Exceeds available quantity"),

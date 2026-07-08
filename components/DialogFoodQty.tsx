@@ -14,7 +14,8 @@ const DialogFoodQty = ({
   errors?: { quantity?: string[] };
 }) => {
   const [quantity, setQuantity] = useState(Math.min(1, item.quantity));
-  const remaining = Math.max(0, item.quantity - quantity);
+  const remaining =
+    Math.round(Math.max(0, item.quantity - quantity) * 100) / 100;
 
   return (
     <div className="flex flex-col gap-1.5 mb-4 card-body">
@@ -37,9 +38,9 @@ const DialogFoodQty = ({
           value={quantity}
           onChange={(e) => setQuantity(Number(e.target.value))}
           className="input w-auto"
-          min={item.unit === "piece" || item.unit === "package" ? 0.25 : 1}
+          min={item.unit === "piece" || item.unit === "package" ? 0.1 : 1}
           max={item.quantity}
-          step={item.unit === "piece" || item.unit === "package" ? 0.25 : 1}
+          step={item.unit === "piece" || item.unit === "package" ? 0.1 : 1}
           required
           aria-invalid={!!errors?.quantity}
           aria-describedby={errors?.quantity ? "quantity-error" : undefined}
