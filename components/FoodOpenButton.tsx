@@ -132,6 +132,10 @@ const FoodOpenButton = ({
                 name="expirationDate"
                 value={new Date(expDateState).toISOString().split("T")[0]}
                 onChange={(e) => {
+                  if (e.target.value === "") {
+                    setExpDateState(initialDate);
+                    return;
+                  }
                   setExpDateState(new Date(e.target.value).getTime());
                   setHasAdjusted(true);
                 }}

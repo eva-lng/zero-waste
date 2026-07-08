@@ -81,7 +81,7 @@ const FoodConsumeButton = ({
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button type="button" variant="outline">
+              <Button type="button" variant="outline" disabled={pending}>
                 Cancel
               </Button>
             </DialogClose>

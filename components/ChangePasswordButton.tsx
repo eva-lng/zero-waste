@@ -5,8 +5,8 @@ import { authClient } from "@/lib/auth-client";
 import { ProfileFormType } from "@/lib/utils/types";
 import { z } from "zod";
 import { changePasswordSchema } from "@/lib/utils/schemas";
+import { cn } from "@/lib/utils";
 import SubmitButton from "./SubmitButton";
-import { MdOutlineLock } from "react-icons/md";
 import { TbChevronRight, TbLock } from "react-icons/tb";
 
 type ChangePasswordButtonProps = {
@@ -28,10 +28,9 @@ const ChangePasswordButton = ({
     newPassword: string;
     confirmPassword: string;
   }>({ currentPassword: "", newPassword: "", confirmPassword: "" });
+  const [passwordSuccess, setPasswordSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const router = useRouter();
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,7 +71,8 @@ const ChangePasswordButton = ({
             confirmPassword: "",
           });
           setActiveForm(null);
-          router.refresh();
+          setPasswordSuccess(true);
+          setTimeout(() => setPasswordSuccess(false), 5000);
         },
         onError: (ctx) => {
           setError(ctx.error.message);
@@ -84,20 +84,30 @@ const ChangePasswordButton = ({
 
   return (
     <>
-      <button
-        onClick={() => {
-          setActiveForm(activeForm === "password" ? null : "password");
-          setError(null);
-        }}
-        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-muted transition-colors cursor-pointer"
-      >
-        <TbLock aria-hidden="true" />
-        <span className="text-sm text-foreground">Change password</span>
-        <TbChevronRight
-          className="hidden md:block ml-auto text-muted-foreground text-sm"
-          aria-hidden="true"
-        />
-      </button>
+      <div>
+        <button
+          onClick={() => {
+            setActiveForm(activeForm === "password" ? null : "password");
+            setError(null);
+          }}
+          className={cn(
+            "w-full flex items-center gap-3 px-4 py-3 hover:bg-muted transition-colors cursor-pointer",
+            passwordSuccess && "pb-1",
+          )}
+        >
+          <TbLock aria-hidden="true" />
+          <span className="text-sm text-foreground">Change password</span>
+          <TbChevronRight
+            className="hidden md:block ml-auto text-muted-foreground text-sm"
+            aria-hidden="true"
+          />
+        </button>
+        {passwordSuccess && activeForm !== "password" && (
+          <p className="px-4 pb-3 text-primary text-xs font-medium">
+            Password updated successfully
+          </p>
+        )}
+      </div>
 
       {activeForm === "password" && (
         <div className="px-4 py-3">
