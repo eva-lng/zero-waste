@@ -1,6 +1,5 @@
 "use client";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
 import { authClient } from "@/lib/auth-client";
 import { ProfileFormType } from "@/lib/utils/types";
 import { z } from "zod";
@@ -31,6 +30,12 @@ const ChangePasswordButton = ({
   const [passwordSuccess, setPasswordSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!passwordSuccess) return;
+    const timer = setTimeout(() => setPasswordSuccess(false), 5000);
+    return () => clearTimeout(timer);
+  }, [passwordSuccess]);
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,7 +77,6 @@ const ChangePasswordButton = ({
           });
           setActiveForm(null);
           setPasswordSuccess(true);
-          setTimeout(() => setPasswordSuccess(false), 5000);
         },
         onError: (ctx) => {
           setError(ctx.error.message);

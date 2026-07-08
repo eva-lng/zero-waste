@@ -241,12 +241,12 @@
   }
   .btn-destructive {
     @apply bg-destructive text-destructive-foreground rounded-md px-4 py-2 text-sm font-medium transition-colors 
-    enabled:hover:bg-destructive-hover disabled:opacity-40 enabled:cursor-pointer
+    enabled:hover:bg-destructive-hover disabled:opacity-40 enabled:cursor-pointer disabled:pointer-events-none
     focus-visible:ring-destructive;
   }
   .btn-destructive-subtle {
     @apply bg-destructive-light text-destructive-light-foreground rounded-md px-4 py-2 text-sm font-medium transition-colors
-      enabled:hover:bg-destructive-light-hover enabled:cursor-pointer
+      enabled:hover:bg-destructive-light-hover enabled:cursor-pointer disabled:pointer-events-none
       focus-visible:ring-destructive;
   }
 

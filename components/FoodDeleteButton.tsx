@@ -1,14 +1,13 @@
 "use client";
 import { useState } from "react";
 import deleteFood from "@/app/actions/deleteFood";
-import SubmitButton from "./SubmitButton";
+import FoodDeleteActions from "./FoodDeleteActions";
 import { capitalize } from "@/lib/utils/utilities";
 import { TbTrash } from "react-icons/tb";
 import {
   AlertDialog,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
@@ -51,7 +50,10 @@ const FoodDeleteButton = ({
             </AlertDialogDescription>
           </AlertDialogHeader>
 
-          <AlertDialogFooter>
+          <form action={deleteFoodById}>
+            <FoodDeleteActions onCancel={() => setDialogOpen(false)} />
+          </form>
+          {/* <AlertDialogFooter>
             <button
               type="button"
               onClick={() => setDialogOpen(false)}
@@ -66,22 +68,6 @@ const FoodDeleteButton = ({
               >
                 Delete
               </SubmitButton>
-            </form>
-          </AlertDialogFooter>
-
-          {/* <AlertDialogFooter>
-            <AlertDialogCancel variant="outline" className="cursor-pointer">
-              Cancel
-            </AlertDialogCancel>
-            <form action={deleteFoodById}>
-              <AlertDialogAction variant="destructive" asChild>
-                <SubmitButton
-                  className="w-full cursor-pointer"
-                  pendingText="Deleting..."
-                >
-                  Delete
-                </SubmitButton>
-              </AlertDialogAction>
             </form>
           </AlertDialogFooter> */}
         </AlertDialogContent>
