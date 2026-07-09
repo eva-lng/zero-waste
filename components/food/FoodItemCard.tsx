@@ -43,7 +43,7 @@ const FoodItemCard = ({
             {capitalize(item.name)}
             {item.isOpen && <TbDropletHalf2 size={12} aria-hidden="true" />}
           </span>
-          <span className="block card-meta md:text-sm mb-[1px] md:mb-0.5">
+          <span className="block card-meta md:text-sm mb-px md:mb-0.5">
             {item.quantity} {item.unit}
             {(item.unit === "piece" || item.unit === "package") &&
               item.quantity > 1 &&

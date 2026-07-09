@@ -2,10 +2,7 @@
 import { Bar, BarChart, XAxis, YAxis } from "recharts";
 import {
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
-  ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
 
@@ -83,7 +80,6 @@ const ChartTotal = ({
               );
             }}
           />
-          {/* <ChartLegend content={<ChartLegendContent />} /> */}
           <Bar
             dataKey="consumed"
             stackId="a"

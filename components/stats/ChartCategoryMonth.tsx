@@ -3,7 +3,6 @@ import { Label, Pie, PieChart } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
 import { sanitize, capitalize } from "@/lib/utils/utilities";

@@ -2,10 +2,9 @@
 import { useState, useActionState, useEffect } from "react";
 import { FoodItemClient } from "@/lib/utils/types";
 import consumeFood from "@/app/actions/consumeFood";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../layout/SubmitButton";
 import DialogFoodInfo from "./DialogFoodInfo";
 import DialogFoodQty from "./DialogFoodQty";
-import { GiKnifeFork } from "react-icons/gi";
 import { TbToolsKitchen2 } from "react-icons/tb";
 import { Button } from "@/components/ui/button";
 import {

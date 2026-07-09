@@ -1,6 +1,6 @@
 "use client";
 import { useFormStatus } from "react-dom";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../layout/SubmitButton";
 import { AlertDialogFooter } from "@/components/ui/alert-dialog";
 
 const FoodDeleteActions = ({ onCancel }: { onCancel: () => void }) => {

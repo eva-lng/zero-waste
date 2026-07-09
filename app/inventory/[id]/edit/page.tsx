@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import FoodItem from "@/models/FoodItem";
 import { FoodItemDB } from "@/lib/utils/types";
-import FoodEditForm from "@/components/FoodEditForm";
+import FoodEditForm from "@/components/food/FoodEditForm";
 import { toClient } from "@/lib/utils/utilities";
 
 const EditFoodPage = async ({

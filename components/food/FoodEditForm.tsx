@@ -3,7 +3,7 @@ import { useState, useActionState } from "react";
 import { useRouter } from "next/navigation";
 import updateFood from "@/app/actions/updateFood";
 import { FoodItemClient } from "@/lib/utils/types";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../layout/SubmitButton";
 import { cn } from "@/lib/utils";
 
 const FoodEditForm = ({ foodItem }: { foodItem: FoodItemClient }) => {

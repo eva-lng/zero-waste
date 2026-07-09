@@ -2,7 +2,7 @@
 import { useState, useActionState } from "react";
 import { useRouter } from "next/navigation";
 import addFood from "@/app/actions/addFood";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../layout/SubmitButton";
 import { cn } from "@/lib/utils";
 
 const initialState = {

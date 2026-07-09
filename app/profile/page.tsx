@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
 import FoodItem from "@/models/FoodItem";
-import ProfileClient from "@/components/ProfileClient";
+import ProfileClient from "@/components/profile/ProfileClient";
 
 const ProfilePage = async () => {
   await dbConnect();

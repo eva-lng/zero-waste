@@ -5,7 +5,7 @@ import { ProfileFormType } from "@/lib/utils/types";
 import { z } from "zod";
 import { changePasswordSchema } from "@/lib/utils/schemas";
 import { cn } from "@/lib/utils";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../layout/SubmitButton";
 import { TbChevronRight, TbLock } from "react-icons/tb";
 
 type ChangePasswordButtonProps = {

@@ -2,7 +2,7 @@
 import { useState, useActionState, useEffect } from "react";
 import { FoodItemClient } from "@/lib/utils/types";
 import expireFood from "@/app/actions/expireFood";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../layout/SubmitButton";
 import DialogFoodInfo from "./DialogFoodInfo";
 import DialogFoodQty from "./DialogFoodQty";
 import { TbClockExclamation } from "react-icons/tb";

@@ -5,7 +5,7 @@ import { authClient } from "@/lib/auth-client";
 import { ProfileFormType } from "@/lib/utils/types";
 import { z } from "zod";
 import { changeUsernameSchema } from "@/lib/utils/schemas";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../layout/SubmitButton";
 import { TbChevronRight, TbUserEdit } from "react-icons/tb";
 
 type ChangeUsernameButtonProps = {

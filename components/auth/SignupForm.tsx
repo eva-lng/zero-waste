@@ -5,7 +5,7 @@ import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { signupSchema } from "@/lib/utils/schemas";
 import { z } from "zod";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../layout/SubmitButton";
 import { cn } from "@/lib/utils";
 
 const SignupForm = () => {

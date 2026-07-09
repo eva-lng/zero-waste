@@ -1,13 +1,12 @@
 "use client";
 import { useState, useActionState, useEffect } from "react";
+import moveFood from "@/app/actions/moveFood";
 import { FoodItemClient } from "@/lib/utils/types";
-import openFood from "@/app/actions/openFood";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../layout/SubmitButton";
 import DialogFoodInfo from "./DialogFoodInfo";
 import DialogFoodQty from "./DialogFoodQty";
-import DateAdjustField from "./DateAdjustField";
-import { LuPackageOpen } from "react-icons/lu";
-import { TbPackage } from "react-icons/tb";
+import { capitalize } from "@/lib/utils/utilities";
+import { TbArrowsExchange } from "react-icons/tb";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,7 +19,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const FoodOpenButton = ({
+const FoodMoveButton = ({
   item,
   compact,
 }: {
@@ -28,26 +27,19 @@ const FoodOpenButton = ({
   compact: boolean;
 }) => {
   const initialState = {
-    data: { quantity: "", expirationDate: "" },
+    data: { quantity: "", storage: "" },
     errors: {},
     successTimeStamp: 0,
   };
   const [formState, formAction, pending] = useActionState(
-    openFood.bind(null, item._id),
+    moveFood.bind(null, item._id),
     initialState,
   );
   const [dialogOpen, setDialogOpen] = useState(false);
   const [errors, setErrors] = useState<{
     quantity?: string[];
-    expirationDate?: string[];
+    storage?: string[];
   }>({});
-
-  const initialDate = new Date(item.expirationDate).getTime();
-
-  const [expDateState, setExpDateState] = useState(initialDate);
-  const [hasAdjusted, setHasAdjusted] = useState(false);
-
-  const openDate = new Date();
 
   useEffect(() => {
     if (formState.successTimeStamp) {
@@ -61,100 +53,69 @@ const FoodOpenButton = ({
 
   function handleOpenChange(isOpen: boolean) {
     setDialogOpen(isOpen);
-    if (isOpen) {
-      setExpDateState(initialDate);
-      setHasAdjusted(false);
-    }
     if (!isOpen) setErrors({});
-  }
-
-  function adjustDate(numOfDays: number) {
-    const date = hasAdjusted ? new Date(expDateState) : openDate;
-
-    if (numOfDays < 30) {
-      date.setDate(date.getDate() + numOfDays);
-    } else if (numOfDays === 30) {
-      date.setMonth(date.getMonth() + 1);
-    } else if (numOfDays === 90) {
-      date.setMonth(date.getMonth() + 3);
-    } else if (numOfDays === 365) {
-      date.setFullYear(date.getFullYear() + 1);
-    }
-
-    setExpDateState(date.getTime());
-
-    if (!hasAdjusted) setHasAdjusted(true);
   }
 
   return (
     <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <button className="flex flex-col items-center gap-1 flex-1 p-2 cursor-pointer hover:bg-muted">
-          <TbPackage size={16} />
-          <span className="text-xs">Open</span>
+          <TbArrowsExchange size={16} />
+          <span className="text-xs">Move</span>
         </button>
       </DialogTrigger>
       <DialogContent showCloseButton={false} className="sm:max-w-sm">
         <form action={formAction} noValidate>
           <DialogHeader className="mb-4">
-            <DialogTitle className="text-base">Open {item.name}</DialogTitle>
+            <DialogTitle className="text-base">Move {item.name}</DialogTitle>
             <DialogDescription className="sr-only">
-              Open {item.name} and adjust expiration date (optional).
+              Select new storage for {item.name}.
             </DialogDescription>
           </DialogHeader>
 
           <DialogFoodInfo item={item} />
           <DialogFoodQty
             item={item}
-            sectionLabel="Quantity to open"
+            textRemaining={`Remaining in ${item.storage}`}
+            sectionLabel="Quantity to move"
             errors={errors}
           />
 
           <div className="flex flex-col gap-1.5 mb-4 card-body">
-            <p className="section-title text-xs">Open date & new expiration</p>
+            <p className="section-title text-xs">Destination</p>
             <div className="flex justify-between items-center">
-              <span>Opened</span>
-              <span className="font-medium">
-                {openDate.toLocaleDateString("en-GB", {
-                  day: "numeric",
-                  month: "short",
-                })}
-              </span>
+              <span>From</span>
+              <span className="font-medium">{capitalize(item.storage)}</span>
             </div>
-
-            <DateAdjustField adjustDate={adjustDate} />
-
             <div className="flex justify-between items-center">
-              <label htmlFor="expirationDate">Expiration Date</label>
-              <input
-                type="date"
-                id="expirationDate"
-                name="expirationDate"
-                value={new Date(expDateState).toISOString().split("T")[0]}
-                onChange={(e) => {
-                  if (e.target.value === "") {
-                    setExpDateState(initialDate);
-                    return;
-                  }
-                  setExpDateState(new Date(e.target.value).getTime());
-                  setHasAdjusted(true);
-                }}
+              <label htmlFor="storage">To</label>
+              <select
+                name="storage"
+                id="storage"
                 className="select"
                 required
-                aria-invalid={!!errors?.expirationDate}
-                aria-describedby={
-                  errors?.expirationDate ? "expirationDate-error" : undefined
-                }
-              />
+                aria-invalid={!!errors?.storage}
+                aria-describedby={errors?.storage ? "storage-error" : undefined}
+              >
+                <option value="pantry" disabled={item.storage === "pantry"}>
+                  Pantry
+                </option>
+                <option value="fridge" disabled={item.storage === "fridge"}>
+                  Fridge
+                </option>
+                <option value="freezer" disabled={item.storage === "freezer"}>
+                  Freezer
+                </option>
+              </select>
             </div>
             <div className="text-end">
-              {errors?.expirationDate && (
+              {errors?.storage && (
                 <small
-                  id="expirationDate-error"
+                  id="storage-error"
                   aria-live="polite"
                   className="text-destructive text-xs"
                 >
-                  {errors.expirationDate[0]}
+                  {errors.storage[0]}
                 </small>
               )}
             </div>
@@ -180,4 +141,4 @@ const FoodOpenButton = ({
   );
 };
 
-export default FoodOpenButton;
+export default FoodMoveButton;

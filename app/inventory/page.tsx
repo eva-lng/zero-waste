@@ -14,8 +14,8 @@ import {
   toClient,
 } from "@/lib/utils/utilities";
 import FoodItem from "@/models/FoodItem";
-import FoodItemsList from "@/components/FoodItemsList";
-import FiltersBar from "@/components/FiltersBar";
+import FoodItemsList from "@/components/food/FoodItemsList";
+import FiltersBar from "@/components/filters/FiltersBar";
 
 const InventoryPage = async ({
   searchParams,

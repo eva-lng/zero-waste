@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import FoodAddForm from "@/components/FoodAddForm";
+import FoodAddForm from "@/components/food/FoodAddForm";
 
 const AddFoodPage = async () => {
   const session = await auth.api.getSession({

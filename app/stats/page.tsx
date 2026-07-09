@@ -10,10 +10,10 @@ import {
   getMonthlyCategoryStats,
   getMonthlyStorageStats,
 } from "@/lib/data/stats";
-import ChartTotal from "@/components/ChartTotal";
-import StatsMonthNavigator from "@/components/StatsMonthNavigator";
-import ChartCategoryMonth from "@/components/ChartCategoryMonth";
-import ChartStorageMonth from "@/components/ChartStorageMonth";
+import ChartTotal from "@/components/stats/ChartTotal";
+import StatsMonthNavigator from "@/components/stats/StatsMonthNavigator";
+import ChartCategoryMonth from "@/components/stats/ChartCategoryMonth";
+import ChartStorageMonth from "@/components/stats/ChartStorageMonth";
 
 const StatsPage = async ({
   searchParams,

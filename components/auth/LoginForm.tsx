@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../layout/SubmitButton";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
