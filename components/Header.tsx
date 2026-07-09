@@ -21,7 +21,7 @@ const Header = () => {
   return (
     <header
       className={cn(
-        "bg-card border-b mb-4 md:mb-6",
+        "bg-card border-b mb-4 md:mb-6 shadow-sm",
         excludedPaths.includes(pathname) && "hidden",
       )}
     >

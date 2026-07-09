@@ -35,8 +35,6 @@ async function addFood(prevState: any, formData: FormData) {
     isOpen: formData.get("isOpen"),
   };
 
-  console.log("rawData:", rawData);
-
   const validatedFields = foodSchema.safeParse(rawData);
 
   if (!validatedFields.success) {
@@ -48,8 +46,6 @@ async function addFood(prevState: any, formData: FormData) {
       message: "",
     };
   }
-
-  console.log("validatedFields.data:", validatedFields.data);
 
   const foodData = {
     ...validatedFields.data,
@@ -63,7 +59,9 @@ async function addFood(prevState: any, formData: FormData) {
     "_id" | "createdAt" | "status" | "consumedGrams" | "wastedGrams"
   >;
 
-  console.log("foodData:", foodData);
+  // console.log("rawData:", rawData);
+  // console.log("validatedFields.data:", validatedFields.data);
+  // console.log("foodData:", foodData);
 
   const newFood = await FoodItem.create(foodData);
   await newFood.save();

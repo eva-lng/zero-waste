@@ -43,8 +43,6 @@ async function updateFood(foodId: string, prevState: any, formData: FormData) {
     isOpen: formData.get("isOpen"),
   };
 
-  console.log("rawData:", rawData);
-
   const validatedFields = foodSchema.safeParse(rawData);
 
   if (!validatedFields.success) {
@@ -56,8 +54,6 @@ async function updateFood(foodId: string, prevState: any, formData: FormData) {
       message: "",
     };
   }
-
-  console.log("validatedFields.data:", validatedFields.data);
 
   const foodData = {
     ...validatedFields.data,
@@ -77,7 +73,9 @@ async function updateFood(foodId: string, prevState: any, formData: FormData) {
     >
   >;
 
-  console.log("foodData:", foodData);
+  // console.log("rawData:", rawData);
+  // console.log("validatedFields.data:", validatedFields.data);
+  // console.log("foodData:", foodData);
 
   const updatedFood = await FoodItem.findByIdAndUpdate(foodId, foodData, {
     new: true,

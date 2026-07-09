@@ -38,9 +38,6 @@ const ChartCategoryMonth = ({
     };
   });
 
-  console.log("chartData:", chartData);
-  console.log("chartConfig:", chartConfig);
-
   return (
     <div role="region" aria-label="Monthly waste by category chart">
       <ChartContainer

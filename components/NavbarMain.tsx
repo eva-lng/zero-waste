@@ -21,7 +21,7 @@ const NavbarMain = () => {
   if (isPending || !session) return null;
 
   return (
-    <nav className="bottom-0 fixed w-full bg-card border-t">
+    <nav className="bottom-0 fixed w-full bg-card border-t shadow-sm">
       <div className="container xl:max-w-[1200px] 2xl:max-w-[1200px] mx-auto px-2">
         <ul className="flex justify-between items-center">
           <li>

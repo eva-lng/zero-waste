@@ -2,7 +2,6 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
-import Link from "next/link";
 import {
   FoodItemDB,
   StorageType,

@@ -1,29 +1,27 @@
 import Link from "next/link";
-import { FiAlertTriangle } from "react-icons/fi";
+import { TbError404 } from "react-icons/tb";
 
 const NotFoundPage = () => {
   return (
-    <section className="bg-blue-50 min-h-screen grow">
-      <div className="container m-auto max-w-2xl py-24">
-        <div className="bg-white px-6 py-24 mb-4 shadow-md rounded-md border m-4 md:m-0">
-          <div className="flex justify-center">
-            <FiAlertTriangle className="text-yellow-400 text-8xl fa-5x" />
-          </div>
-          <div className="text-center">
-            <h1 className="text-3xl font-bold mt-4 mb-2">Page Not Found</h1>
-            <p className="text-gray-500 text-xl mb-10">
-              The page you are looking for does not exist.
-            </p>
-            <Link
-              href="/"
-              className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-4 px-6 rounded"
-            >
-              Go Home
-            </Link>
-          </div>
+    <section className="flex flex-1 items-center justify-center py-8">
+      <div className="bg-card border rounded-lg p-8 max-w-md w-full text-center shadow-sm">
+        <div className="flex justify-center mb-4">
+          <TbError404
+            className="text-muted-foreground"
+            size={48}
+            strokeWidth={1.5}
+          />
         </div>
+        <h2 className="text-lg font-semibold text-foreground mb-2">
+          Page not found
+        </h2>
+        <p className="text-sm text-muted-foreground mb-6">
+          The page you are looking for does not exist or has been moved.
+        </p>
+        <Link href="/overview" className="btn-primary">
+          Go home
+        </Link>
       </div>
-      <div className="grow"></div>
     </section>
   );
 };
