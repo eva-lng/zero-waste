@@ -1,6 +1,3 @@
-import Header from "@/components/layout/Header";
-import NavbarMain from "@/components/layout/NavbarMain";
-import FAB from "@/components/layout/FAB";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -30,14 +27,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="flex flex-col h-dvh">
-          <Header />
-          <main className="mx-auto w-full max-w-[800px] px-4 pb-30 flex-1 flex flex-col">
-            {children}
-          </main>
-          <FAB />
-          <NavbarMain />
-        </div>
+        {children}
       </body>
     </html>
   );
