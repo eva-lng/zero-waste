@@ -231,22 +231,25 @@
   }
 
   .btn-primary {
-    @apply bg-primary text-primary-foreground rounded-md px-4 py-2 text-sm font-semibold transition-colors 
-      enabled:hover:bg-primary-hover disabled:opacity-40 disabled:pointer-events-none enabled:cursor-pointer;
+    @apply bg-primary text-primary-foreground rounded-md px-4 py-2 text-sm font-semibold 
+      transition-colors hover:bg-primary-hover cursor-pointer
+      disabled:opacity-40 disabled:pointer-events-none disabled:cursor-not-allowed;
   }
   .btn-outline {
-    @apply border text-muted-foreground rounded-md px-4 py-2 text-sm font-medium transition-colors 
-    enabled:hover:border-primary enabled:hover:text-primary-light-foreground
-    disabled:opacity-40 disabled:pointer-events-none enabled:cursor-pointer;
+    @apply border text-muted-foreground rounded-md px-4 py-2 text-sm font-medium 
+    transition-colors hover:border-primary hover:text-primary-light-foreground cursor-pointer
+    disabled:opacity-40 disabled:pointer-events-none disabled:cursor-not-allowed;
   }
   .btn-destructive {
-    @apply bg-destructive text-destructive-foreground rounded-md px-4 py-2 text-sm font-medium transition-colors 
-    enabled:hover:bg-destructive-hover disabled:opacity-40 enabled:cursor-pointer disabled:pointer-events-none
-    focus-visible:ring-destructive;
+    @apply bg-destructive text-destructive-foreground rounded-md px-4 py-2 text-sm font-medium 
+      transition-colors hover:bg-destructive-hover cursor-pointer 
+      disabled:opacity-40 disabled:pointer-events-none
+      focus-visible:ring-destructive;
   }
   .btn-destructive-subtle {
-    @apply bg-destructive-light text-destructive-light-foreground rounded-md px-4 py-2 text-sm font-medium transition-colors
-      enabled:hover:bg-destructive-light-hover enabled:cursor-pointer disabled:pointer-events-none
+    @apply bg-destructive-light text-destructive-light-foreground rounded-md px-4 py-2 text-sm font-medium 
+      transition-colors hover:bg-destructive-light-hover cursor-pointer 
+      disabled:pointer-events-none
       focus-visible:ring-destructive;
   }
 
