@@ -1,4 +1,10 @@
 import Link from "next/link";
+import {
+  TbPackage,
+  TbClockExclamation,
+  TbChartPie,
+  TbBolt,
+} from "react-icons/tb";
 
 export default function Home() {
   return (
@@ -9,7 +15,6 @@ export default function Home() {
         <div className="mx-auto w-full max-w-[760px]">
           {/* grid container */}
           <div className="grid md:grid-cols-2 md:items-center">
-            {/* left column */}
             <div className="md:text-start max-w-[300px] mx-auto md:mx-0">
               <p className="mb-5 text-center md:text-start">LOGO</p>
               <hgroup>
@@ -25,11 +30,9 @@ export default function Home() {
               <div className="flex flex-col md:flex-row gap-3">
                 <Link href="/signup" className="btn-primary w-full md:w-auto">
                   Get started
-                  {/* <button className="btn-primary w-full">Get started</button> */}
                 </Link>
                 <Link href="/login" className="btn-outline w-full md:w-auto">
                   Log in
-                  {/* <button className="btn-outline w-full">Log in</button> */}
                 </Link>
               </div>
             </div>
@@ -55,6 +58,72 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+      {/* what can you do section */}
+      <section className="px-4 py-8">
+        {/* wrapper large */}
+        <div className="mx-auto w-full max-w-[760px]">
+          <h2 className="section-title mb-5"> What you can do</h2>
+          {/* grid container */}
+          <ul className="grid sm:grid-cols-2 gap-3 md:gap-4">
+            <li className="card flex items-start gap-4">
+              <div className="text-primary-light-foreground bg-primary-light p-2 rounded-md">
+                <TbPackage size={24} />
+              </div>
+              <div>
+                <h3 className="text-sm md:text-base font-semibold">
+                  Full inventory control
+                </h3>
+                <p className="text-[13px] md:text-sm text-muted-foreground">
+                  Track everything across fridge, freezer and panttry with
+                  expiration dates and partial quantty support.
+                </p>
+              </div>
+            </li>
+            <li className="card flex items-start gap-4">
+              <div className="text-destructive bg-destructive-light p-2 rounded-md">
+                <TbClockExclamation size={24} />
+              </div>
+              <div>
+                <h3 className="text-sm md:text-base font-semibold">
+                  See what's expiring
+                </h3>
+                <p className="text-[13px] md:text-sm text-muted-foreground">
+                  Your dashboard highlights items expiring soon so you can act
+                  before they go to waste.
+                </p>
+              </div>
+            </li>
+            <li className="card flex items-start gap-4">
+              <div className="text-primary-light-foreground bg-primary-light p-2 rounded-md">
+                <TbChartPie size={24} />
+              </div>
+              <div>
+                <h3 className="text-sm md:text-base font-semibold">
+                  Waste insights
+                </h3>
+                <p className="text-[13px] md:text-sm text-muted-foreground">
+                  See your monthly waste trends. Track consumed vs wasted over
+                  time.
+                </p>
+              </div>
+            </li>
+            <li className="card flex items-start gap-4">
+              <div className="text-primary-light-foreground bg-primary-light p-2 rounded-md">
+                <TbBolt size={24} />
+              </div>
+              <div>
+                <h3 className="text-sm md:text-base font-semibold">
+                  Quick actions
+                </h3>
+                <p className="text-[13px] md:text-sm text-muted-foreground">
+                  Consume, discard, move or open items in seconds. Filter and
+                  search your inventory instantly.
+                </p>
+              </div>
+            </li>
+          </ul>
         </div>
       </section>
     </>
