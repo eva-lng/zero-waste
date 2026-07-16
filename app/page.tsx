@@ -126,6 +126,55 @@ export default function Home() {
           </ul>
         </div>
       </section>
+      {/* how it works section */}
+      <section className="px-4 pb-8">
+        <div className="mx-auto w-full max-w-[760px]">
+          <h2 className="section-title mb-5">How it works</h2>
+          <ol className="grid md:grid-cols-3 gap-6 md:gap-8">
+            <li className="flex md:flex-col gap-4 md:gap-3">
+              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-card text-sm md:text-base font-bold shrink-0">
+                1
+              </span>
+              <div>
+                <h3 className="text-sm md:text-base font-semibold md:mb-1">
+                  Add your food
+                </h3>
+                <p className="text-[13px] md:text-sm text-muted-foreground">
+                  Set the name, category, quantity and expiration date.
+                </p>
+              </div>
+            </li>
+            <li className="flex md:flex-col gap-4 md:gap-3">
+              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-card text-sm md:text-base font-bold shrink-0">
+                2
+              </span>
+              <div>
+                <h3 className="text-sm md:text-base font-semibold md:mb-1">
+                  Act before it expires
+                </h3>
+                <p className="text-[13px] md:text-sm text-muted-foreground">
+                  Your dashboard shows what needs attention. Log what you
+                  consume or waste.
+                </p>
+              </div>
+            </li>
+            <li className="flex md:flex-col gap-4 md:gap-3">
+              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-card text-sm md:text-base font-bold shrink-0">
+                3
+              </span>
+              <div>
+                <h3 className="text-sm md:text-base font-semibold md:mb-1">
+                  See your habits
+                </h3>
+                <p className="text-[13px] md:text-sm text-muted-foreground">
+                  Monthly stats show where your waste is coming from so you can
+                  improve over time.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
     </>
   );
 }
