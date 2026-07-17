@@ -11,9 +11,7 @@ export default function Home() {
     <>
       {/* hero section */}
       <section className="bg-primary-light px-6 py-12 text-center">
-        {/* wrapper large */}
-        <div className="mx-auto w-full max-w-[760px]">
-          {/* grid container */}
+        <div className="mx-auto w-full max-w-[800px] px-4">
           <div className="grid md:grid-cols-2 md:items-center">
             <div className="md:text-start max-w-[300px] mx-auto md:mx-0">
               <p className="mb-5 text-center md:text-start">LOGO</p>
@@ -60,12 +58,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       {/* what can you do section */}
       <section className="px-4 py-8">
-        {/* wrapper large */}
-        <div className="mx-auto w-full max-w-[760px]">
+        <div className="mx-auto w-full max-w-[800px] px-4">
           <h2 className="section-title mb-5"> What you can do</h2>
-          {/* grid container */}
           <ul className="grid sm:grid-cols-2 gap-3 md:gap-4">
             <li className="card flex items-start gap-4">
               <div className="text-primary-light-foreground bg-primary-light p-2 rounded-md">
@@ -126,9 +123,10 @@ export default function Home() {
           </ul>
         </div>
       </section>
+
       {/* how it works section */}
       <section className="px-4 pb-8">
-        <div className="mx-auto w-full max-w-[760px]">
+        <div className="mx-auto w-full max-w-[800px] px-4">
           <h2 className="section-title mb-5">How it works</h2>
           <ol className="grid md:grid-cols-3 gap-6 md:gap-8">
             <li className="flex md:flex-col gap-4 md:gap-3">

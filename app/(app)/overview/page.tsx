@@ -11,6 +11,7 @@ import {
   getExpirationLabelShort,
 } from "@/lib/utils/utilities";
 import { getAllTimeStats } from "@/lib/data/stats";
+import { cn } from "@/lib/utils";
 import { TbChartPie, TbChevronRight } from "react-icons/tb";
 
 const OverviewPage = async () => {
@@ -77,7 +78,7 @@ const OverviewPage = async () => {
         </div>
 
         <div className="stats-card">
-          <p className="stat-label">Thrown</p>
+          <p className="stat-label">Discarded</p>
           <p className="stat-number">{wastedPercentage}%</p>
         </div>
       </div>
@@ -101,7 +102,11 @@ const OverviewPage = async () => {
                 className="flex justify-between items-center"
               >
                 <span>Expiring soon</span>
-                <span className="text-warning font-medium">{soonCount}</span>
+                <span
+                  className={cn("font-medium", soonCount > 0 && "text-warning")}
+                >
+                  {soonCount}
+                </span>
               </Link>
             </li>
             <li className="-mx-2 px-2 py-1 rounded-md hover:bg-muted transition-colors">
@@ -110,7 +115,12 @@ const OverviewPage = async () => {
                 className="flex justify-between items-center"
               >
                 <span>Expired</span>
-                <span className="text-destructive font-medium">
+                <span
+                  className={cn(
+                    "font-medium",
+                    expiredCount > 0 && "text-destructive",
+                  )}
+                >
                   {expiredCount}
                 </span>
               </Link>

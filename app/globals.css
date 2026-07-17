@@ -203,7 +203,7 @@
     @apply bg-card border p-4 md:p-5 rounded-lg;
   }
   .card-title {
-    @apply text-sm md:text-[15] font-semibold;
+    @apply text-sm md:text-[15px] font-semibold;
   }
   .card-body {
     @apply text-sm text-foreground;
