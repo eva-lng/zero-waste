@@ -92,7 +92,10 @@ const OverviewPage = async () => {
                 href="/inventory"
                 className="flex justify-between items-center"
               >
-                <span>All</span>
+                <span className="flex items-center gap-0.5">
+                  <span>All</span>
+                  <TbChevronRight />
+                </span>
                 <span className="font-medium">{foodItems.length}</span>
               </Link>
             </li>
@@ -101,7 +104,10 @@ const OverviewPage = async () => {
                 href="/inventory?expiration=soon"
                 className="flex justify-between items-center"
               >
-                <span>Expiring soon</span>
+                <span className="flex items-center gap-0.5">
+                  <span>Expiring soon</span>
+                  <TbChevronRight />
+                </span>
                 <span
                   className={cn("font-medium", soonCount > 0 && "text-warning")}
                 >
@@ -114,7 +120,10 @@ const OverviewPage = async () => {
                 href="/inventory?expiration=expired"
                 className="flex justify-between items-center"
               >
-                <span>Expired</span>
+                <span className="flex items-center gap-0.5">
+                  <span>Expired</span>
+                  <TbChevronRight />
+                </span>
                 <span
                   className={cn(
                     "font-medium",
@@ -130,7 +139,10 @@ const OverviewPage = async () => {
                 href="/inventory?open=true"
                 className="flex justify-between items-center"
               >
-                <span>Open</span>
+                <span className="flex items-center gap-0.5">
+                  <span>Open</span>
+                  <TbChevronRight />
+                </span>
                 <span className="font-medium">{openCount}</span>
               </Link>
             </li>
@@ -145,7 +157,10 @@ const OverviewPage = async () => {
                 href="/inventory?storage=pantry"
                 className="flex justify-between items-center"
               >
-                <span>Pantry</span>
+                <span className="flex items-center gap-0.5">
+                  <span>Pantry</span>
+                  <TbChevronRight />
+                </span>
                 <span className="font-medium">{storageCount.pantry}</span>
               </Link>
             </li>
@@ -154,7 +169,10 @@ const OverviewPage = async () => {
                 href="/inventory?storage=fridge"
                 className="flex justify-between items-center"
               >
-                <span>Fridge</span>
+                <span className="flex items-center gap-0.5">
+                  <span>Fridge</span>
+                  <TbChevronRight />
+                </span>
                 <span className="font-medium">{storageCount.fridge}</span>
               </Link>
             </li>
@@ -163,7 +181,10 @@ const OverviewPage = async () => {
                 href="/inventory?storage=freezer"
                 className="flex justify-between items-center"
               >
-                <span>Freezer</span>
+                <span className="flex items-center gap-0.5">
+                  <span>Freezer</span>
+                  <TbChevronRight />
+                </span>
                 <span className="font-medium">{storageCount.freezer}</span>
               </Link>
             </li>
