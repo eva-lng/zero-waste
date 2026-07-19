@@ -95,6 +95,7 @@ export async function getMonthlyCategoryStats(
       $match: {
         user: new Types.ObjectId(userId),
         finishedAt: { $gte: startOfMonth, $lt: startOfNextMonth },
+        wastedGrams: { $gt: 0 },
       },
     },
     {
@@ -160,6 +161,7 @@ export async function getMonthlyStorageStats(
       $match: {
         user: new Types.ObjectId(userId),
         finishedAt: { $gte: startOfMonth, $lt: startOfNextMonth },
+        wastedGrams: { $gt: 0 },
       },
     },
     {
