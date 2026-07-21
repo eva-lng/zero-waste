@@ -7,6 +7,8 @@ import { signupSchema } from "@/lib/utils/schemas";
 import { z } from "zod";
 import SubmitButton from "../layout/SubmitButton";
 import { cn } from "@/lib/utils";
+import { TbBrandGoogleFilled } from "react-icons/tb";
+import { FieldSeparator } from "../ui/field";
 
 const SignupForm = () => {
   const [fieldErrors, setFieldErrors] = useState<{
@@ -62,6 +64,14 @@ const SignupForm = () => {
         },
       },
     );
+  };
+
+  const handleSignInGoogle = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/overview",
+      errorCallbackURL: "/error",
+    });
   };
 
   return (
@@ -183,6 +193,17 @@ const SignupForm = () => {
         >
           Sign up
         </SubmitButton>
+
+        <FieldSeparator className="mt-1 mb-4">Or continue with</FieldSeparator>
+
+        <button
+          type="button"
+          onClick={handleSignInGoogle}
+          className="btn-outline w-full inline-flex justify-center items-center gap-2 mb-3 hover:border-foreground hover:text-foreground"
+        >
+          <TbBrandGoogleFilled />
+          Sign up with Google
+        </button>
 
         <p className="text-xs text-center">
           Already have an account?{" "}

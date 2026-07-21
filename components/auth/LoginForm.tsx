@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import SubmitButton from "../layout/SubmitButton";
+import { TbBrandGoogleFilled } from "react-icons/tb";
+import { FieldSeparator } from "../ui/field";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -35,6 +37,14 @@ const LoginForm = () => {
         },
       },
     );
+  };
+
+  const handleSignInGoogle = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/overview",
+      errorCallbackURL: "/login",
+    });
   };
 
   return (
@@ -88,6 +98,17 @@ const LoginForm = () => {
         >
           Log in
         </SubmitButton>
+
+        <FieldSeparator className="mt-1 mb-4">Or continue with</FieldSeparator>
+
+        <button
+          type="button"
+          onClick={handleSignInGoogle}
+          className="btn-outline w-full inline-flex justify-center items-center gap-2 mb-3 hover:border-foreground hover:text-foreground"
+        >
+          <TbBrandGoogleFilled />
+          Log in with Google
+        </button>
 
         <p className="text-xs text-center">
           Don't have an account?{" "}
