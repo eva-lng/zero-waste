@@ -7,7 +7,13 @@ import ChangePasswordButton from "./ChangePasswordButton";
 import DeleteAccountButton from "./DeleteAccountButton";
 import { TbLogout } from "react-icons/tb";
 
-const ProfileClient = ({ name }: { name: string }) => {
+const ProfileClient = ({
+  name,
+  hasPassword,
+}: {
+  name: string;
+  hasPassword: boolean;
+}) => {
   const [activeForm, setActiveForm] = useState<"username" | "password" | null>(
     null,
   );
@@ -31,10 +37,12 @@ const ProfileClient = ({ name }: { name: string }) => {
         />
 
         {/* change password */}
-        <ChangePasswordButton
-          activeForm={activeForm}
-          setActiveForm={setActiveForm}
-        />
+        {hasPassword && (
+          <ChangePasswordButton
+            activeForm={activeForm}
+            setActiveForm={setActiveForm}
+          />
+        )}
 
         {/* log out */}
         <button

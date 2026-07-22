@@ -17,6 +17,12 @@ const ProfilePage = async () => {
   }
 
   const userId = session.user.id;
+
+  const accounts = await auth.api.listUserAccounts({
+    headers: await headers(),
+  });
+  const hasPassword = accounts.some((el) => el.providerId === "credential");
+
   const itemCount = await FoodItem.countDocuments({ user: userId });
 
   const initials = (session.user.name ?? "?")
@@ -69,7 +75,10 @@ const ProfilePage = async () => {
             </div>
           </div>
 
-          <ProfileClient name={session.user.name ?? ""} />
+          <ProfileClient
+            name={session.user.name ?? ""}
+            hasPassword={hasPassword}
+          />
         </div>
       </div>
     </>
