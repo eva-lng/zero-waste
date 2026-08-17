@@ -183,3 +183,43 @@ export async function getMonthlyStorageStats(
       }))
     : [];
 }
+
+export async function getWasteTrends(
+  userId: string,
+): Promise<
+  { date: { year: number; month: number }; consumed: number; wasted: number }[]
+> {
+  await dbConnect();
+  const endDate = new Date();
+  const startDate = new Date();
+  startDate.setMonth(startDate.getMonth() - 12);
+
+  const res = await FoodItem.aggregate([
+    {
+      $match: {
+        user: new Types.ObjectId(userId),
+        finishedAt: { $gte: startDate, $lte: endDate },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          month: { $month: "$finishedAt" },
+          year: { $year: "$finishedAt" },
+        },
+        consumed: { $sum: "$consumedGrams" },
+        wasted: { $sum: "$wastedGrams" },
+      },
+    },
+    {
+      $sort: { "_id.year": 1, "_id.month": 1 },
+    },
+  ]);
+  return res.length > 0
+    ? res.map((item) => ({
+        date: item._id,
+        consumed: item.consumed,
+        wasted: item.wasted,
+      }))
+    : [];
+}

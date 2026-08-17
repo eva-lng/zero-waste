@@ -30,6 +30,7 @@ const StatsMonthNavigator = ({
     startTransition(() => {
       router.push(
         `/stats?month=${nextYear}-${String(nextMonth).padStart(2, "0")}`,
+        { scroll: false },
       );
     });
   };
@@ -38,6 +39,7 @@ const StatsMonthNavigator = ({
     startTransition(() => {
       router.push(
         `/stats?month=${prevYear}-${String(prevMonth).padStart(2, "0")}`,
+        { scroll: false },
       );
     });
   };
@@ -50,7 +52,6 @@ const StatsMonthNavigator = ({
           "w-7 h-7 flex items-center justify-center border rounded-md hover:bg-muted cursor-pointer disabled:opacity-60 disabled:pointer-events-none",
           isFirst && "invisible",
         )}
-        // "w-7 h-7 flex items-center justify-center border rounded-md hover:bg-muted cursor-pointer disabled:invisible"
         onClick={handlePrev}
       >
         <TbChevronLeft className="text-muted-foreground" />
@@ -67,7 +68,6 @@ const StatsMonthNavigator = ({
           "w-7 h-7 flex items-center justify-center border rounded-md hover:bg-muted cursor-pointer disabled:opacity-60 disabled:pointer-events-none",
           isLast && "invisible",
         )}
-        // {`w-7 h-7 flex items-center justify-center border rounded-md hover:bg-muted cursor-pointer disabled:invisible ${isPending && "opacity-60 pointer-events-none disabled"}`}
         onClick={handleNext}
       >
         <TbChevronRight className="text-muted-foreground" />

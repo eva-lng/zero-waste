@@ -3,12 +3,13 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
 import FoodItem from "@/models/FoodItem";
-import { capitalize } from "@/lib/utils/utilities";
+import { capitalize, fillMissingMonths } from "@/lib/utils/utilities";
 import {
   getAllTimeStats,
   getMonthlyWaste,
   getMonthlyCategoryStats,
   getMonthlyStorageStats,
+  getWasteTrends,
 } from "@/lib/data/stats";
 import ChartTotal from "@/components/stats/ChartTotal";
 import StatsMonthNavigator from "@/components/stats/StatsMonthNavigator";
@@ -49,6 +50,8 @@ const StatsPage = async ({
   const firstMonth = firstItem ? firstItem?.createdAt.getMonth() + 1 : nowMonth;
   const isFirst = firstYear === yearVal && firstMonth === monthVal;
   const isLast = nowYear === yearVal && nowMonth === monthVal;
+  const monthsSinceCreation =
+    (nowYear - firstYear) * 12 + (nowMonth - firstMonth) + 1;
 
   const { consumed: totalConsumed, wasted: totalWasted } =
     await getAllTimeStats(userId);
@@ -63,11 +66,27 @@ const StatsPage = async ({
     yearVal,
     monthVal,
   );
-
+  const wasteTrends = await getWasteTrends(userId);
+  const avgMonthlyWaste = Math.round(totalWasted / monthsSinceCreation);
+  const filledTrends = fillMissingMonths(wasteTrends, firstYear, firstMonth);
+  const lowestMonth =
+    filledTrends.length > 0
+      ? filledTrends.reduce((low, curr) =>
+          curr.wasted < low.wasted ? curr : low,
+        )
+      : null;
   // console.log("totalConsumed:", totalConsumed, "totalWasted:", totalWasted);
   // console.log("monthlyWaste:", monthlyWaste);
   // console.log("monthlyCategory:", monthlyCategory);
   // console.log("monthlyStorage:", monthlyStorage);
+  // console.log("wasteTrends:", wasteTrends);
+  // console.log("average monthly waste:", avgMonthlyWaste);
+  // console.log(
+  //   "lowest month:",
+  //   lowestMonth?.date.month,
+  //   lowestMonth?.date.year,
+  //   lowestMonth?.wasted,
+  // );
 
   return (
     <>
@@ -82,7 +101,7 @@ const StatsPage = async ({
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:items-center">
-          {/* LEFT */}
+          {/* NUMBERS */}
           <div className="grid grid-cols-2 gap-3 md:gap-4">
             {/* total consumed */}
             <div className="stats-card">
@@ -116,7 +135,7 @@ const StatsPage = async ({
             </div>
           </div>
 
-          {/* RIGHT */}
+          {/* BAR CHART */}
           <div className="flex items-center">
             {totalConsumed + totalWasted > 0 && (
               <ChartTotal

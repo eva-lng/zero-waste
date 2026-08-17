@@ -116,3 +116,35 @@ export function toClient(item: FoodItemDB): FoodItemClient {
 export function sanitize(str: string) {
   return str.replace(/\s*&\s*/g, "-").replace(/\s+/g, "-");
 }
+
+export function fillMissingMonths(
+  data: {
+    date: { year: number; month: number };
+    consumed: number;
+    wasted: number;
+  }[],
+  firstYear: number,
+  firstMonth: number,
+) {
+  const nowYear = new Date().getFullYear();
+  const nowMonth = new Date().getMonth();
+  const filled = [];
+
+  let year = firstYear;
+  let month = firstMonth;
+
+  while (year < nowYear || (year === nowYear && month <= nowMonth)) {
+    const existing = data.find(
+      (d) => d.date.year === year && d.date.month === month,
+    );
+    filled.push(existing ?? { date: { year, month }, consumed: 0, wasted: 0 });
+
+    month++;
+    if (month > 12) {
+      year++;
+      month = 1;
+    }
+  }
+
+  return filled;
+}
