@@ -9,7 +9,7 @@ import {
   getMonthlyWaste,
   getMonthlyCategoryStats,
   getMonthlyStorageStats,
-  getWasteTrends,
+  getMonthlyWasteTrends,
 } from "@/lib/data/stats";
 import ChartTotal from "@/components/stats/ChartTotal";
 import StatsMonthNavigator from "@/components/stats/StatsMonthNavigator";
@@ -34,16 +34,29 @@ const StatsPage = async ({
   const userId = session.user.id;
 
   const { month } = await searchParams;
-
   const currentMonth =
     month ??
     `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`;
   const [yearVal, monthVal] = currentMonth.split("-").map(Number);
 
-  const firstItem = await FoodItem.findOne({ user: userId }).sort({
-    createdAt: 1,
-  });
+  // DB fetch
+  const [
+    firstItem,
+    { consumed: totalConsumed, wasted: totalWasted },
+    monthlyWaste,
+    monthlyCategory,
+    monthlyStorage,
+    monthlyWasteTrends,
+  ] = await Promise.all([
+    FoodItem.findOne({ user: userId }).sort({ createdAt: 1 }),
+    getAllTimeStats(userId),
+    getMonthlyWaste(userId, yearVal, monthVal),
+    getMonthlyCategoryStats(userId, yearVal, monthVal),
+    getMonthlyStorageStats(userId, yearVal, monthVal),
+    getMonthlyWasteTrends(userId),
+  ]);
 
+  // date setup
   const nowYear = new Date().getFullYear();
   const nowMonth = new Date().getMonth() + 1;
   const firstYear = firstItem?.createdAt.getFullYear() ?? nowYear;
@@ -52,34 +65,51 @@ const StatsPage = async ({
   const isLast = nowYear === yearVal && nowMonth === monthVal;
   const monthsSinceCreation =
     (nowYear - firstYear) * 12 + (nowMonth - firstMonth) + 1;
+  const fourMonthsAgo = new Date(nowYear, nowMonth - 2, 1);
 
-  const { consumed: totalConsumed, wasted: totalWasted } =
-    await getAllTimeStats(userId);
-  const monthlyWaste = await getMonthlyWaste(userId, yearVal, monthVal);
-  const monthlyCategory = await getMonthlyCategoryStats(
-    userId,
-    yearVal,
-    monthVal,
-  );
-  const monthlyStorage = await getMonthlyStorageStats(
-    userId,
-    yearVal,
-    monthVal,
-  );
-  const wasteTrends = await getWasteTrends(userId);
   const avgMonthlyWaste = Math.round(totalWasted / monthsSinceCreation);
-  const filledTrends = fillMissingMonths(wasteTrends, firstYear, firstMonth);
-  const lowestMonth =
-    filledTrends.length > 0
-      ? filledTrends.reduce((low, curr) =>
-          curr.wasted < low.wasted ? curr : low,
-        )
-      : null;
+  // monthly waste trends
+  const monthlyTrends = monthlyWasteTrends.reduce(
+    (acc, item) => {
+      const key = `${item.id.year}-${item.id.month}`;
+      if (!acc[key])
+        acc[key] = {
+          date: { year: item.id.year, month: item.id.month },
+          consumed: 0,
+          wasted: 0,
+        };
+      acc[key].consumed += item.consumed;
+      acc[key].wasted += item.wasted;
+      return acc;
+    },
+    {} as Record<
+      string,
+      {
+        date: { year: number; month: number };
+        consumed: number;
+        wasted: number;
+      }
+    >,
+  );
+  const monthlyTrendsArr = Object.values(monthlyTrends);
+  const monthlyTrendsFilled = fillMissingMonths(
+    monthlyTrendsArr,
+    firstYear,
+    firstMonth,
+  );
+
+  // const lowestMonth =
+  //   filledTrends.length > 0
+  //     ? filledTrends.reduce((low, curr) =>
+  //         curr.wasted < low.wasted ? curr : low,
+  //       )
+  //     : null;
+
   // console.log("totalConsumed:", totalConsumed, "totalWasted:", totalWasted);
   // console.log("monthlyWaste:", monthlyWaste);
   // console.log("monthlyCategory:", monthlyCategory);
   // console.log("monthlyStorage:", monthlyStorage);
-  // console.log("wasteTrends:", wasteTrends);
+  console.log("monthlyTrendsFilled:", monthlyTrendsFilled);
   // console.log("average monthly waste:", avgMonthlyWaste);
   // console.log(
   //   "lowest month:",

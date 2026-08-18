@@ -127,7 +127,7 @@ export function fillMissingMonths(
   firstMonth: number,
 ) {
   const nowYear = new Date().getFullYear();
-  const nowMonth = new Date().getMonth();
+  const nowMonth = new Date().getMonth() + 1;
   const filled = [];
 
   let year = firstYear;

@@ -184,10 +184,12 @@ export async function getMonthlyStorageStats(
     : [];
 }
 
-export async function getWasteTrends(
-  userId: string,
-): Promise<
-  { date: { year: number; month: number }; consumed: number; wasted: number }[]
+export async function getMonthlyWasteTrends(userId: string): Promise<
+  {
+    id: { year: number; month: number; category: string };
+    consumed: number;
+    wasted: number;
+  }[]
 > {
   await dbConnect();
   const endDate = new Date();
@@ -206,6 +208,7 @@ export async function getWasteTrends(
         _id: {
           month: { $month: "$finishedAt" },
           year: { $year: "$finishedAt" },
+          category: "$category",
         },
         consumed: { $sum: "$consumedGrams" },
         wasted: { $sum: "$wastedGrams" },
@@ -217,7 +220,11 @@ export async function getWasteTrends(
   ]);
   return res.length > 0
     ? res.map((item) => ({
-        date: item._id,
+        id: {
+          year: item._id.year,
+          month: item._id.month,
+          category: item._id.category,
+        },
         consumed: item.consumed,
         wasted: item.wasted,
       }))
