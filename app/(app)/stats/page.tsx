@@ -68,6 +68,7 @@ const StatsPage = async ({
   const fourMonthsAgo = new Date(nowYear, nowMonth - 2, 1);
 
   const avgMonthlyWaste = Math.round(totalWasted / monthsSinceCreation);
+
   // monthly waste trends
   const monthlyTrends = monthlyWasteTrends.reduce(
     (acc, item) => {
@@ -98,6 +99,32 @@ const StatsPage = async ({
     firstMonth,
   );
 
+  // category waste trends
+  const categoryTrends = monthlyWasteTrends
+    .filter((item) => {
+      const itemDate = new Date(item.id.year, item.id.month, 1);
+      return itemDate >= fourMonthsAgo;
+    })
+    .reduce(
+      (acc, item) => {
+        const cat = item.id.category;
+        if (!acc[cat]) acc[cat] = [];
+        acc[cat].push({
+          date: { year: item.id.year, month: item.id.month },
+          consumed: item.consumed,
+          wasted: item.wasted,
+        });
+        return acc;
+      },
+      {} as Record<
+        string,
+        {
+          date: { year: number; month: number };
+          consumed: number;
+          wasted: number;
+        }[]
+      >,
+    );
   // const lowestMonth =
   //   filledTrends.length > 0
   //     ? filledTrends.reduce((low, curr) =>
