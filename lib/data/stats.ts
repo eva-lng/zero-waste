@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 import dbConnect from "../mongodb";
 import FoodItem from "@/models/FoodItem";
 import { CategoryType, StorageType } from "../utils/types";
+import { MONTHS } from "../utils/constants";
 
 export async function getAllTimeStats(
   userId: string,
@@ -187,14 +188,14 @@ export async function getMonthlyStorageStats(
 export async function getMonthlyWasteTrends(userId: string): Promise<
   {
     id: { year: number; month: number; category: string };
+    label: string;
     consumed: number;
     wasted: number;
   }[]
 > {
   await dbConnect();
   const endDate = new Date();
-  const startDate = new Date();
-  startDate.setMonth(startDate.getMonth() - 12);
+  const startDate = new Date(endDate.getFullYear(), endDate.getMonth() - 11, 1);
 
   const res = await FoodItem.aggregate([
     {
@@ -225,6 +226,7 @@ export async function getMonthlyWasteTrends(userId: string): Promise<
           month: item._id.month,
           category: item._id.category,
         },
+        label: `${MONTHS[item._id.month - 1].slice(0, 3)} ${String(item._id.year).slice(-2)}`,
         consumed: item.consumed,
         wasted: item.wasted,
       }))

@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
 import FoodItem from "@/models/FoodItem";
 import { capitalize, fillMissingMonths } from "@/lib/utils/utilities";
+import { MONTHS } from "@/lib/utils/constants";
 import {
   getAllTimeStats,
   getMonthlyWaste,
@@ -65,7 +66,7 @@ const StatsPage = async ({
   const isLast = nowYear === yearVal && nowMonth === monthVal;
   const monthsSinceCreation =
     (nowYear - firstYear) * 12 + (nowMonth - firstMonth) + 1;
-  const fourMonthsAgo = new Date(nowYear, nowMonth - 2, 1);
+  const fourMonthsAgo = new Date(nowYear, nowMonth - 3, 1);
 
   const avgMonthlyWaste = Math.round(totalWasted / monthsSinceCreation);
 
@@ -76,6 +77,7 @@ const StatsPage = async ({
       if (!acc[key])
         acc[key] = {
           date: { year: item.id.year, month: item.id.month },
+          label: item.label,
           consumed: 0,
           wasted: 0,
         };
@@ -87,6 +89,7 @@ const StatsPage = async ({
       string,
       {
         date: { year: number; month: number };
+        label: string;
         consumed: number;
         wasted: number;
       }
@@ -111,6 +114,7 @@ const StatsPage = async ({
         if (!acc[cat]) acc[cat] = [];
         acc[cat].push({
           date: { year: item.id.year, month: item.id.month },
+          label: item.label,
           consumed: item.consumed,
           wasted: item.wasted,
         });
@@ -120,6 +124,7 @@ const StatsPage = async ({
         string,
         {
           date: { year: number; month: number };
+          label: string;
           consumed: number;
           wasted: number;
         }[]
@@ -137,6 +142,7 @@ const StatsPage = async ({
   // console.log("monthlyCategory:", monthlyCategory);
   // console.log("monthlyStorage:", monthlyStorage);
   console.log("monthlyTrendsFilled:", monthlyTrendsFilled);
+  console.log("categoryTrends:", categoryTrends);
   // console.log("average monthly waste:", avgMonthlyWaste);
   // console.log(
   //   "lowest month:",

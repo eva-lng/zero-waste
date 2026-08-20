@@ -3,6 +3,7 @@ import {
   FoodItemDB,
   FoodItemClient,
 } from "@/lib/utils/types";
+import { MONTHS } from "./constants";
 
 export function isExpired(expirationDate: Date): boolean {
   const today = new Date();
@@ -120,6 +121,7 @@ export function sanitize(str: string) {
 export function fillMissingMonths(
   data: {
     date: { year: number; month: number };
+    label: string;
     consumed: number;
     wasted: number;
   }[],
@@ -137,7 +139,14 @@ export function fillMissingMonths(
     const existing = data.find(
       (d) => d.date.year === year && d.date.month === month,
     );
-    filled.push(existing ?? { date: { year, month }, consumed: 0, wasted: 0 });
+    filled.push(
+      existing ?? {
+        date: { year, month },
+        label: `${MONTHS[month - 1].slice(0, 3)} ${String(year).slice(-2)}`,
+        consumed: 0,
+        wasted: 0,
+      },
+    );
 
     month++;
     if (month > 12) {
