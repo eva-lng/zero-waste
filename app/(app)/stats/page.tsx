@@ -16,6 +16,7 @@ import ChartTotal from "@/components/stats/ChartTotal";
 import StatsMonthNavigator from "@/components/stats/StatsMonthNavigator";
 import ChartCategoryMonth from "@/components/stats/ChartCategoryMonth";
 import ChartStorageMonth from "@/components/stats/ChartStorageMonth";
+import ChartMonthlyTrends from "@/components/stats/ChartMonthlyTrends";
 
 const StatsPage = async ({
   searchParams,
@@ -68,10 +69,8 @@ const StatsPage = async ({
     (nowYear - firstYear) * 12 + (nowMonth - firstMonth) + 1;
   const fourMonthsAgo = new Date(nowYear, nowMonth - 3, 1);
 
-  const avgMonthlyWaste = Math.round(totalWasted / monthsSinceCreation);
-
   // monthly waste trends
-  const monthlyTrends = monthlyWasteTrends.reduce(
+  const monthlyTrendsData = monthlyWasteTrends.reduce(
     (acc, item) => {
       const key = `${item.id.year}-${item.id.month}`;
       if (!acc[key])
@@ -95,12 +94,21 @@ const StatsPage = async ({
       }
     >,
   );
-  const monthlyTrendsArr = Object.values(monthlyTrends);
-  const monthlyTrendsFilled = fillMissingMonths(
+  const monthlyTrendsArr = Object.values(monthlyTrendsData);
+  const monthlyTrends = fillMissingMonths(
     monthlyTrendsArr,
     firstYear,
     firstMonth,
   );
+
+  // avg and best month waste
+  const avgMonthlyWaste = Math.round(totalWasted / monthsSinceCreation);
+  const lowestMonth =
+    monthlyTrends.length > 0
+      ? monthlyTrends.reduce((low, curr) =>
+          curr.wasted < low.wasted ? curr : low,
+        )
+      : null;
 
   // category waste trends
   const categoryTrends = monthlyWasteTrends
@@ -130,20 +138,9 @@ const StatsPage = async ({
         }[]
       >,
     );
-  // const lowestMonth =
-  //   filledTrends.length > 0
-  //     ? filledTrends.reduce((low, curr) =>
-  //         curr.wasted < low.wasted ? curr : low,
-  //       )
-  //     : null;
 
-  // console.log("totalConsumed:", totalConsumed, "totalWasted:", totalWasted);
-  // console.log("monthlyWaste:", monthlyWaste);
-  // console.log("monthlyCategory:", monthlyCategory);
-  // console.log("monthlyStorage:", monthlyStorage);
-  console.log("monthlyTrendsFilled:", monthlyTrendsFilled);
+  console.log("monthlyTrends:", monthlyTrends);
   console.log("categoryTrends:", categoryTrends);
-  // console.log("average monthly waste:", avgMonthlyWaste);
   // console.log(
   //   "lowest month:",
   //   lowestMonth?.date.month,
@@ -154,6 +151,7 @@ const StatsPage = async ({
   return (
     <>
       <h2 className="sr-only">Stats</h2>
+      {/* Overall */}
       <section className="card mb-4">
         <h3 className="mb-4 section-title">
           Overall • since{" "}
@@ -164,7 +162,7 @@ const StatsPage = async ({
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:items-center">
-          {/* NUMBERS */}
+          {/* numbers */}
           <div className="grid grid-cols-2 gap-3 md:gap-4">
             {/* total consumed */}
             <div className="stats-card">
@@ -198,7 +196,7 @@ const StatsPage = async ({
             </div>
           </div>
 
-          {/* BAR CHART */}
+          {/* bar chart */}
           <div className="flex items-center">
             {totalConsumed + totalWasted > 0 && (
               <ChartTotal
@@ -210,7 +208,8 @@ const StatsPage = async ({
         </div>
       </section>
 
-      <section className="card">
+      {/* Monthly Breakdown */}
+      <section className="card mb-4">
         <div className="md:flex items-center justify-between mb-4">
           <h3 className="section-title mb-4 md:m-0">Monthly Breakdown</h3>
           <StatsMonthNavigator
@@ -221,13 +220,14 @@ const StatsPage = async ({
           />
         </div>
 
+        {/* numbers */}
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="stats-card">
             <p className="stat-label">Total wasted</p>
             <p className="md:text-lg font-semibold">{monthlyWaste} g</p>
           </div>
           <div className="stats-card">
-            <p className="stat-label">Top category</p>
+            <p className="stat-label">Top wasted category</p>
             <p className="md:text-lg font-semibold">
               {monthlyCategory[0]?.category
                 ? capitalize(monthlyCategory[0].category)
@@ -236,6 +236,7 @@ const StatsPage = async ({
           </div>
         </div>
 
+        {/* charts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {monthlyCategory.length > 0 && monthlyStorage.length > 0 && (
             <>
@@ -260,6 +261,57 @@ const StatsPage = async ({
                   monthlyStorage={monthlyStorage}
                   monthlyWaste={monthlyWaste}
                 />
+              </div>
+            </>
+          )}
+        </div>
+      </section>
+
+      {/* Trends */}
+      <section className="card">
+        <h3 className="mb-4 section-title">Waste Trends</h3>
+
+        {/* numbers */}
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="stats-card">
+            <p className="stat-label">Average monthly waste</p>
+            <p className="md:text-lg font-semibold">
+              {avgMonthlyWaste ? avgMonthlyWaste + " g" : "-"}
+            </p>
+          </div>
+          <div className="stats-card">
+            <p className="stat-label">Best month (least waste)</p>
+            <p className="md:text-lg font-semibold">
+              {lowestMonth
+                ? `${MONTHS[lowestMonth?.date.month - 1]} ${lowestMonth.date.year}`
+                : "-"}
+              {lowestMonth ? (
+                <span className="ml-6">{lowestMonth.wasted} g</span>
+              ) : (
+                ""
+              )}
+            </p>
+          </div>
+        </div>
+
+        {/* charts */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {monthlyCategory.length > 0 && monthlyStorage.length > 0 && (
+            <>
+              <div>
+                <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
+                  Consumed vs wasted • last 12 months
+                </p>
+                <ChartMonthlyTrends monthlyTrends={monthlyTrends} />
+              </div>
+
+              {/* horizontal divider on mobile */}
+              <div className="border-t border-border md:hidden" />
+
+              <div>
+                <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
+                  Waste by category • last 4 months
+                </p>
               </div>
             </>
           )}
