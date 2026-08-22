@@ -17,6 +17,7 @@ import StatsMonthNavigator from "@/components/stats/StatsMonthNavigator";
 import ChartCategoryMonth from "@/components/stats/ChartCategoryMonth";
 import ChartStorageMonth from "@/components/stats/ChartStorageMonth";
 import ChartMonthlyTrends from "@/components/stats/ChartMonthlyTrends";
+import ChartCategoryTrends from "@/components/stats/ChartCategoryTrends";
 
 const StatsPage = async ({
   searchParams,
@@ -300,7 +301,7 @@ const StatsPage = async ({
             <>
               <div>
                 <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
-                  Consumed vs wasted • last 12 months
+                  Consumed vs wasted • last {monthlyTrends.length} months
                 </p>
                 <ChartMonthlyTrends monthlyTrends={monthlyTrends} />
               </div>
@@ -312,6 +313,7 @@ const StatsPage = async ({
                 <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
                   Waste by category • last 4 months
                 </p>
+                <ChartCategoryTrends />
               </div>
             </>
           )}

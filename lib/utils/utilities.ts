@@ -118,13 +118,15 @@ export function sanitize(str: string) {
   return str.replace(/\s*&\s*/g, "-").replace(/\s+/g, "-");
 }
 
+type CategoryEntry = {
+  date: { year: number; month: number };
+  label: string;
+  consumed: number;
+  wasted: number;
+};
+
 export function fillMissingMonths(
-  data: {
-    date: { year: number; month: number };
-    label: string;
-    consumed: number;
-    wasted: number;
-  }[],
+  data: CategoryEntry[],
   firstYear: number,
   firstMonth: number,
 ) {
@@ -157,3 +159,9 @@ export function fillMissingMonths(
 
   return filled;
 }
+
+export function fillMissingMonthsCat(
+  data: Record<string, CategoryEntry[]>,
+  firstYear: number,
+  firstMonth: number,
+) {}
