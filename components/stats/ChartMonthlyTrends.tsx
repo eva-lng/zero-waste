@@ -1,4 +1,5 @@
 "use client";
+import { TrendsCategoryEntry } from "@/lib/utils/types";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import {
   ChartContainer,
@@ -10,12 +11,7 @@ import {
 const ChartMonthlyTrends = ({
   monthlyTrends,
 }: {
-  monthlyTrends: {
-    date: { year: number; month: number };
-    label: string;
-    consumed: number;
-    wasted: number;
-  }[];
+  monthlyTrends: TrendsCategoryEntry[];
 }) => {
   // const chartData = [
   //   { label: "Aug 25", wasted: 850, consumed: 4200 },

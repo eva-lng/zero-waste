@@ -2,6 +2,7 @@ import {
   ExpirationStateType,
   FoodItemDB,
   FoodItemClient,
+  TrendsCategoryEntry,
 } from "@/lib/utils/types";
 import { MONTHS } from "./constants";
 
@@ -118,15 +119,8 @@ export function sanitize(str: string) {
   return str.replace(/\s*&\s*/g, "-").replace(/\s+/g, "-");
 }
 
-type CategoryEntry = {
-  date: { year: number; month: number };
-  label: string;
-  consumed: number;
-  wasted: number;
-};
-
 export function fillMissingMonths(
-  data: CategoryEntry[],
+  data: TrendsCategoryEntry[],
   firstYear: number,
   firstMonth: number,
 ) {
@@ -161,7 +155,42 @@ export function fillMissingMonths(
 }
 
 export function fillMissingMonthsCat(
-  data: Record<string, CategoryEntry[]>,
+  data: Record<string, TrendsCategoryEntry[]>,
   firstYear: number,
   firstMonth: number,
-) {}
+) {
+  const nowYear = new Date().getFullYear();
+  const nowMonth = new Date().getMonth() + 1;
+
+  for (const cat in data) {
+    let year = firstYear;
+    let month = firstMonth;
+
+    while (year < nowYear || (year === nowYear && month <= nowMonth)) {
+      const existing = data[cat].find(
+        (d) => d.date.year === year && d.date.month === month,
+      );
+
+      if (!existing) {
+        data[cat].push({
+          date: { year, month },
+          label: `${MONTHS[month - 1]} ${String(year).slice(-2)}`,
+          consumed: 0,
+          wasted: 0,
+        });
+      }
+
+      month++;
+      if (month > 12) {
+        year++;
+        month = 1;
+      }
+    }
+
+    data[cat].sort(
+      (a, b) => a.date.year - b.date.year || a.date.month - b.date.month,
+    );
+  }
+
+  return data;
+}

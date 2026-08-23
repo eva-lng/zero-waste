@@ -3,7 +3,11 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
 import FoodItem from "@/models/FoodItem";
-import { capitalize, fillMissingMonths } from "@/lib/utils/utilities";
+import {
+  capitalize,
+  fillMissingMonths,
+  fillMissingMonthsCat,
+} from "@/lib/utils/utilities";
 import { MONTHS } from "@/lib/utils/constants";
 import {
   getAllTimeStats,
@@ -68,7 +72,7 @@ const StatsPage = async ({
   const isLast = nowYear === yearVal && nowMonth === monthVal;
   const monthsSinceCreation =
     (nowYear - firstYear) * 12 + (nowMonth - firstMonth) + 1;
-  const fourMonthsAgo = new Date(nowYear, nowMonth - 3, 1);
+  const fourMonthsAgo = new Date(nowYear, nowMonth - 4, 1);
 
   // monthly waste trends
   const monthlyTrendsData = monthlyWasteTrends.reduce(
@@ -112,7 +116,7 @@ const StatsPage = async ({
       : null;
 
   // category waste trends
-  const categoryTrends = monthlyWasteTrends
+  const categoryTrendsData = monthlyWasteTrends
     .filter((item) => {
       const itemDate = new Date(item.id.year, item.id.month, 1);
       return itemDate >= fourMonthsAgo;
@@ -139,15 +143,14 @@ const StatsPage = async ({
         }[]
       >,
     );
+  const categoryTrends = fillMissingMonthsCat(
+    categoryTrendsData,
+    fourMonthsAgo.getFullYear(),
+    fourMonthsAgo.getMonth() + 1,
+  );
 
-  console.log("monthlyTrends:", monthlyTrends);
-  console.log("categoryTrends:", categoryTrends);
-  // console.log(
-  //   "lowest month:",
-  //   lowestMonth?.date.month,
-  //   lowestMonth?.date.year,
-  //   lowestMonth?.wasted,
-  // );
+  // console.log("monthlyTrends:", monthlyTrends);
+  // console.log("categoryTrends:", categoryTrends);
 
   return (
     <>

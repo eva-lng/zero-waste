@@ -72,3 +72,10 @@ export type ExpirationStateType = "fresh" | "soon" | "expired";
 export type FilterType = "category" | "storage" | "expiration" | "open";
 
 export type ProfileFormType = "username" | "password" | null;
+
+export type TrendsCategoryEntry = {
+  date: { year: number; month: number };
+  label: string;
+  consumed: number;
+  wasted: number;
+};
