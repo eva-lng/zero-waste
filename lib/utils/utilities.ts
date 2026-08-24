@@ -2,6 +2,7 @@ import {
   ExpirationStateType,
   FoodItemDB,
   FoodItemClient,
+  CategoryType,
   TrendsCategoryEntry,
 } from "@/lib/utils/types";
 import { MONTHS } from "./constants";
@@ -155,24 +156,27 @@ export function fillMissingMonths(
 }
 
 export function fillMissingMonthsCat(
-  data: Record<string, TrendsCategoryEntry[]>,
+  data: Partial<Record<CategoryType, TrendsCategoryEntry[]>>,
   firstYear: number,
   firstMonth: number,
 ) {
   const nowYear = new Date().getFullYear();
   const nowMonth = new Date().getMonth() + 1;
 
-  for (const cat in data) {
+  for (const cat of Object.keys(data) as CategoryType[]) {
+    const entries = data[cat];
+    if (!entries) continue;
+
     let year = firstYear;
     let month = firstMonth;
 
     while (year < nowYear || (year === nowYear && month <= nowMonth)) {
-      const existing = data[cat].find(
+      const existing = entries.find(
         (d) => d.date.year === year && d.date.month === month,
       );
 
       if (!existing) {
-        data[cat].push({
+        entries.push({
           date: { year, month },
           label: `${MONTHS[month - 1]} ${String(year).slice(-2)}`,
           consumed: 0,
@@ -187,7 +191,7 @@ export function fillMissingMonthsCat(
       }
     }
 
-    data[cat].sort(
+    entries.sort(
       (a, b) => a.date.year - b.date.year || a.date.month - b.date.month,
     );
   }

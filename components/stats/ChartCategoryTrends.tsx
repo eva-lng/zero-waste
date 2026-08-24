@@ -1,4 +1,5 @@
 "use client";
+import { CategoryType, TrendsCategoryEntry } from "@/lib/utils/types";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   ChartContainer,
@@ -7,7 +8,11 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 
-const ChartCategoryTrends = () => {
+const ChartCategoryTrends = ({
+  categoryTrends,
+}: {
+  categoryTrends: Partial<Record<CategoryType, TrendsCategoryEntry[]>>;
+}) => {
   const chartData = [
     { month: "January", desktop: 186 },
     { month: "February", desktop: 305 },

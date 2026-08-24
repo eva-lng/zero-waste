@@ -316,7 +316,7 @@ const StatsPage = async ({
                 <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
                   Waste by category • last 4 months
                 </p>
-                <ChartCategoryTrends />
+                <ChartCategoryTrends categoryTrends={categoryTrends} />
               </div>
             </>
           )}
