@@ -12,6 +12,7 @@ import { MONTHS } from "@/lib/utils/constants";
 import {
   getAllTimeStats,
   getMonthlyWaste,
+  getCategoryStats,
   getMonthlyCategoryStats,
   getMonthlyStorageStats,
   getMonthlyWasteTrends,
@@ -54,6 +55,7 @@ const StatsPage = async ({
     monthlyCategory,
     monthlyStorage,
     monthlyWasteTrends,
+    categoryStats,
   ] = await Promise.all([
     FoodItem.findOne({ user: userId }).sort({ createdAt: 1 }),
     getAllTimeStats(userId),
@@ -61,6 +63,7 @@ const StatsPage = async ({
     getMonthlyCategoryStats(userId, yearVal, monthVal),
     getMonthlyStorageStats(userId, yearVal, monthVal),
     getMonthlyWasteTrends(userId),
+    getCategoryStats(userId),
   ]);
 
   // date setup
@@ -150,7 +153,7 @@ const StatsPage = async ({
   );
 
   // console.log("monthlyTrends:", monthlyTrends);
-  // console.log("categoryTrends:", categoryTrends);
+  console.log("categoryTrends:", categoryTrends);
 
   return (
     <>
@@ -316,7 +319,10 @@ const StatsPage = async ({
                 <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
                   Waste by category • last 4 months
                 </p>
-                <ChartCategoryTrends categoryTrends={categoryTrends} />
+                <ChartCategoryTrends
+                  categoryTrends={categoryTrends}
+                  categoryStats={categoryStats}
+                />
               </div>
             </>
           )}
