@@ -32,10 +32,10 @@ const ChartCategoryTrends = ({
     setCatIdx((prev) => Math.max(0, prev - 1));
   };
 
-  console.log(
-    `selected category (${categories[catIdx]}):`,
-    categoryTrends[categories[catIdx]],
-  );
+  // console.log(
+  //   `selected category (${categories[catIdx]}):`,
+  //   categoryTrends[categories[catIdx]],
+  // );
 
   const chartData = [
     { month: "January", desktop: 186 },

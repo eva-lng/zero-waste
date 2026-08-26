@@ -163,20 +163,24 @@ export function fillMissingMonthsCat(
   const nowYear = new Date().getFullYear();
   const nowMonth = new Date().getMonth() + 1;
 
+  const res: Partial<Record<CategoryType, TrendsCategoryEntry[]>> = {};
+
   for (const cat of Object.keys(data) as CategoryType[]) {
     const entries = data[cat];
     if (!entries) continue;
+
+    const filledEntries = [...entries];
 
     let year = firstYear;
     let month = firstMonth;
 
     while (year < nowYear || (year === nowYear && month <= nowMonth)) {
-      const existing = entries.find(
+      const existing = filledEntries.find(
         (d) => d.date.year === year && d.date.month === month,
       );
 
       if (!existing) {
-        entries.push({
+        filledEntries.push({
           date: { year, month },
           label: `${MONTHS[month - 1]} ${String(year).slice(-2)}`,
           consumed: 0,
@@ -191,10 +195,12 @@ export function fillMissingMonthsCat(
       }
     }
 
-    entries.sort(
+    filledEntries.sort(
       (a, b) => a.date.year - b.date.year || a.date.month - b.date.month,
     );
+
+    res[cat] = filledEntries;
   }
 
-  return data;
+  return res;
 }

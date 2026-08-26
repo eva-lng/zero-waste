@@ -75,7 +75,11 @@ const StatsPage = async ({
   const isLast = nowYear === yearVal && nowMonth === monthVal;
   const monthsSinceCreation =
     (nowYear - firstYear) * 12 + (nowMonth - firstMonth) + 1;
-  const fourMonthsAgo = new Date(nowYear, nowMonth - 4, 1);
+  const catTrendsDateLimit = new Date(
+    nowYear,
+    nowMonth - Math.min(monthsSinceCreation, 4),
+    1,
+  );
 
   // monthly waste trends
   const monthlyTrendsData = monthlyWasteTrends.reduce(
@@ -122,7 +126,7 @@ const StatsPage = async ({
   const categoryTrendsData = monthlyWasteTrends
     .filter((item) => {
       const itemDate = new Date(item.id.year, item.id.month, 1);
-      return itemDate >= fourMonthsAgo;
+      return itemDate >= catTrendsDateLimit && item.wasted > 0;
     })
     .reduce(
       (acc, item) => {
@@ -148,12 +152,14 @@ const StatsPage = async ({
     );
   const categoryTrends = fillMissingMonthsCat(
     categoryTrendsData,
-    fourMonthsAgo.getFullYear(),
-    fourMonthsAgo.getMonth() + 1,
+    catTrendsDateLimit.getFullYear(),
+    catTrendsDateLimit.getMonth() + 1,
   );
 
+  console.log("monthlyWasteTrends:", monthlyWasteTrends);
   // console.log("monthlyTrends:", monthlyTrends);
-  console.log("categoryTrends:", categoryTrends);
+  // console.log("categoryTrends:", categoryTrends);
+  console.log("categoryTrendsData:", categoryTrendsData);
 
   return (
     <>
@@ -274,6 +280,76 @@ const StatsPage = async ({
         </div>
       </section>
 
+      <section className="card">
+        <h3 className="mb-4 section-title">Waste Trends</h3>
+
+        <div className="flex flex-col gap-4 md:gap-8 md:flex-row">
+          <div className="grid grid-cols-2 md:flex md:flex-col md:items-start gap-3">
+            <div className="stats-card">
+              <p className="stat-label">Average monthly waste</p>
+              <p className="md:text-lg font-semibold">
+                {avgMonthlyWaste ? avgMonthlyWaste + " g" : "-"}
+              </p>
+            </div>
+            <div className="stats-card">
+              <p className="stat-label">Best month (least waste)</p>
+              <p className="md:text-lg font-semibold">
+                {lowestMonth
+                  ? `${MONTHS[lowestMonth?.date.month - 1]} ${lowestMonth.date.year}`
+                  : "-"}
+                {lowestMonth ? (
+                  <span className="ml-6">{lowestMonth.wasted} g</span>
+                ) : (
+                  ""
+                )}
+              </p>
+            </div>
+          </div>
+
+          {monthlyTrends.length >= 4 && (
+            <div className="md:grow">
+              <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
+                Consumed vs wasted • last {monthlyTrends.length} months
+              </p>
+              <ChartMonthlyTrends monthlyTrends={monthlyTrends} />
+            </div>
+          )}
+        </div>
+
+        <div className="border-t border-border my-4 hidden md:block" />
+
+        <div className="flex flex-col gap-4 md:gap-8 md:flex-row">
+          <div className="flex flex-wrap md:flex-col md:items-start gap-3">
+            <div className="stats-card">
+              <p className="stat-label">Consumed total</p>
+              <p className="md:text-lg font-semibold">1240 g</p>
+            </div>
+            <div className="stats-card">
+              <p className="stat-label">Wasted total</p>
+              <p className="md:text-lg font-semibold">480 g</p>
+            </div>
+            <div className="stats-card">
+              <p className="stat-label">Waste rate</p>
+              <p className="md:text-lg font-semibold text-destructive">28%</p>
+            </div>
+          </div>
+
+          {Object.values(categoryTrends).some(
+            (entries) => entries && entries.length >= 2,
+          ) && (
+            <div className="md:grow">
+              <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
+                Waste by category • last 4 months
+              </p>
+              <ChartCategoryTrends
+                categoryTrends={categoryTrends}
+                categoryStats={categoryStats}
+              />
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* Trends */}
       <section className="card">
         <h3 className="mb-4 section-title">Waste Trends</h3>
@@ -303,15 +379,19 @@ const StatsPage = async ({
 
         {/* charts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {monthlyCategory.length > 0 && monthlyStorage.length > 0 && (
-            <>
-              <div>
-                <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
-                  Consumed vs wasted • last {monthlyTrends.length} months
-                </p>
-                <ChartMonthlyTrends monthlyTrends={monthlyTrends} />
-              </div>
+          {monthlyTrends.length >= 4 && (
+            <div>
+              <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
+                Consumed vs wasted • last {monthlyTrends.length} months
+              </p>
+              <ChartMonthlyTrends monthlyTrends={monthlyTrends} />
+            </div>
+          )}
 
+          {Object.values(categoryTrends).some(
+            (entries) => entries && entries.length >= 2,
+          ) && (
+            <>
               {/* horizontal divider on mobile */}
               <div className="border-t border-border md:hidden" />
 
@@ -333,3 +413,75 @@ const StatsPage = async ({
 };
 
 export default StatsPage;
+
+// <section className="card">
+//   <h3 className="mb-4 section-title">Waste Trends</h3>
+
+//   <div className="flex flex-col gap-4 md:gap-8 md:flex-row">
+
+//     <div className="grid grid-cols-2 md:flex md:flex-col md:items-start gap-3">
+//       <div className="stats-card">
+//         <p className="stat-label">Average monthly waste</p>
+//         <p className="md:text-lg font-semibold">
+//           {avgMonthlyWaste ? avgMonthlyWaste + " g" : "-"}
+//         </p>
+//       </div>
+//       <div className="stats-card">
+//         <p className="stat-label">Best month (least waste)</p>
+//         <p className="md:text-lg font-semibold">
+//           {lowestMonth
+//             ? `${MONTHS[lowestMonth?.date.month - 1]} ${lowestMonth.date.year}`
+//             : "-"}
+//           {lowestMonth ? (
+//             <span className="ml-6">{lowestMonth.wasted} g</span>
+//           ) : (
+//             ""
+//           )}
+//         </p>
+//       </div>
+//     </div>
+
+//     {monthlyTrends.length >= 4 && (
+//       <div className="md:grow">
+//         <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
+//           Consumed vs wasted • last {monthlyTrends.length} months
+//         </p>
+//         <ChartMonthlyTrends monthlyTrends={monthlyTrends} />
+//       </div>
+//     )}
+//   </div>
+
+//   <div className="border-t border-border my-4 hidden md:block" />
+
+//   <div className="flex flex-col gap-4 md:gap-8 md:flex-row">
+
+//     <div className="flex flex-wrap md:flex-col md:items-start gap-3">
+//       <div className="stats-card">
+//         <p className="stat-label">Consumed total</p>
+//         <p className="md:text-lg font-semibold">1240 g</p>
+//       </div>
+//       <div className="stats-card">
+//         <p className="stat-label">Wasted total</p>
+//         <p className="md:text-lg font-semibold">480 g</p>
+//       </div>
+//       <div className="stats-card">
+//         <p className="stat-label">Waste rate</p>
+//         <p className="md:text-lg font-semibold text-destructive">28%</p>
+//       </div>
+//     </div>
+
+//     {Object.values(categoryTrends).some(
+//       (entries) => entries && entries.length >= 2,
+//     ) && (
+//       <div className="md:grow">
+//         <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
+//           Waste by category • last 4 months
+//         </p>
+//         <ChartCategoryTrends
+//           categoryTrends={categoryTrends}
+//           categoryStats={categoryStats}
+//         />
+//       </div>
+//     )}
+//   </div>
+// </section>

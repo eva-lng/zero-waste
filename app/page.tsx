@@ -51,7 +51,7 @@ export default function Home() {
                 <span className="text-warning">In 2 days</span>
               </div>
               <div className="text-xs flex justify-between pt-1.5">
-                <span>Eggs</span>
+                <span>Leftovers</span>
                 <span className="text-warning">In 3 days</span>
               </div>
             </div>
