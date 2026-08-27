@@ -156,10 +156,10 @@ const StatsPage = async ({
     catTrendsDateLimit.getMonth() + 1,
   );
 
-  console.log("monthlyWasteTrends:", monthlyWasteTrends);
+  // console.log("monthlyWasteTrends:", monthlyWasteTrends);
   // console.log("monthlyTrends:", monthlyTrends);
   // console.log("categoryTrends:", categoryTrends);
-  console.log("categoryTrendsData:", categoryTrendsData);
+  // console.log("categoryTrendsData:", categoryTrendsData);
 
   return (
     <>
@@ -291,7 +291,7 @@ const StatsPage = async ({
             <div className="stats-card">
               <p className="stat-label">Average monthly food waste</p>
               <p className="md:text-lg font-semibold">
-                {avgMonthlyWaste ? avgMonthlyWaste + " g" : "-"}
+                {avgMonthlyWaste ? avgMonthlyWaste + " g" : 0 + " g"}
               </p>
             </div>
             <div className="stats-card">
@@ -301,7 +301,9 @@ const StatsPage = async ({
                   ? `${MONTHS[lowestMonth?.date.month - 1]} ${lowestMonth.date.year}`
                   : "-"}
                 {lowestMonth ? (
-                  <span className="ml-6">{lowestMonth.wasted} g</span>
+                  <span className="ml-6 text-success">
+                    {lowestMonth.wasted} g
+                  </span>
                 ) : (
                   ""
                 )}
@@ -309,117 +311,72 @@ const StatsPage = async ({
             </div>
           </div>
 
-          {/* consumed v wasted chart */}
-          {monthlyTrends.length >= 4 && (
+          {/* consumed v wasted line chart */}
+          {monthlyTrends.length >= 4 ? (
             <div className="col-span-2">
               <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
                 Consumed vs wasted • last {monthlyTrends.length} months
               </p>
               <ChartMonthlyTrends monthlyTrends={monthlyTrends} />
             </div>
+          ) : (
+            <p className="col-span-2 text-xs md:text-sm">
+              Consumed vs wasted trend chart available after 4 months of
+              tracking.
+            </p>
           )}
         </div>
 
-        {/* horizontal divider */}
-        <div className="border-t border-border mt-4 mb-6" />
+        {Object.values(categoryTrends).some(
+          (entries) => entries && entries.length >= 2,
+        ) && (
+          <>
+            {/* horizontal divider */}
+            <div className="border-t border-border mt-4 mb-6" />
 
-        {/* category trends */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:items-start md:gap-8">
-          {/* category consumed + wasted stats */}
-          <div className="order-2 grid grid-cols-3 md:order-1 md:grid-cols-1 gap-3">
-            <div className="stats-card">
-              <p className="stat-label">Consumed total</p>
-              <p className="md:text-lg font-semibold">1240 g</p>
-            </div>
-            <div className="stats-card">
-              <p className="stat-label">Wasted total</p>
-              <p className="md:text-lg font-semibold">480 g</p>
-            </div>
-            <div className="stats-card">
-              <p className="stat-label">Waste rate</p>
-              <p className="md:text-lg font-semibold text-destructive">28%</p>
-            </div>
-            <p className="col-span-3 md:col-span-1 text-muted-foreground text-xs mt-3">
-              Totals are based on all recorded data for this category; the chart
-              shows the most recent 4 months.
-            </p>
-          </div>
-
-          {/* category wasted chart */}
-          {Object.values(categoryTrends).some(
-            (entries) => entries && entries.length >= 2,
-          ) && (
-            <div className="order-1 col-span-2 md:order-2">
-              <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
-                Waste trends by category • last 4 months
-              </p>
+            {/* category trends */}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:items-start md:gap-8">
               <ChartCategoryTrends
                 categoryTrends={categoryTrends}
                 categoryStats={categoryStats}
               />
-            </div>
-          )}
-        </div>
-      </section>
 
-      {/* Trends */}
-      {/* <section className="card">
-        <h3 className="mb-4 section-title">Waste Trends</h3> */}
+              {/* category consumed + wasted stats */}
+              {/* <div className="order-2 grid grid-cols-3 md:order-1 md:grid-cols-1 gap-3">
+                <div className="stats-card">
+                  <p className="stat-label">Consumed total</p>
+                  <p className="md:text-lg font-semibold">1240 g</p>
+                </div>
+                <div className="stats-card">
+                  <p className="stat-label">Wasted total</p>
+                  <p className="md:text-lg font-semibold">480 g</p>
+                </div>
+                <div className="stats-card">
+                  <p className="stat-label">Waste rate</p>
+                  <p className="md:text-lg font-semibold text-destructive">
+                    28%
+                  </p>
+                </div>
+                <p className="col-span-3 md:col-span-1 text-muted-foreground text-xs mt-3">
+                  Totals are based on all recorded data for this category; the
+                  chart shows the most recent 4 months.
+                </p>
+              </div> */}
 
-      {/* numbers */}
-      {/* <div className="grid grid-cols-2 gap-3 mb-4">
-          <div className="stats-card">
-            <p className="stat-label">Average monthly waste</p>
-            <p className="md:text-lg font-semibold">
-              {avgMonthlyWaste ? avgMonthlyWaste + " g" : "-"}
-            </p>
-          </div>
-          <div className="stats-card">
-            <p className="stat-label">Best month (least waste)</p>
-            <p className="md:text-lg font-semibold">
-              {lowestMonth
-                ? `${MONTHS[lowestMonth?.date.month - 1]} ${lowestMonth.date.year}`
-                : "-"}
-              {lowestMonth ? (
-                <span className="ml-6">{lowestMonth.wasted} g</span>
-              ) : (
-                ""
-              )}
-            </p>
-          </div>
-        </div> */}
-
-      {/* charts */}
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {monthlyTrends.length >= 4 && (
-            <div>
-              <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
-                Consumed vs wasted • last {monthlyTrends.length} months
-              </p>
-              <ChartMonthlyTrends monthlyTrends={monthlyTrends} />
-            </div>
-          )}
-
-          {Object.values(categoryTrends).some(
-            (entries) => entries && entries.length >= 2,
-          ) && (
-            <> */}
-      {/* horizontal divider on mobile */}
-      {/* <div className="border-t border-border md:hidden" />
-
-              <div>
+              {/* waste trends category chart */}
+              {/* <div className="order-1 col-span-2 md:order-2">
                 <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
-                  Waste by category • last 4 months
+                  Waste trends by category • last 4 months
                 </p>
                 <ChartCategoryTrends
                   categoryTrends={categoryTrends}
                   categoryStats={categoryStats}
                 />
-              </div>
-            </>
-          )}
-        </div>
-      </section> */}
+              </div> */}
+            </div>
+          </>
+        )}
+      </section>
     </>
   );
 };
