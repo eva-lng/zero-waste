@@ -13,20 +13,6 @@ const ChartMonthlyTrends = ({
 }: {
   monthlyTrends: TrendsCategoryEntry[];
 }) => {
-  // const chartData = [
-  //   { label: "Aug 25", wasted: 850, consumed: 4200 },
-  //   { label: "Sep 25", wasted: 1200, consumed: 5100 },
-  //   { label: "Oct 25", wasted: 650, consumed: 3800 },
-  //   { label: "Nov 25", wasted: 1450, consumed: 4700 },
-  //   { label: "Dec 25", wasted: 1900, consumed: 5600 },
-  //   { label: "Jan 26", wasted: 1100, consumed: 4300 },
-  //   { label: "Feb 26", wasted: 750, consumed: 3900 },
-  //   { label: "Mar 26", wasted: 500, consumed: 4500 },
-  //   { label: "Apr 26", wasted: 1350, consumed: 5200 },
-  //   { label: "May 26", wasted: 900, consumed: 4800 },
-  //   { label: "Jun 26", wasted: 1700, consumed: 5700 },
-  //   { label: "Jul 26", wasted: 600, consumed: 4100 },
-  // ];
   const chartConfig = {
     consumed: {
       label: "Consumed",

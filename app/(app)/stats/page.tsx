@@ -125,7 +125,7 @@ const StatsPage = async ({
   // category waste trends
   const categoryTrendsData = monthlyWasteTrends
     .filter((item) => {
-      const itemDate = new Date(item.id.year, item.id.month, 1);
+      const itemDate = new Date(item.id.year, item.id.month - 1, 1);
       return itemDate >= catTrendsDateLimit && item.wasted > 0;
     })
     .reduce(
@@ -155,11 +155,6 @@ const StatsPage = async ({
     catTrendsDateLimit.getFullYear(),
     catTrendsDateLimit.getMonth() + 1,
   );
-
-  // console.log("monthlyWasteTrends:", monthlyWasteTrends);
-  // console.log("monthlyTrends:", monthlyTrends);
-  // console.log("categoryTrends:", categoryTrends);
-  // console.log("categoryTrendsData:", categoryTrendsData);
 
   return (
     <>
@@ -340,39 +335,6 @@ const StatsPage = async ({
                 categoryTrends={categoryTrends}
                 categoryStats={categoryStats}
               />
-
-              {/* category consumed + wasted stats */}
-              {/* <div className="order-2 grid grid-cols-3 md:order-1 md:grid-cols-1 gap-3">
-                <div className="stats-card">
-                  <p className="stat-label">Consumed total</p>
-                  <p className="md:text-lg font-semibold">1240 g</p>
-                </div>
-                <div className="stats-card">
-                  <p className="stat-label">Wasted total</p>
-                  <p className="md:text-lg font-semibold">480 g</p>
-                </div>
-                <div className="stats-card">
-                  <p className="stat-label">Waste rate</p>
-                  <p className="md:text-lg font-semibold text-destructive">
-                    28%
-                  </p>
-                </div>
-                <p className="col-span-3 md:col-span-1 text-muted-foreground text-xs mt-3">
-                  Totals are based on all recorded data for this category; the
-                  chart shows the most recent 4 months.
-                </p>
-              </div> */}
-
-              {/* waste trends category chart */}
-              {/* <div className="order-1 col-span-2 md:order-2">
-                <p className="text-muted-foreground text-xs md:text-sm font-medium mb-10">
-                  Waste trends by category • last 4 months
-                </p>
-                <ChartCategoryTrends
-                  categoryTrends={categoryTrends}
-                  categoryStats={categoryStats}
-                />
-              </div> */}
             </div>
           </>
         )}
