@@ -55,7 +55,7 @@ const ChartTotal = ({
                   {payload.map((entry) => (
                     <div
                       key={entry.name}
-                      className="flex items-center justify-between gap-3 text-xs"
+                      className="flex items-center justify-between gap-3 text-xs mb-0.5"
                     >
                       <div className="flex items-center gap-2">
                         <span

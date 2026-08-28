@@ -139,7 +139,7 @@ export function fillMissingMonths(
     filled.push(
       existing ?? {
         date: { year, month },
-        label: `${MONTHS[month - 1]} ${String(year).slice(-2)}`,
+        label: `${MONTHS[month - 1]} ${year}`,
         consumed: 0,
         wasted: 0,
       },
@@ -182,7 +182,7 @@ export function fillMissingMonthsCat(
       if (!existing) {
         filledEntries.push({
           date: { year, month },
-          label: `${MONTHS[month - 1]} ${String(year).slice(-2)}`,
+          label: `${MONTHS[month - 1]} ${year}`,
           consumed: 0,
           wasted: 0,
         });

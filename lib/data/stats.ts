@@ -226,7 +226,7 @@ export async function getMonthlyWasteTrends(userId: string): Promise<
           month: item._id.month,
           category: item._id.category,
         },
-        label: `${MONTHS[item._id.month - 1]} ${String(item._id.year).slice(-2)}`,
+        label: `${MONTHS[item._id.month - 1]} ${item._id.year}`,
         consumed: item.consumed,
         wasted: item.wasted,
       }))
