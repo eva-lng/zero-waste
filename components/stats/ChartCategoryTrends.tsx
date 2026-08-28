@@ -7,7 +7,6 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
 import CategoryTrendsStats from "./CategoryTrendsStats";
@@ -87,7 +86,32 @@ const ChartCategoryTrends = ({
             />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={({ active, payload }) => {
+                if (!active || !payload?.length) return null;
+                return (
+                  <div className="rounded-lg border bg-background px-2 py-1 shadow-sm">
+                    {payload.map((entry) => (
+                      <div
+                        key={entry.name}
+                        className="flex items-center justify-between gap-4 text-xs"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span
+                            className="inline-block w-3 h-3 rounded-xs"
+                            style={{ backgroundColor: entry.color }}
+                          />
+                          <span className="text-muted-foreground capitalize">
+                            {entry.name}
+                          </span>
+                        </div>
+                        <span className="font-medium font-mono">
+                          {entry.value}g
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                );
+              }}
             />
             <Bar
               dataKey="wasted"
