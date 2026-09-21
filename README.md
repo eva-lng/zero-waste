@@ -2,7 +2,7 @@
 
 Zero Waste is a food inventory and waste tracking app that helps you reduce food waste at home. Log what's in your fridge, pantry, and freezer, track expiration dates, and manage your food as you consume or discard it. The stats dashboard gives you insight into your waste habits - how much you're wasting, which food categories and storage locations are most problematic, and how your habits change over time.
 
-**Live demo:**
+**Live demo:** https://zero-waste-gray.vercel.app
 
 ### Built With
 
